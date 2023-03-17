@@ -1,35 +1,30 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from '../utils/database'
 
-export const TablaActividad = sequelize.define('actividad', {
-  idActividad: {
+export const TablaDocente = sequelize.define('docente', {
+  idDocente: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
     autoIncrement: true
   },
-  nombre: {
-    type: DataTypes.STRING(25),
-    allowNull: false,
-    unique: true
-  },
-  categoria: {
+  abreviatura_cargo: {
     type: DataTypes.STRING(15),
     allowNull: false
   },
-  periodo: {
-    type: DataTypes.STRING(35),
+  nombres: {
+    type: DataTypes.STRING(25),
     allowNull: false
   },
-  cupo_maximo: {
-    type: DataTypes.INTEGER,
+  apellidos: {
+    type: DataTypes.STRING(25),
     allowNull: false
   },
-  estado: {
-    type: DataTypes.BOOLEAN,
+  genero: {
+    type: DataTypes.STRING(9),
     allowNull: false
   }
 }, {
   timestamps: true,
-  tableName: 'Actividad'
+  tableName: 'Docente'
 })

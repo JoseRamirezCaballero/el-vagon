@@ -1,27 +1,35 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from '../utils/database'
 
-export const TablaEstudiante = sequelize.define('actividad', {
-  idActividad: {
+export const TablaEstudiante = sequelize.define('Estudiante', {
+  idEstudiante: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
     autoIncrement: true
   },
-  nombre: {
+  nombres: {
     type: DataTypes.STRING(25),
+    allowNull: false
+  },
+  apellidos: {
+    type: DataTypes.STRING(25),
+    allowNull: false
+  },
+  numero_control: {
+    type: DataTypes.STRING(10),
     allowNull: false,
     unique: true
   },
-  categoria: {
-    type: DataTypes.STRING(20),
+  carrera: {
+    type: DataTypes.STRING(35),
     allowNull: false
   },
-  estado: {
-    type: DataTypes.BOOLEAN,
+  genero: {
+    type: DataTypes.STRING(9),
     allowNull: false
   }
 }, {
   timestamps: true,
-  tableName: 'Actividad'
+  tableName: 'Estudiante'
 })
