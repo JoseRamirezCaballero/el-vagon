@@ -7,7 +7,8 @@
 
 ## Iniciar un proyecto en Next.js
 >Crear un nuevo proyecto en Next.js
-`$ npx create-next-app@latest`
+
+    npx create-next-app@latest
 
 **What is your project named?** el-vagon
 **Would you like to use TypeScript with this project?** No
@@ -18,9 +19,11 @@
 
 ## Tailwind: Instalación & configuración
 >Instalar tailwindcss y cree su archivo tailwind.config.js.
+
     npm install -D tailwindcss postcss autoprefixer
 
 >Agregar las rutas a todos sus archivos de plantilla en su archivo tailwind.config.js.
+
     npx tailwindcss init -p
 
 ### global.css
@@ -51,6 +54,7 @@ Agregue las rutas a todos sus archivos de plantilla en su archivo *tailwind.conf
 ## Linter standar: Instalación & configuración
 *standard* es un linter de JavaScript que puede ayudar a asegurarse de que el código siga ciertas convenciones de codificación y evite errores comunes.
 >Instalar standar
+
     npm install standard -D
 
 ### .eslintrc.json
@@ -61,7 +65,9 @@ Agregue las rutas a todos sus archivos de plantilla en su archivo *tailwind.conf
 ## PostgreSQL & Sequelize: Instalación
 Este proyecto utiliza Postgres como base de datos relacional y Sequelize como ORM (Object-Relational Mapping) para interactuar con la base de datos desde Node.js.
 >Instalar Sequelize
+
     npm install --save sequelize
 
 >Instalar postgres
+
     npm install --save pg pg-hstore
