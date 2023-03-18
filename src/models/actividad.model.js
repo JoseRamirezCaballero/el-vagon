@@ -13,6 +13,10 @@ export const TablaActividad = sequelize.define('actividad', {
     allowNull: false,
     unique: true
   },
+  creditos: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   categoria: {
     type: DataTypes.STRING(15),
     allowNull: false
@@ -21,12 +25,25 @@ export const TablaActividad = sequelize.define('actividad', {
     type: DataTypes.STRING(35),
     allowNull: false
   },
-  cupo_maximo: {
+  lugar: {
+    type: DataTypes.STRING(50),
+    allowNull: false
+  },
+  horario: {
+    type: DataTypes.STRING(15),
+    allowNull: false
+  },
+  capacidad_maxima: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  estado: {
-    type: DataTypes.BOOLEAN,
+  estatus: {
+    type: DataTypes.STRING(8),
+    allowNull: false
+  },
+  // este se cambiara a fk
+  responsable: {
+    type: DataTypes.STRING(50),
     allowNull: false
   }
 }, {

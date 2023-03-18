@@ -3,26 +3,47 @@ import { TablaActividad } from '../../../models/actividad.model'
 
 export default async function actividades (req, res) {
   await connectToDatabase()
-  // const { method } = req
 
-  // switch (method) {
-  //   case 'GET':
-  //     return res.status(200).json({ name: 'GET' })
-  //   case 'POST':
-  //     return res.status(200).json('post')
-  //   case 'PUT':
-  //     return res.status(200).json('put')
-  //   case 'DELETE':
-  //     return res.status(200).json('elete')
-  //   default:
-  //     return res.status(400).json('nel')
-  // }
-
-  // temporal para ver la data
-  try {
-    const records = await TablaActividad.findAll({ raw: true })
-    res.status(201).json(records)
-  } catch (error) {
-    return res.status(400).json('error')
+  switch (req.method) {
+    case 'GET':
+      try {
+        const records = await TablaActividad.findAll({ raw: true })
+        res.status(200).json(records)
+      } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Error al obtener las actividades.' })
+      }
+      break
+    case 'POST':
+      try {
+        const actividad = await TablaActividad.create(req.body)
+        res.status(201).json(actividad)
+      } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Error al crear la actividad.' })
+      }
+      break
+    case 'PUT':
+      try {
+        const actividad = await TablaActividad.findByPk(req.body.idActividad)
+        await actividad.update(req.body)
+        res.status(200).json(actividad)
+      } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Error al actualizar la actividad.' })
+      }
+      break
+    case 'DELETE':
+      try {
+        const actividad = await TablaActividad.findByPk(req.body.idActividad)
+        await actividad.destroy()
+        res.status(200).json({ message: 'Actividad eliminada exitosamente.' })
+      } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Error al eliminar la actividad.' })
+      }
+      break
+    default:
+      res.status(405).json({ message: 'Método no permitido.' })
   }
 }
