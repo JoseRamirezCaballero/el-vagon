@@ -13,7 +13,7 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
 
       <Header />
 
-      <main className='dark:bg-gray-900 h-screen w-screen'>
+      <main className='dark:bg-gray-900 h-full w-full'>
         {children}
       </main>
     </>
