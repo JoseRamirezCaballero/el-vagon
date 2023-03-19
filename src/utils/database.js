@@ -11,7 +11,7 @@ export async function connectToDatabase () {
     try {
       await sequelize.authenticate()
       console.log('Conexion exitosa')
-      await sequelize.sync({ alter: true }) // Quitar el force despues
+      await sequelize.sync({ alter: true })
       console.log('Tablas creadas')
       initialized = true
     } catch (error) {

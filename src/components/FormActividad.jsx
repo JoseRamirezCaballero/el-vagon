@@ -6,8 +6,8 @@ import SelectField from './SelectField'
 export default function Form () {
   const [formulario, setFormulario] = useState({
     nombre: '',
-    responsable: undefined,
-    categoria: '',
+    idResponsable: 'SIN ASIGNAR',
+    categoria: 'DEPORTIVA',
     carrera: undefined,
     periodo: '',
     lugar: 'SIN ASIGNAR',
@@ -70,10 +70,11 @@ export default function Form () {
           <SelectField
             id='responsible-input'
             label='Responsable'
-            name='responsable'
-            value={formulario.responsable}
+            name='idResponsable'
+            value={formulario.idResponsable}
             onChange={onChange}
             options={[
+              { label: 'SIN ASIGNAR', value: undefined, key: 'sin_asignar' },
               ...responsables.map((responsable) => ({
                 label: `${responsable.abreviatura_cargo} ${responsable.nombres} ${responsable.apellidos}`,
                 value: responsable.idResponsable,
@@ -94,12 +95,13 @@ export default function Form () {
                   value={formulario.categoria}
                   onChange={onChange}
                   options={[
-                    { label: 'DEPORTIVA', value: 'DEPORTIVA' },
-                    { label: 'CULTURAL', value: 'CULTURAL' },
-                    { label: 'CIVICA', value: 'CIVICA' },
-                    { label: 'DE CARRERA', value: 'CARRERA' }
+                    { key: 'deportiva', label: 'DEPORTIVA', value: 'DEPORTIVA' },
+                    { key: 'cultural', label: 'CULTURAL', value: 'CULTURAL' },
+                    { key: 'civica', label: 'CIVICA', value: 'CIVICA' },
+                    { key: 'de_carrera', label: 'DE CARRERA', value: 'CARRERA' }
                   ]}
                 />
+
               </div>
               {mostrarCarreras && (
                 <div className='w-1/2 pl-2'>
@@ -110,17 +112,18 @@ export default function Form () {
                     value={formulario.carrera}
                     onChange={onChange}
                     options={[
-                      { label: 'ING. ELECTRÓNICA', value: 'INGENIERÍA ELECTRÓNICA' },
-                      { label: 'ING. CIVIL', value: 'INGENIERÍA CIVIL' },
-                      { label: 'ING. MECÁNICA', value: 'INGENIERÍA MECÁNICA' },
-                      { label: 'ING. INDUSTRIAL', value: 'INGENIERÍA INDUSTRIAL' },
-                      { label: 'ING. QUÍMICA', value: 'INGENIERÍA QUÍMICA' },
-                      { label: 'ING. ELECTRICA', value: 'INGENIERÍA ELECTRICA' },
-                      { label: 'ING. EN GESTIÓN EMPRESARIAL', value: 'INGENIERÍA EN GESTIÓN EMPRESARIAL' },
-                      { label: 'ING. EN SISTEMAS COMPUTACIONALES', value: 'INGENIERÍA EN SISTEMAS COMPUTACIONALES' },
-                      { label: 'LIC. EN ADMINISTRACIÓN', value: 'LICENCIATURA EN ADMINISTRACIÓN' }
+                      { key: 'ingenieria_electronica', label: 'ING. ELECTRÓNICA', value: 'INGENIERÍA ELECTRÓNICA' },
+                      { key: 'ingenieria_civil', label: 'ING. CIVIL', value: 'INGENIERÍA CIVIL' },
+                      { key: 'ingenieria_mecanica', label: 'ING. MECÁNICA', value: 'INGENIERÍA MECÁNICA' },
+                      { key: 'ingenieria_industrial', label: 'ING. INDUSTRIAL', value: 'INGENIERÍA INDUSTRIAL' },
+                      { key: 'ingenieria_quimica', label: 'ING. QUÍMICA', value: 'INGENIERÍA QUÍMICA' },
+                      { key: 'ingenieria_electrica', label: 'ING. ELECTRICA', value: 'INGENIERÍA ELECTRICA' },
+                      { key: 'ingenieria_gestion_empresarial', label: 'ING. EN GESTIÓN EMPRESARIAL', value: 'INGENIERÍA EN GESTIÓN EMPRESARIAL' },
+                      { key: 'ingenieria_sistemas_computacionales', label: 'ING. EN SISTEMAS COMPUTACIONALES', value: 'INGENIERÍA EN SISTEMAS COMPUTACIONALES' },
+                      { key: 'licenciatura_administracion', label: 'LIC. EN ADMINISTRACIÓN', value: 'LICENCIATURA EN ADMINISTRACIÓN' }
                     ]}
                   />
+
                 </div>
               )}
             </div>

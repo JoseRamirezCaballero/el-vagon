@@ -1,5 +1,6 @@
 import { connectToDatabase } from '../../../utils/database'
 import { TablaActividad } from '../../../models/actividad.model'
+import { TablaResponsable } from '@/models/responsable.model'
 
 export default async function actividades (req, res) {
   await connectToDatabase()
@@ -7,7 +8,8 @@ export default async function actividades (req, res) {
   switch (req.method) {
     case 'GET':
       try {
-        const records = await TablaActividad.findAll({ raw: true })
+        const records = await TablaActividad.findAll({ raw: true, include: [TablaResponsable] })
+        console.log(records)
         res.status(200).json(records)
       } catch (error) {
         console.error(error)

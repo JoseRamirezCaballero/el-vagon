@@ -39,7 +39,6 @@ export default function FormReponsable () {
             name='abreviatura_cargo'
             value={formulario.abreviatura_cargo}
             onChange={onChange}
-            className='w-full'
           />
         </div>
         <div className='flex-grow ml-2'>
@@ -49,7 +48,6 @@ export default function FormReponsable () {
             name='nombres'
             value={formulario.nombres}
             onChange={onChange}
-            className='w-full'
           />
         </div>
         <div className='flex-grow ml-2'>
@@ -59,7 +57,6 @@ export default function FormReponsable () {
             name='apellidos'
             value={formulario.apellidos}
             onChange={onChange}
-            className='w-full'
           />
         </div>
         <div className='flex-grow ml-2'>
@@ -70,10 +67,9 @@ export default function FormReponsable () {
             value={formulario.genero}
             onChange={onChange}
             options={[
-              { label: 'MASCULINO', value: 'MASCULINO' },
-              { label: 'FEMENINO', value: 'FEMENINO' }
+              { label: 'MASCULINO', value: 'MASCULINO', key: 'male' },
+              { label: 'FEMENINO', value: 'FEMENINO', key: 'female' }
             ]}
-            className='w-full'
           />
         </div>
         <button type='submit' className='w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex-grow mt-2'>

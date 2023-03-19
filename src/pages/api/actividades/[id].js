@@ -1,19 +1,27 @@
-export default function id (req, res) {
-//   const { query } = req
-  console.log(req.query)
+import { TablaActividad } from '../../../models/actividad.model'
 
-  const { method } = req
-
-  switch (method) {
+export default async function idActividad (req, res) {
+  const { query } = req
+  switch (req.method) {
     case 'GET':
-      return res.status(200).json('Obtener una unica actividad')
+      try {
+        const records = await TablaActividad.findByPk(query.id)
+        res.status(200).json(records)
+      } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Error al obtener las actividades.' })
+      }
+      break
     case 'POST':
-      return res.status(200).json('Agregando una unica actividad')
-    case 'PUT':
-      return res.status(200).json('Actualizando una unica actividad')
-    case 'DELETE':
-      return res.status(200).json('Borrando una unica actividad')
+      try {
+        const actividad = await TablaActividad.create(req.body)
+        res.status(201).json(actividad)
+      } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Error al crear la actividad.' })
+      }
+      break
     default:
-      return res.status(400).json('Invalid method')
+      res.status(405).json({ message: 'Método no permitido.' })
   }
 }
