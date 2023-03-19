@@ -1,11 +1,11 @@
 export default function Footer () {
   return (
-    <footer className='bg-white dark:bg-gray-900'>
-      <div className='mx-auto w-full container p-4 sm:p-6'>
-        <hr className='my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8' />
+    <footer className='bg-white dark:bg-gray-900 relative bottom-0 w-full'>
+      <div className='mx-auto container p-4 sm:p-6'>
+        <hr className='my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 border-t' />
         <div className='sm:flex sm:items-center sm:justify-between'>
           <span className='text-sm text-gray-500 sm:text-center dark:text-gray-400'>
-            © 2023 <a href='https://flowbite.com/' className='hover:underline'>Instituto Tecnológico de Oaxaca</a>. Todos los derechos reservados.
+            © 2023 <a href='http://www.itoaxaca.edu.mx' target='_blank' className='hover:underline'>Instituto Tecnológico de Oaxaca</a>. Todos los derechos reservados.
           </span>
           <div className='flex mt-4 space-x-6 sm:justify-center sm:mt-0'>
             <a href='https://www.facebook.com/ActExtTecNMOaxaca' target='_blank' className='text-gray-500 hover:text-gray-900 dark:hover:text-white'>

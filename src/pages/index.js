@@ -1,4 +1,3 @@
-import Prompt from '@/components/Prompt'
 import PageLayout from '@/components/PageLayout'
 
 // import { Inter } from "next/font/google";
@@ -6,10 +5,6 @@ import PageLayout from '@/components/PageLayout'
 
 export default function Home () {
   return (
-    <PageLayout>
-      <div>
-        <Prompt />
-      </div>
-    </PageLayout>
+    <PageLayout />
   )
 }

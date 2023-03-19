@@ -20,8 +20,13 @@ export default function Header () {
           </Link>
         </li>
         <li>
-          <Link href='/crud' className='text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5'>
+          <Link href='/admin/actividades' className='text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5'>
             CRUD Actividades
+          </Link>
+        </li>
+        <li>
+          <Link href='/admin/responsables' className='text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5'>
+            CRUD Responsables
           </Link>
         </li>
       </ul>

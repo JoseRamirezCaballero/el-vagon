@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 export default function PageLayout ({ children, title = 'Actividades Complementarias', descriptionContent = 'Sistema de Actividades Complementarias' }) {
   return (
@@ -16,6 +17,8 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
       <main className='dark:bg-gray-900 h-full w-full'>
         {children}
       </main>
+
+      <Footer />
     </>
   )
 }

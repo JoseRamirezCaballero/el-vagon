@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from '../utils/database'
+import { TablaResponsable } from './responsable.model'
 
 export const TablaActividad = sequelize.define('actividad', {
   idActividad: {
@@ -9,9 +10,8 @@ export const TablaActividad = sequelize.define('actividad', {
     autoIncrement: true
   },
   nombre: {
-    type: DataTypes.STRING(25),
-    allowNull: false,
-    unique: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   creditos: {
     type: DataTypes.INTEGER,
@@ -20,6 +20,10 @@ export const TablaActividad = sequelize.define('actividad', {
   categoria: {
     type: DataTypes.STRING(15),
     allowNull: false
+  },
+  carrera: {
+    type: DataTypes.STRING(50),
+    allowNull: true
   },
   periodo: {
     type: DataTypes.STRING(35),
@@ -41,12 +45,14 @@ export const TablaActividad = sequelize.define('actividad', {
     type: DataTypes.STRING(8),
     allowNull: false
   },
-  // este se cambiara a fk
-  responsable: {
-    type: DataTypes.STRING(50),
+  idResponsable: {
+    type: DataTypes.INTEGER,
     allowNull: false
   }
 }, {
   timestamps: true,
   tableName: 'Actividad'
 })
+
+TablaResponsable.hasMany(TablaActividad, { foreignKey: 'idResponsable' })
+TablaActividad.belongsTo(TablaResponsable, { foreignKey: 'idResponsable' })

@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from '../utils/database'
 
-export const TablaDocente = sequelize.define('docente', {
-  idDocente: {
+export const TablaResponsable = sequelize.define('responsable', {
+  idResponsable: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
@@ -26,5 +26,5 @@ export const TablaDocente = sequelize.define('docente', {
   }
 }, {
   timestamps: true,
-  tableName: 'Docente'
+  tableName: 'Responsable'
 })
