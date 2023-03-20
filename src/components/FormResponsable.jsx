@@ -30,7 +30,7 @@ export default function FormReponsable () {
   }
 
   return (
-    <div className='px-10 py-5 mx-auto dark:bg-gray-900'>
+    <div className='px-10 py-5 mx-auto ml-5 mr-5 rounded-3xl shadow-sm dark:bg-gray-800'>
       <form onSubmit={onSubmit} className='flex flex-wrap justify-between'>
         <div className='w-24'>
           <InputField

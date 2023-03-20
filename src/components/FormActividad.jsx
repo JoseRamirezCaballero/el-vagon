@@ -47,7 +47,20 @@ export default function Form () {
   const onSubmit = async (event) => {
     event.preventDefault()
     try {
-      const response = await axios.post('/api/actividades', formulario)
+      const formData = {
+        ...formulario,
+        nombre: formulario.nombre.trim(),
+        idResponsable: formulario.idResponsable.trim(),
+        categoria: formulario.categoria.trim(),
+        carrera: formulario.carrera?.trim(),
+        periodo: formulario.periodo.trim(),
+        lugar: formulario.lugar.trim(),
+        horario: formulario.horario.trim(),
+        capacidad_maxima: formulario.capacidad_maxima.trim(),
+        creditos: formulario.creditos.trim(),
+        estatus: formulario.estatus.trim()
+      }
+      const response = await axios.post('/api/actividades', formData)
       console.log(response.data)
     } catch (error) {
       console.error(error)
@@ -55,7 +68,7 @@ export default function Form () {
   }
 
   return (
-    <div className='px-10 py-5 mx-auto dark:bg-gray-900'>
+    <div className='px-10 py-5 mx-auto ml-5 mr-5 rounded-3xl shadow-sm dark:bg-gray-800'>
       <form onSubmit={onSubmit}>
         <InputField
           id='name-input'
@@ -74,20 +87,21 @@ export default function Form () {
             value={formulario.idResponsable}
             onChange={onChange}
             options={[
-              { label: 'SIN ASIGNAR', value: undefined, key: 'sin_asignar' },
+              { label: 'SIN ASIGNAR', value: 'SIN ASIGNAR', key: 'sin_asignar' },
               ...responsables.map((responsable) => ({
                 label: `${responsable.abreviatura_cargo} ${responsable.nombres} ${responsable.apellidos}`,
                 value: responsable.idResponsable,
-                key: responsable.idResponsable.toString()
+                key: `${responsable.idResponsable}_${responsable.nombres}`
               }))
             ]}
+
           />
         )}
 
         <div className='flex flex-wrap -mx-2 mb-6'>
           <div className='w-full lg:w-1/2 px-2'>
             <div className='flex justify-between'>
-              <div className={mostrarCarreras ? 'w-1/2 pr-2' : 'w-full pr-2'}>
+              <div className={mostrarCarreras ? 'w-1/3 pr-2' : 'w-full pr-2'}>
                 <SelectField
                   id='category-input'
                   label='Categoría'
@@ -104,7 +118,7 @@ export default function Form () {
 
               </div>
               {mostrarCarreras && (
-                <div className='w-1/2 pl-2'>
+                <div className='w-2/3 pl-2'>
                   <SelectField
                     id='career-input'
                     label='Carrera'
@@ -112,14 +126,15 @@ export default function Form () {
                     value={formulario.carrera}
                     onChange={onChange}
                     options={[
-                      { key: 'ingenieria_electronica', label: 'ING. ELECTRÓNICA', value: 'INGENIERÍA ELECTRÓNICA' },
+                      { key: 'campo_vacio', label: '', value: 'SIN ASIGNAR' },
                       { key: 'ingenieria_civil', label: 'ING. CIVIL', value: 'INGENIERÍA CIVIL' },
-                      { key: 'ingenieria_mecanica', label: 'ING. MECÁNICA', value: 'INGENIERÍA MECÁNICA' },
-                      { key: 'ingenieria_industrial', label: 'ING. INDUSTRIAL', value: 'INGENIERÍA INDUSTRIAL' },
-                      { key: 'ingenieria_quimica', label: 'ING. QUÍMICA', value: 'INGENIERÍA QUÍMICA' },
                       { key: 'ingenieria_electrica', label: 'ING. ELECTRICA', value: 'INGENIERÍA ELECTRICA' },
+                      { key: 'ingenieria_electronica', label: 'ING. ELECTRÓNICA', value: 'INGENIERÍA ELECTRÓNICA' },
                       { key: 'ingenieria_gestion_empresarial', label: 'ING. EN GESTIÓN EMPRESARIAL', value: 'INGENIERÍA EN GESTIÓN EMPRESARIAL' },
                       { key: 'ingenieria_sistemas_computacionales', label: 'ING. EN SISTEMAS COMPUTACIONALES', value: 'INGENIERÍA EN SISTEMAS COMPUTACIONALES' },
+                      { key: 'ingenieria_industrial', label: 'ING. INDUSTRIAL', value: 'INGENIERÍA INDUSTRIAL' },
+                      { key: 'ingenieria_mecanica', label: 'ING. MECÁNICA', value: 'INGENIERÍA MECÁNICA' },
+                      { key: 'ingenieria_quimica', label: 'ING. QUÍMICA', value: 'INGENIERÍA QUÍMICA' },
                       { key: 'licenciatura_administracion', label: 'LIC. EN ADMINISTRACIÓN', value: 'LICENCIATURA EN ADMINISTRACIÓN' }
                     ]}
                   />

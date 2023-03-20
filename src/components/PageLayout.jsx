@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Header from '@/components/Header'
+import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
 export default function PageLayout ({ children, title = 'Actividades Complementarias', descriptionContent = 'Sistema de Actividades Complementarias' }) {
@@ -12,9 +12,9 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Header />
+      <Navigation />
 
-      <main className='dark:bg-gray-900 h-full w-full'>
+      <main className='dark:bg-gray-600 h-full w-full mt-24'>
         {children}
       </main>
 
