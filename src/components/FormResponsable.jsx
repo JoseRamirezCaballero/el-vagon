@@ -19,10 +19,49 @@ export default function FormReponsable () {
     }))
   }
 
+  const [arrayErrores, setArrayErrores] = useState([])
+  const [mostrarPopover, setMostrarPopover] = useState(false)
   const onSubmit = async (event) => {
     event.preventDefault()
+    setArrayErrores([])
+    setMostrarPopover(false)
+    const errores = []
+    if (formulario.abreviatura_cargo.trim() === '') {
+      errores.push('El campo ABREVIATURA es requerido')
+    }
+
+    if (formulario.nombres.trim() === '') {
+      errores.push('El campo NOMBRE(S) es requerido')
+    }
+
+    if (formulario.apellidos.trim() === '') {
+      errores.push('El campo APELLIDOS es requerido')
+    }
+
+    if (formulario.genero === '') {
+      errores.push('El campo GENERO es requerido')
+    }
+
+    if (errores.length > 0) {
+      setArrayErrores(errores)
+      setMostrarPopover(true)
+      setTimeout(() => {
+        setMostrarPopover(false)
+      }, 3000)
+      return
+    } else {
+      setMostrarPopover(false)
+    }
+
     try {
-      const response = await axios.post('/api/responsables', formulario)
+      const formData = {
+        ...formulario,
+        abreviatura_cargo: formulario.abreviatura_cargo.trim(),
+        nombres: formulario.nombres.trim(),
+        apellidos: formulario.apellidos.trim(),
+        genero: formulario.genero.trim()
+      }
+      const response = await axios.post('/api/responsables', formData)
       console.log(response.data)
     } catch (error) {
       console.error(error)
@@ -72,9 +111,32 @@ export default function FormReponsable () {
             ]}
           />
         </div>
-        <button type='submit' className='w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex-grow mt-2'>
-          Crear Responsable
-        </button>
+
+        <div className='flex justify-center w-full mt-2'>
+          <button type='submit' className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
+            Añadir Responsable
+          </button>
+        </div>
+        {mostrarPopover && (
+          <div
+            data-popover
+            id='popover-click'
+            role='tooltip'
+            className='absolute z-10 visible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-100 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 left-1/2 transform -translate-x-1/2 mt-64'
+          >
+            <div className='px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700'>
+              <h3 className='font-semibold text-gray-900 dark:text-white'>Ups! Ha ocurrido un error</h3>
+            </div>
+            <div className='px-3 py-2'>
+              <ul>
+                {arrayErrores.map((campo) => (
+                  <li key={campo}>{campo}</li>
+                ))}
+              </ul>
+            </div>
+            <div data-popper-arrow />
+          </div>
+        )}
       </form>
     </div>
   )

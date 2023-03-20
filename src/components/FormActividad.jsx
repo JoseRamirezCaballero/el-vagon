@@ -6,7 +6,7 @@ import SelectField from './SelectField'
 export default function Form () {
   const [formulario, setFormulario] = useState({
     nombre: '',
-    idResponsable: 'SIN ASIGNAR',
+    idResponsable: '',
     categoria: 'DEPORTIVA',
     carrera: undefined,
     periodo: '',
@@ -44,8 +44,60 @@ export default function Form () {
     fetchResponsables()
   }, [])
 
+  const [arrayErrores, setArrayErrores] = useState([])
+  const [mostrarPopover, setMostrarPopover] = useState(false)
   const onSubmit = async (event) => {
     event.preventDefault()
+    setArrayErrores([])
+    setMostrarPopover(false)
+    const errores = []
+    if (formulario.nombre.trim() === '') {
+      errores.push('El campo NOMBRE es requerido')
+    }
+
+    if (formulario.idResponsable.trim() === '') {
+      errores.push('El campo REPONSABLE es requerido')
+    }
+
+    if (formulario.categoria.trim() === '') {
+      errores.push('El campo CATEGORIA es requerido')
+    }
+
+    if (formulario.categoria === 'CARRERA' && (!formulario.carrera || formulario.carrera.trim() === '')) {
+      errores.push('El campo CARRERA es requerido para la categoría DE CARRERA')
+    }
+
+    if (formulario.periodo.trim() === '') {
+      errores.push('El campo PERIODO es requerido')
+    }
+
+    if (formulario.lugar.trim() === '') {
+      errores.push('El campo LUGAR es requerido')
+    }
+
+    if (formulario.horario.trim() === '') {
+      errores.push('El campo HORARIO es requerido')
+    }
+
+    if (formulario.capacidad_maxima.trim() === '') {
+      errores.push('El campo CAPACIDAD MAXIMA es requerido')
+    }
+
+    if (formulario.creditos.trim() === '') {
+      errores.push('El campo CREDITOS es requerido')
+    }
+
+    if (errores.length > 0) {
+      setArrayErrores(errores)
+      setMostrarPopover(true)
+      setTimeout(() => {
+        setMostrarPopover(false)
+      }, 3000)
+      return
+    } else {
+      setMostrarPopover(false)
+    }
+
     try {
       const formData = {
         ...formulario,
@@ -87,7 +139,7 @@ export default function Form () {
             value={formulario.idResponsable}
             onChange={onChange}
             options={[
-              { label: 'SIN ASIGNAR', value: 'SIN ASIGNAR', key: 'sin_asignar' },
+              { label: 'SIN ASIGNAR', value: '', key: 'sin_asignar' },
               ...responsables.map((responsable) => ({
                 label: `${responsable.abreviatura_cargo} ${responsable.nombres} ${responsable.apellidos}`,
                 value: responsable.idResponsable,
@@ -126,9 +178,9 @@ export default function Form () {
                     value={formulario.carrera}
                     onChange={onChange}
                     options={[
-                      { key: 'campo_vacio', label: '', value: 'SIN ASIGNAR' },
+                      { key: 'campo_vacio', label: '', value: '' },
                       { key: 'ingenieria_civil', label: 'ING. CIVIL', value: 'INGENIERÍA CIVIL' },
-                      { key: 'ingenieria_electrica', label: 'ING. ELECTRICA', value: 'INGENIERÍA ELECTRICA' },
+                      { key: 'ingenieria_electrica', label: 'ING. ELÉCTRICA', value: 'INGENIERÍA ELÉCTRICA' },
                       { key: 'ingenieria_electronica', label: 'ING. ELECTRÓNICA', value: 'INGENIERÍA ELECTRÓNICA' },
                       { key: 'ingenieria_gestion_empresarial', label: 'ING. EN GESTIÓN EMPRESARIAL', value: 'INGENIERÍA EN GESTIÓN EMPRESARIAL' },
                       { key: 'ingenieria_sistemas_computacionales', label: 'ING. EN SISTEMAS COMPUTACIONALES', value: 'INGENIERÍA EN SISTEMAS COMPUTACIONALES' },
@@ -185,7 +237,33 @@ export default function Form () {
             />
           </div>
         </div>
-        <button type='submit' className='w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Crear Actividad</button>
+
+        <div className='flex justify-center'>
+          <button type='submit' className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
+            Crear Actividad
+          </button>
+        </div>
+        {mostrarPopover && (
+          <div
+            data-popover
+            id='popover-click'
+            role='tooltip'
+            className='absolute z-10 visible inline-block w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-100 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 left-1/2 transform -translate-x-1/2 mt-2'
+          >
+            <div className='px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700'>
+              <h3 className='font-semibold text-gray-900 dark:text-white'>Ups! Ha ocurrido un error</h3>
+            </div>
+            <div className='px-3 py-2'>
+              <ul>
+                {arrayErrores.map((campo) => (
+                  <li key={campo}>{campo}</li>
+                ))}
+              </ul>
+            </div>
+            <div data-popper-arrow />
+          </div>
+        )}
+
       </form>
     </div>
   )
