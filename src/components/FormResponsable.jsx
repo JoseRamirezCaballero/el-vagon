@@ -8,7 +8,7 @@ export default function FormReponsable () {
     abreviatura_cargo: '',
     nombres: '',
     apellidos: '',
-    genero: ''
+    genero: 'MASCULINO'
   })
 
   const onChange = (event) => {
