@@ -1,5 +1,5 @@
 import PageLayout from '@/components/PageLayout'
-import Tabla from '@/components/Tabla'
+import TablaActividades from '@/components/TablaActividades'
 import axios from 'axios'
 
 export default function readActividades ({ actividades }) {
@@ -17,7 +17,7 @@ export default function readActividades ({ actividades }) {
     <PageLayout>
       {/* Cuestionar mi existencia para decidir si este div vive o muere. */}
       <div className='relative overflow-x-auto'>
-        <Tabla datos={actividades} columnas={columnas} />
+        <TablaActividades datos={actividades} columnas={columnas} />
       </div>
 
     </PageLayout>
