@@ -9,7 +9,6 @@ export default async function actividades (req, res) {
     case 'GET':
       try {
         const records = await TablaActividad.findAll({ raw: true, include: [TablaResponsable] })
-        console.log(records)
         res.status(200).json(records)
       } catch (error) {
         console.error(error)

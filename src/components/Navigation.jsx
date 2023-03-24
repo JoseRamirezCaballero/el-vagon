@@ -21,10 +21,10 @@ export default function Navigation () {
 
     <nav className='bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600 rounded-b-3xl shadow-md mb-28'>
       <div className='container flex flex-wrap items-center justify-between mx-auto'>
-        <a href='https://flowbite.com/' className='flex items-center'>
+        <Link href='/' className='flex items-center'>
           <Image width={50} height={50} className='w-12 h-12' src='https://upload.wikimedia.org/wikipedia/commons/8/85/Instituto_Tecnologico_de_Oaxaca_-_original.svg' alt='Logo ITO' priority />
           <span className='ml-1 self-center text-xl font-semibold whitespace-nowrap dark:text-white'>ITO</span>
-        </a>
+        </Link>
         <div className='flex md:order-2'>
           <ButtonDarkMode />
           <button onClick={toggleMenu} data-collapse-toggle='navbar-sticky' type='button' className='inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600' aria-controls='navbar-sticky' aria-expanded='false'>
