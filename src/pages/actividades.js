@@ -15,11 +15,7 @@ export default function readActividades ({ actividades }) {
   ]
   return (
     <PageLayout>
-      {/* Cuestionar mi existencia para decidir si este div vive o muere. */}
-      <div className='relative overflow-x-auto'>
-        <TablaActividades datos={actividades} columnas={columnas} />
-      </div>
-
+      <TablaActividades datos={actividades} columnas={columnas} />
     </PageLayout>
   )
 }

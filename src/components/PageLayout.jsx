@@ -14,7 +14,7 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
 
       <Navigation />
 
-      <main className='dark:bg-gray-600 h-full w-full mt-24'>
+      <main className='dark:bg-gray-600 h-full w-full mt-24 flex flex-col min-h-[68vh]'>
         {children}
       </main>
 
