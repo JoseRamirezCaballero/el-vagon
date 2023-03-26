@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
 
 export default function TablaActividades ({ columnas, datos }) {
   const [filtroSeleccionado, setFiltroSeleccionado] = useState('TODAS')
@@ -128,7 +129,23 @@ export default function TablaActividades ({ columnas, datos }) {
                 <td className='px-6 py-4'>{data.periodo}</td>
                 <td className='px-6 py-4'>{data.creditos}</td>
                 <td className='px-6 py-4'>{data.capacidad_maxima}</td>
-                <td className='px-6 py-4'>En proceso</td>
+                <td className='px-6 py-4'>
+                  <div className='flex items-center'>
+                    <button className='mr-2'>
+                      <Image src='/edit.svg' alt='Edit' width={42} height={42} />
+                    </button>
+
+                    <button className='mr-2'>
+                      <Image src='/delete.svg' alt='Delete' width={42} height={42} />
+                    </button>
+
+                    <label className='relative inline-flex items-center mr-5 cursor-pointer'>
+                      <input type='checkbox' value='' className='sr-only peer' />
+                      <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600" />
+                    </label>
+                  </div>
+                </td>
+
               </tr>
             ))}
           </tbody>

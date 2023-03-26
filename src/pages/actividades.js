@@ -23,7 +23,7 @@ export default function readActividades ({ actividades }) {
 export async function getServerSideProps () {
   try {
     const resActividades = await axios.get('http://localhost:3000/api/actividades')
-    const actividades = resActividades.data
+    const actividades = resActividades.data.sort((a, b) => a.nombre.localeCompare(b.nombre))
 
     return { props: { actividades } }
   } catch (error) {
