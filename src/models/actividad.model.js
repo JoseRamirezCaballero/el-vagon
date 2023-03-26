@@ -42,7 +42,7 @@ export const TablaActividad = sequelize.define('actividad', {
     allowNull: false
   },
   estatus: {
-    type: DataTypes.STRING(8),
+    type: DataTypes.BOOLEAN,
     allowNull: false
   },
   idResponsable: {

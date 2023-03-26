@@ -14,7 +14,7 @@ export default function Form () {
     horario: '',
     capacidad_maxima: '30',
     creditos: '2',
-    estatus: 'Abierta'
+    estatus: true
   })
 
   const [mostrarCarreras, setMostrarCarreras] = useState(false)
@@ -110,7 +110,7 @@ export default function Form () {
         horario: formulario.horario.trim(),
         capacidad_maxima: formulario.capacidad_maxima.trim(),
         creditos: formulario.creditos.trim(),
-        estatus: formulario.estatus.trim()
+        estatus: formulario.estatus
       }
       const response = await axios.post('/api/actividades', formData)
       console.log(response.data)
