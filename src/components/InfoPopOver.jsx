@@ -5,7 +5,7 @@ export default function InfoPopOver ({ title, description }) {
   return (
     <>
       <button
-        data-popover-target='popover-description' data-popover-placement='bottom-end' type='button'
+        data-popover-target='popover-description' data-popover-placement='bottom-end' type='button' tabIndex='-1'
         onMouseEnter={() => setMostrarPopover(true)}
         onMouseLeave={() => setMostrarPopover(false)}
       >

@@ -1,7 +1,9 @@
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
 export default function TablaActividades ({ columnas, datos }) {
+  const router = useRouter()
   const [filtroSeleccionado, setFiltroSeleccionado] = useState('TODAS')
   const [isOpen, setIsOpen] = useState(false)
   const [busqueda, setBusqueda] = useState('')
@@ -47,36 +49,38 @@ export default function TablaActividades ({ columnas, datos }) {
     setBusqueda(event.target.value)
   }
 
-  const datosFiltrados =
-  filtroSeleccionado === 'TODAS'
-    ? datos.filter((data) =>
-      Object.values(data).some(
-        (value) =>
-          typeof value === 'string' &&
-          (value.toUpperCase().includes(busqueda.toUpperCase()) ||
-           data.horario.toUpperCase().includes(busqueda.toUpperCase()) ||
-           data['responsable.abreviatura_cargo'].toUpperCase().includes(busqueda.toUpperCase()) ||
-           data['responsable.nombres'].toUpperCase().includes(busqueda.toUpperCase()) ||
-           data['responsable.apellidos'].toUpperCase().includes(busqueda.toUpperCase()) ||
-           data.lugar.toUpperCase().includes(busqueda.toUpperCase()) ||
-           data.periodo.toUpperCase().includes(busqueda.toUpperCase()))
-      )
-    )
-    : datos.filter(
-      (data) =>
-        data.categoria === filtroSeleccionado &&
-          Object.values(data).some(
-            (value) =>
-              typeof value === 'string' &&
-              (value.toUpperCase().includes(busqueda.toUpperCase()) ||
-               data.horario.toUpperCase().includes(busqueda.toUpperCase()) ||
-               data['responsable.abreviatura_cargo'].toUpperCase().includes(busqueda.toUpperCase()) ||
-               data['responsable.nombres'].toUpperCase().includes(busqueda.toUpperCase()) ||
-               data['responsable.apellidos'].toUpperCase().includes(busqueda.toUpperCase()) ||
-               data.lugar.toUpperCase().includes(busqueda.toUpperCase()) ||
-               data.periodo.toUpperCase().includes(busqueda.toUpperCase()))
-          )
-    )
+  const filtrarDatos = (datos, filtroSeleccionado, busqueda) => {
+    return datos.filter((data) => {
+      if (filtroSeleccionado === 'TODAS') {
+        return Object.values(data).some(
+          (value) =>
+            typeof value === 'string' &&
+            (value.toUpperCase().includes(busqueda.toUpperCase()) ||
+             data.horario.toUpperCase().includes(busqueda.toUpperCase()) ||
+             data['responsable.abreviatura_cargo'].toUpperCase().includes(busqueda.toUpperCase()) ||
+             data['responsable.nombres'].toUpperCase().includes(busqueda.toUpperCase()) ||
+             data['responsable.apellidos'].toUpperCase().includes(busqueda.toUpperCase()) ||
+             data.lugar.toUpperCase().includes(busqueda.toUpperCase()) ||
+             data.periodo.toUpperCase().includes(busqueda.toUpperCase()))
+        )
+      } else {
+        return data.categoria === filtroSeleccionado &&
+            Object.values(data).some(
+              (value) =>
+                typeof value === 'string' &&
+                (value.toUpperCase().includes(busqueda.toUpperCase()) ||
+                 data.horario.toUpperCase().includes(busqueda.toUpperCase()) ||
+                 data['responsable.abreviatura_cargo'].toUpperCase().includes(busqueda.toUpperCase()) ||
+                 data['responsable.nombres'].toUpperCase().includes(busqueda.toUpperCase()) ||
+                 data['responsable.apellidos'].toUpperCase().includes(busqueda.toUpperCase()) ||
+                 data.lugar.toUpperCase().includes(busqueda.toUpperCase()) ||
+                 data.periodo.toUpperCase().includes(busqueda.toUpperCase()))
+            )
+      }
+    })
+  }
+
+  const datosFiltrados = filtrarDatos(datos, filtroSeleccionado, busqueda)
 
   return (
     <>
@@ -120,7 +124,7 @@ export default function TablaActividades ({ columnas, datos }) {
           <tbody>
             {datosFiltrados.map((data, index) => (
               <tr key={index} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
-                <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <th scope='row' onClick={() => router.push(`/admin/actividad/${data.idActividad}`)} className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
                   {data.nombre}
                 </th>
                 <td className='px-6 py-4'>{`${data['responsable.abreviatura_cargo']} ${data['responsable.nombres']} ${data['responsable.apellidos']}`}</td>

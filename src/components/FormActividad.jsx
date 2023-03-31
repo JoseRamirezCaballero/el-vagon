@@ -50,41 +50,25 @@ export default function Form () {
     event.preventDefault()
     setArrayErrores([])
     setMostrarPopover(false)
+    const camposRequeridos = ['nombre', 'categoria', 'periodo', 'lugar', 'horario', 'creditos']
     const errores = []
-    if (formulario.nombre.trim() === '') {
-      errores.push('El campo NOMBRE es requerido')
-    }
+
+    camposRequeridos.forEach((campo) => {
+      if (formulario[campo].trim() === '') {
+        errores.push(`El campo ${campo.toUpperCase()} es requerido`)
+      }
+    })
 
     if (formulario.idResponsable.trim() === '') {
       errores.push('El campo REPONSABLE es requerido')
-    }
-
-    if (formulario.categoria.trim() === '') {
-      errores.push('El campo CATEGORIA es requerido')
-    }
-
-    if (formulario.categoria === 'CARRERA' && (!formulario.carrera || formulario.carrera.trim() === '')) {
-      errores.push('El campo CARRERA es requerido para la categoría DE CARRERA')
-    }
-
-    if (formulario.periodo.trim() === '') {
-      errores.push('El campo PERIODO es requerido')
-    }
-
-    if (formulario.lugar.trim() === '') {
-      errores.push('El campo LUGAR es requerido')
-    }
-
-    if (formulario.horario.trim() === '') {
-      errores.push('El campo HORARIO es requerido')
     }
 
     if (formulario.capacidad_maxima.trim() === '') {
       errores.push('El campo CAPACIDAD MAXIMA es requerido')
     }
 
-    if (formulario.creditos.trim() === '') {
-      errores.push('El campo CREDITOS es requerido')
+    if (formulario.categoria === 'CARRERA' && (!formulario.carrera || formulario.carrera.trim() === '')) {
+      errores.push('El campo CARRERA es requerido')
     }
 
     if (errores.length > 0) {
@@ -99,19 +83,10 @@ export default function Form () {
     }
 
     try {
-      const formData = {
-        ...formulario,
-        nombre: formulario.nombre.trim(),
-        idResponsable: formulario.idResponsable.trim(),
-        categoria: formulario.categoria.trim(),
-        carrera: formulario.carrera?.trim(),
-        periodo: formulario.periodo.trim(),
-        lugar: formulario.lugar.trim(),
-        horario: formulario.horario.trim(),
-        capacidad_maxima: formulario.capacidad_maxima.trim(),
-        creditos: formulario.creditos.trim(),
-        estatus: formulario.estatus
-      }
+      const formData = Object.fromEntries(
+        Object.entries(formulario).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value])
+      )
+
       const response = await axios.post('/api/actividades', formData)
       console.log(response.data)
     } catch (error) {

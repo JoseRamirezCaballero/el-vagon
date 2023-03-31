@@ -22,7 +22,7 @@ export const TablaEstudiante = sequelize.define('Estudiante', {
     unique: true
   },
   carrera: {
-    type: DataTypes.STRING(35),
+    type: DataTypes.STRING(50),
     allowNull: false
   },
   genero: {

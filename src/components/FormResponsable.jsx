@@ -25,22 +25,20 @@ export default function FormReponsable () {
     event.preventDefault()
     setArrayErrores([])
     setMostrarPopover(false)
+    const camposRequeridos = {
+      abreviatura_cargo: 'ABREVIATURA',
+      nombres: 'NOMBRE(S)',
+      apellidos: 'APELLIDOS',
+      genero: 'GENERO'
+    }
+
     const errores = []
-    if (formulario.abreviatura_cargo.trim() === '') {
-      errores.push('El campo ABREVIATURA es requerido')
-    }
 
-    if (formulario.nombres.trim() === '') {
-      errores.push('El campo NOMBRE(S) es requerido')
-    }
-
-    if (formulario.apellidos.trim() === '') {
-      errores.push('El campo APELLIDOS es requerido')
-    }
-
-    if (formulario.genero === '') {
-      errores.push('El campo GENERO es requerido')
-    }
+    Object.entries(camposRequeridos).forEach(([campo, nombre]) => {
+      if (formulario[campo].trim() === '') {
+        errores.push(`El campo ${nombre} es requerido`)
+      }
+    })
 
     if (errores.length > 0) {
       setArrayErrores(errores)
@@ -54,13 +52,12 @@ export default function FormReponsable () {
     }
 
     try {
-      const formData = {
-        ...formulario,
-        abreviatura_cargo: formulario.abreviatura_cargo.trim(),
-        nombres: formulario.nombres.trim(),
-        apellidos: formulario.apellidos.trim(),
-        genero: formulario.genero.trim()
-      }
+      const formData = Object.fromEntries(
+        Object.entries(formulario)
+          .filter(([key, value]) => value !== '')
+          .map(([key, value]) => [key, value.trim()])
+      )
+
       const response = await axios.post('/api/responsables', formData)
       console.log(response.data)
     } catch (error) {
