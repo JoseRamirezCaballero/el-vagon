@@ -1,5 +1,5 @@
-import { connectToDatabase } from '../../../utils/database'
-import { TablaResponsable } from '../../../models/responsable.model'
+import { connectToDatabase } from '@/utils/database'
+import { TablaResponsable } from '@/models/responsable.model'
 
 export default async function responsables (req, res) {
   await connectToDatabase()

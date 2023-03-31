@@ -1,11 +1,12 @@
-import { TablaActividad } from '../../../models/actividad.model'
+import { TablaActividad } from '@/models/actividad.model'
+import { TablaResponsable } from '@/models/responsable.model'
 
 export default async function idActividad (req, res) {
   const { query } = req
   switch (req.method) {
     case 'GET':
       try {
-        const records = await TablaActividad.findByPk(query.id)
+        const records = await TablaActividad.findByPk(query.id, { include: [TablaResponsable] })
         res.status(200).json(records)
       } catch (error) {
         console.error(error)

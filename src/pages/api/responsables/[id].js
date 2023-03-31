@@ -1,4 +1,4 @@
-import { TablaResponsable } from '../../../models/responsable.model'
+import { TablaResponsable } from '@/models/responsable.model'
 
 export default async function idResponsable (req, res) {
   const { query } = req

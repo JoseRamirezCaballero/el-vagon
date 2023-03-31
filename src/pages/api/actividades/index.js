@@ -1,5 +1,5 @@
-import { connectToDatabase } from '../../../utils/database'
-import { TablaActividad } from '../../../models/actividad.model'
+import { connectToDatabase } from '@/utils/database'
+import { TablaActividad } from '@/models/actividad.model'
 import { TablaResponsable } from '@/models/responsable.model'
 
 export default async function actividades (req, res) {

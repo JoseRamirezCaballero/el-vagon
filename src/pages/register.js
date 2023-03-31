@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
+import axios from 'axios'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
 import StudentCard from '@/components/StudentCard'
@@ -32,6 +33,10 @@ export default function Register () {
     }
   }
 
+  const isInvalidField = (value, defaultValue) => {
+    return value.trim() === '' || value === defaultValue
+  }
+
   const [arrayErrores, setArrayErrores] = useState([])
   const [mostrarPopover, setMostrarPopover] = useState(false)
   const onSubmit = async (event) => {
@@ -39,27 +44,28 @@ export default function Register () {
     setArrayErrores([])
     setMostrarPopover(false)
     const errores = []
-    if (formulario.nombres.trim() === '') {
+
+    if (isInvalidField(formulario.nombres, 'NOMBRE(S)')) {
       errores.push('El campo NOMBRE(S) es requerido')
     }
 
-    if (formulario.apellidos.trim() === '') {
+    if (isInvalidField(formulario.apellidos, 'APELLIDOS')) {
       errores.push('El campo APELLIDOS es requerido')
     }
 
-    if (formulario.numero_control.trim() === '') {
+    if (isInvalidField(formulario.numero_control, 'NUMERO DE CONTROL')) {
       errores.push('El campo NUMERO DE CONTROL es requerido')
     }
 
-    if (formulario.carrera === 'CARRERA') {
+    if (isInvalidField(formulario.carrera, 'CARRERA')) {
       errores.push('El campo CARRERA es requerido')
     }
 
-    if (formulario.genero.trim() === '') {
+    if (isInvalidField(formulario.genero, '')) {
       errores.push('El campo GENERO es requerido')
     }
 
-    if (formulario.password.trim() === '') {
+    if (isInvalidField(formulario.password, '')) {
       errores.push('El campo CONTRASEÑA es requerido')
     }
 
@@ -75,23 +81,19 @@ export default function Register () {
     }
 
     try {
-      const formData = {
-        ...formulario,
-        nombres: formulario.nombres.trim(),
-        apellidos: formulario.apellidos.trim(),
-        numero_control: formulario.numero_control.trim(),
-        genero: formulario.genero.trim(),
-        correo_institucional: `${formulario.numero_control}@itoaxaca.edu.mx`,
-        carrera: formulario.carrera.trim(),
-        password: formulario.password.trim()
-      }
-      console.log(formData)
-      // const response = await axios.post('/api/actividades', formData)
-      // console.log(response.data)
+      const formData = { ...formulario };
+      ['nombres', 'apellidos', 'numero_control', 'genero', 'carrera', 'password'].forEach(campo => {
+        formData[campo] = formData[campo].trim()
+      })
+      formData.correo_institucional = `${formData.numero_control}@itoaxaca.edu.mx`
+
+      const response = await axios.post('/api/estudiantes', formData)
+      console.log(response.data)
     } catch (error) {
-      console.error(error)
+      alert('Internal Server Error (500). \nParece que tu número de control ya está registrado. Por favor, intenta iniciar sesión. Si sigues experimentando problemas, comunícate con el Departamento de Formación Integral.')
     }
   }
+
   return (
     <>
       <Head>
