@@ -1,8 +1,9 @@
+import AdminProtectedRoute from '@/components/AdminProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 import TablaActividades from '@/components/TablaActividades'
 import axios from 'axios'
 
-export default function readActividades ({ actividades }) {
+export default function Dashboard ({ actividades }) {
   const columnas = [
     { titulo: 'Actividad' },
     { titulo: 'Responsable' },
@@ -14,15 +15,17 @@ export default function readActividades ({ actividades }) {
     { titulo: 'Opciones' }
   ]
   return (
-    <PageLayout>
-      <TablaActividades datos={actividades} columnas={columnas} />
-    </PageLayout>
+    <AdminProtectedRoute>
+      <PageLayout>
+        <TablaActividades datos={actividades} columnas={columnas} />
+      </PageLayout>
+    </AdminProtectedRoute>
   )
 }
 
 export async function getServerSideProps () {
   try {
-    const resActividades = await axios.get('http://localhost:3000/api/actividades')
+    const resActividades = await axios.get('/api/actividades')
     const actividades = resActividades.data.sort((a, b) => a.nombre.localeCompare(b.nombre))
 
     return { props: { actividades } }

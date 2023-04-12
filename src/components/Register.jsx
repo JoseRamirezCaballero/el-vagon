@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
 import InputField from '@/components/InputField'
@@ -7,6 +8,7 @@ import StudentCard from '@/components/StudentCard'
 import ButtonDarkMode from '@/components/ButtonDarkMode'
 
 export default function Register () {
+  const router = useRouter()
   const [formulario, setFormulario] = useState({
     nombres: '',
     apellidos: '',
@@ -14,7 +16,8 @@ export default function Register () {
     genero: 'MASCULINO',
     correo_institucional: '',
     carrera: 'INGENIERÍA CIVIL',
-    password: ''
+    password: '',
+    rol: 0
   })
 
   const onChange = (event) => {
@@ -85,9 +88,9 @@ export default function Register () {
         formData[campo] = formData[campo].trim()
       })
       formData.correo_institucional = `${formData.numero_control}@itoaxaca.edu.mx`
-
-      const response = await axios.post('/api/estudiantes', formData)
-      console.log(response.data)
+      console.log('registrado: ', formData)
+      await axios.post('/api/estudiantes', formData)
+      router.push('/login')
     } catch (error) {
       alert('Internal Server Error (500). \nParece que tu número de control ya está registrado. Por favor, intenta iniciar sesión. Si sigues experimentando problemas, comunícate con el Departamento de Formación Integral.')
     }

@@ -12,9 +12,9 @@ export default function Navigation () {
 
   const routes = [
     { name: 'Home', url: '/' },
-    { name: 'Actividades', url: '/actividades' },
-    { name: 'CRUD Actividades', url: '/admin/actividades' },
-    { name: 'CRUD Responsables', url: '/admin/responsables' }
+    { name: 'Actividades', url: '/admin/actividad/dashboard' },
+    { name: 'CRUD Actividades', url: '/admin/actividad/create' },
+    { name: 'CRUD Responsables', url: '/admin/responsable/create' }
   ]
 
   return (

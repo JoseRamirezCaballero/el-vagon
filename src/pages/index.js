@@ -1,10 +1,13 @@
 import PageLayout from '@/components/PageLayout'
-
-// import { Inter } from "next/font/google";
-// const inter = Inter({ subsets: ["latin"] });
+import axios from 'axios'
 
 export default function Home () {
+  const logout = async () => {
+    await axios.get('/api/auth/logout')
+  }
   return (
-    <PageLayout />
+    <PageLayout>
+      <button onClick={() => logout()}>logout</button>
+    </PageLayout>
   )
 }

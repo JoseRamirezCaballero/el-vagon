@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { DataTypes } from 'sequelize'
 import { sequelize } from '../utils/database'
 
@@ -36,8 +37,20 @@ export const TablaEstudiante = sequelize.define('Estudiante', {
   password: {
     type: DataTypes.STRING(50),
     allowNull: false
+  },
+  rol: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 }, {
   timestamps: true,
   tableName: 'Estudiante'
 })
+
+TablaEstudiante.validateCredentials = async function (numero_control, password) {
+  const estudiante = await TablaEstudiante.findOne({ where: { numero_control, password } })
+  if (!estudiante) {
+    throw new Error('Credenciales inválidas')
+  }
+  return estudiante
+}

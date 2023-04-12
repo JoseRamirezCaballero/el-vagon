@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
 import ButtonDarkMode from '@/components/ButtonDarkMode'
@@ -6,6 +7,7 @@ import InfoPopOver from '@/components/InfoPopOver'
 import InputField from '@/components/InputField'
 
 export default function Login () {
+  const router = useRouter()
   const [formulario, setFormulario] = useState({
     numero_control: '',
     password: ''
@@ -33,13 +35,13 @@ export default function Login () {
     setArrayErrores([])
     setMostrarPopover(false)
 
-    const formData = {
+    const credentials = {
       ...formulario,
       numero_control: formulario.numero_control.trim(),
       password: formulario.password.trim()
     }
 
-    if (!formData.numero_control || !formData.password) {
+    if (!credentials.numero_control || !credentials.password) {
       setArrayErrores([
         'Rellena TODOS los campos'
       ])
@@ -51,28 +53,17 @@ export default function Login () {
     }
 
     try {
-      const response = await axios.get('/api/estudiantes', formData)
-
-      const usuarioEncontrado = response.data.find(
-        (usuario) =>
-          usuario.numero_control === formData.numero_control &&
-              usuario.password === formData.password
-      )
-
-      if (usuarioEncontrado) {
-        console.log('Inicio de sesión exitoso')
-      } else {
-        setArrayErrores([
-          'El número de control o la contraseña son incorrectos'
-        ])
-        setMostrarPopover(true)
-        setTimeout(() => {
-          setMostrarPopover(false)
-        }, 3000)
-        return
-      }
+      await axios.post('/api/auth/login', credentials)
+      router.push('/')
+      return
     } catch (error) {
-      alert('Ha ocurrido un error en la autenticación. Intente de nuevo más tarde')
+      setArrayErrores([
+        'El número de control o la contraseña son incorrectos'
+      ])
+      setMostrarPopover(true)
+      setTimeout(() => {
+        setMostrarPopover(false)
+      }, 3000)
     }
   }
   return (
