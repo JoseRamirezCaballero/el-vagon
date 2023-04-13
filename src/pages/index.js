@@ -1,13 +1,10 @@
-import PageLayout from '@/components/PageLayout'
-import axios from 'axios'
+import GuestLayout from '@/components/GuestLayout'
+import Carousel from '@/components/Carousel'
 
 export default function Home () {
-  const logout = async () => {
-    await axios.get('/api/auth/logout')
-  }
   return (
-    <PageLayout>
-      <button onClick={() => logout()}>logout</button>
-    </PageLayout>
+    <GuestLayout>
+      <Carousel />
+    </GuestLayout>
   )
 }
