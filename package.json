@@ -21,6 +21,7 @@
     "pg-hstore": "^2.3.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-type-animation": "^3.0.1",
     "sequelize": "^6.29.3"
   },
   "devDependencies": {
