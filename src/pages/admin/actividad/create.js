@@ -5,7 +5,7 @@ import FormActividad from '@/components/FormActividad'
 export default function Create () {
   return (
     <AdminProtectedRoute>
-      <PageLayout>
+      <PageLayout isAdmin>
         <FormActividad />
       </PageLayout>
     </AdminProtectedRoute>

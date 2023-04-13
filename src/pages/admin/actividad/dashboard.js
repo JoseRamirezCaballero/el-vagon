@@ -16,7 +16,7 @@ export default function Dashboard ({ actividades }) {
   ]
   return (
     <AdminProtectedRoute>
-      <PageLayout>
+      <PageLayout isAdmin>
         <TablaActividades datos={actividades} columnas={columnas} />
       </PageLayout>
     </AdminProtectedRoute>

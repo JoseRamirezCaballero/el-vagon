@@ -5,7 +5,7 @@ import PageLayout from '@/components/PageLayout'
 export default function Create () {
   return (
     <AdminProtectedRoute>
-      <PageLayout>
+      <PageLayout isAdmin>
         <FormResponsable />
       </PageLayout>
     </AdminProtectedRoute>
