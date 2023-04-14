@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import axios from 'axios'
-import InputField from './InputField'
-import SelectField from './SelectField'
+import { Toaster, toast } from 'sonner'
+import InputField from '@/components/InputField'
+import SelectField from '@/components/SelectField'
 
 export default function FormReponsable () {
   const [formulario, setFormulario] = useState({
@@ -19,12 +20,29 @@ export default function FormReponsable () {
     }))
   }
 
+  const notification = ({ bool, descriptionToast = '' }) => {
+    bool
+      ? toast.success('Responsable registrado', {
+        description: descriptionToast
+      })
+      : toast.error('Error al registrar', {
+        description: descriptionToast
+      })
+  }
+
   const [arrayErrores, setArrayErrores] = useState([])
   const [mostrarPopover, setMostrarPopover] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const onSubmit = async (event) => {
     event.preventDefault()
     setArrayErrores([])
     setMostrarPopover(false)
+
+    setIsSubmitting(true)
+    setTimeout(() => {
+      setIsSubmitting(false)
+    }, 2500)
+
     const camposRequeridos = {
       abreviatura_cargo: 'ABREVIATURA',
       nombres: 'NOMBRE(S)',
@@ -59,9 +77,11 @@ export default function FormReponsable () {
       )
 
       const response = await axios.post('/api/responsables', formData)
-      console.log(response.data)
+      if (response) {
+        notification({ bool: true, descriptionToast: `${response.data.abreviatura_cargo} ${response.data.nombres} ${response.data.apellidos}` })
+      }
     } catch (error) {
-      console.error(error)
+      notification({ bool: false, descriptionToast: 'Intentelo de nuevo' })
     }
   }
 
@@ -110,10 +130,11 @@ export default function FormReponsable () {
         </div>
 
         <div className='flex justify-center w-full mt-2'>
-          <button type='submit' className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
+          <button type='submit' disabled={isSubmitting} className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
             Crear Actividad
           </button>
         </div>
+        <Toaster position='bottom-right' expand richColors />
         {mostrarPopover && (
           <div
             data-popover

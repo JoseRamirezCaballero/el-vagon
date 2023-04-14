@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import InputField from './InputField'
-import SelectField from './SelectField'
+import { Toaster, toast } from 'sonner'
+import InputField from '@/components/InputField'
+import SelectField from '@/components/SelectField'
 
 export default function Form () {
   const [formulario, setFormulario] = useState({
@@ -44,12 +45,29 @@ export default function Form () {
     fetchResponsables()
   }, [])
 
+  const notification = ({ bool, descriptionToast = '' }) => {
+    bool
+      ? toast.success('Actividad creada', {
+        description: descriptionToast
+      })
+      : toast.error('Error al crear Actividad', {
+        description: descriptionToast
+      })
+  }
+
   const [arrayErrores, setArrayErrores] = useState([])
   const [mostrarPopover, setMostrarPopover] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const onSubmit = async (event) => {
     event.preventDefault()
     setArrayErrores([])
     setMostrarPopover(false)
+
+    setIsSubmitting(true)
+    setTimeout(() => {
+      setIsSubmitting(false)
+    }, 2500)
+
     const camposRequeridos = ['nombre', 'categoria', 'periodo', 'lugar', 'horario', 'creditos']
     const errores = []
 
@@ -88,9 +106,11 @@ export default function Form () {
       )
 
       const response = await axios.post('/api/actividades', formData)
-      console.log(response.data)
+      if (response) {
+        notification({ bool: true, descriptionToast: response.data.nombre })
+      }
     } catch (error) {
-      console.error(error)
+      notification({ bool: false, descriptionToast: 'Intentelo de nuevo' })
     }
   }
 
@@ -214,10 +234,11 @@ export default function Form () {
         </div>
 
         <div className='flex justify-center'>
-          <button type='submit' className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
+          <button type='submit' disabled={isSubmitting} className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
             Crear Actividad
           </button>
         </div>
+        <Toaster position='bottom-right' expand richColors />
         {mostrarPopover && (
           <div
             data-popover
