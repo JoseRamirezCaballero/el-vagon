@@ -12,8 +12,9 @@ export default function Dashboard ({ actividades }) {
     { titulo: 'Periodo' },
     { titulo: 'Creditos' },
     { titulo: 'Cupos' },
-    { titulo: 'Opciones' }
+    { titulo: 'Estatus' }
   ]
+
   return (
     <AdminProtectedRoute>
       <PageLayout isAdmin>
@@ -25,12 +26,10 @@ export default function Dashboard ({ actividades }) {
 
 export async function getServerSideProps () {
   try {
-    const resActividades = await axios.get('/api/actividades')
+    const resActividades = await axios.get('http://localhost:3000/api/actividades')
     const actividades = resActividades.data.sort((a, b) => a.nombre.localeCompare(b.nombre))
-
     return { props: { actividades } }
   } catch (error) {
-    console.error(error)
     return { props: { actividades: [] } }
   }
 }

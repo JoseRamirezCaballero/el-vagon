@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
 export default function TablaActividades ({ columnas, datos }) {
@@ -115,7 +114,7 @@ export default function TablaActividades ({ columnas, datos }) {
           <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
             <tr>
               {columnas.map((columna, index) => (
-                <th key={index} scope='col' className='px-6 py-3'>
+                <th key={index} scope='col' className='px-6 py-3 text-center'>
                   {columna.titulo}
                 </th>
               ))}
@@ -123,33 +122,26 @@ export default function TablaActividades ({ columnas, datos }) {
           </thead>
           <tbody>
             {datosFiltrados.map((data, index) => (
-              <tr key={index} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+              <tr key={index} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:opacity-90 text-center'>
                 <th scope='row' onClick={() => router.push(`/admin/actividad/${data.idActividad}`)} className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
                   {data.nombre}
                 </th>
-                <td className='px-6 py-4'>{`${data['responsable.abreviatura_cargo']} ${data['responsable.nombres']} ${data['responsable.apellidos']}`}</td>
-                <td className='px-6 py-4'>{data.horario}</td>
-                <td className='px-6 py-4'>{data.lugar}</td>
-                <td className='px-6 py-4'>{data.periodo}</td>
-                <td className='px-6 py-4'>{data.creditos}</td>
-                <td className='px-6 py-4'>{data.capacidad_maxima}</td>
-                <td className='px-6 py-4'>
-                  <div className='flex items-center'>
-                    <button className='mr-2'>
-                      <Image src='/edit.svg' alt='Edit' width={42} height={42} />
-                    </button>
-
-                    <button className='mr-2'>
-                      <Image src='/delete.svg' alt='Delete' width={42} height={42} />
-                    </button>
-
-                    <label className='relative inline-flex items-center mr-5 cursor-pointer'>
-                      <input type='checkbox' value='' className='sr-only peer' />
-                      <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600" />
-                    </label>
+                <td className='px-6 py-4 text-center'>{`${data['responsable.abreviatura_cargo']} ${data['responsable.nombres']} ${data['responsable.apellidos']}`}</td>
+                <td className='px-6 py-4 text-center'>{data.horario}</td>
+                <td className='px-6 py-4 text-center'>{data.lugar}</td>
+                <td className='px-6 py-4 text-center'>{data.periodo}</td>
+                <td className='px-6 py-4 text-center'>{data.creditos}</td>
+                <td className='px-6 py-4 text-center'>{data.capacidad_maxima}</td>
+                <td className='px-6 py-4 text-center'>
+                  <label className='relative inline-flex items-center mr-5 cursor-pointer'>
+                    <input type='checkbox' value='' className='sr-only peer' />
+                    <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600" />
+                  </label>
+                  <div className='flex justify-evenly'>
+                    <a href='#' className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Editar</a>
+                    <a href='#' className='font-medium text-red-600 dark:text-red-500 hover:underline'>Borrar</a>
                   </div>
                 </td>
-
               </tr>
             ))}
           </tbody>
