@@ -21,10 +21,17 @@ export default function Form () {
   const [mostrarCarreras, setMostrarCarreras] = useState(false)
   const onChange = (event) => {
     const { name, value } = event.target
-    setFormulario((formulario) => ({
-      ...formulario,
-      [name]: value.toUpperCase()
-    }))
+    if (name === 'horario' || name === 'periodo') {
+      setFormulario((formulario) => ({
+        ...formulario,
+        [name]: value.toUpperCase().trim()
+      }))
+    } else {
+      setFormulario((formulario) => ({
+        ...formulario,
+        [name]: value.toUpperCase()
+      }))
+    }
   }
 
   useEffect(() => {
@@ -210,7 +217,7 @@ export default function Form () {
               id='period-input'
               label='Periodo'
               name='periodo'
-              placeholder='Ej. NOVIEMBRE/2022 - ENERO/2023'
+              placeholder='Ej. NOVIEMBRE/2022-ENERO/2023'
               value={formulario.periodo}
               onChange={onChange}
             />
@@ -218,7 +225,7 @@ export default function Form () {
               id='hour-input'
               label='Horario'
               name='horario'
-              placeholder='Ej. 12:00 - 13:00'
+              placeholder='Ej. 12:00-13:00'
               value={formulario.horario}
               onChange={onChange}
             />
