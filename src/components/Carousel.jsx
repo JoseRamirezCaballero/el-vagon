@@ -40,7 +40,7 @@ export default function Carousel () {
     >
 
       <div className='px-4 mx-auto max-w-screen-xl h-screen text-center py-24 lg:py-56'>
-        <h2 className='mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl'>Actividades Extracolares</h2>
+        <h2 className='mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl'>Actividades Extraescolares</h2>
         <TypeAnimation
           sequence={[
             'En el Instituto Tecnológico de Oaxaca, estamos comprometidos con tu éxito académico y personal.',

@@ -15,7 +15,7 @@ export default function Navigation ({ routes = [] }) {
       <div className='container flex flex-wrap items-center justify-between mx-auto'>
         <Link href='/' className='flex items-center'>
           <Image width={50} height={50} className='w-12 h-12' src='https://upload.wikimedia.org/wikipedia/commons/8/85/Instituto_Tecnologico_de_Oaxaca_-_original.svg' alt='Logo ITO' priority />
-          <span className='ml-1 self-center text-xl font-semibold whitespace-nowrap dark:text-white'>ITO</span>
+          <span className='ml-1 self-center text-xl font-semibold whitespace-nowrap dark:text-white'>ITOaxaca</span>
         </Link>
         <div className='flex md:order-2'>
           <ButtonDarkMode />
