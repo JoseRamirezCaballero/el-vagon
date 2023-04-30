@@ -19,7 +19,7 @@ export default function AdminProtectedRoute ({ children }) {
     )
   }
 
-  if (userData.rol !== 1) {
+  if (userData.idRol !== 2) {
     router.push('/')
     return null
   }

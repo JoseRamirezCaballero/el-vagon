@@ -18,4 +18,5 @@ export async function connectToDatabase () {
       console.error('Error de conexion a la BD: ', error)
     }
   }
+  return initialized
 }
