@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 export default function TablaActividades ({ columnas, datos }) {
   const router = useRouter()
@@ -81,6 +82,19 @@ export default function TablaActividades ({ columnas, datos }) {
 
   const datosFiltrados = filtrarDatos(datos, filtroSeleccionado, busqueda)
 
+  const [estatus, setEstatus] = useState(true)
+
+  const handleChange = async (idActividad, data) => {
+    try {
+      const toggleEstatus = !estatus
+      setEstatus(toggleEstatus)
+      data.estatus = toggleEstatus
+      const response = await axios.put(`/api/actividades/${idActividad}`, data)
+      console.log(response)
+    } catch (error) {
+    }
+  }
+
   return (
     <>
       <div className='flex relative'>
@@ -134,11 +148,11 @@ export default function TablaActividades ({ columnas, datos }) {
                 <td className='px-6 py-4 text-center'>{data.capacidad_maxima}</td>
                 <td className='px-6 py-4 text-center'>
                   <label className='relative inline-flex items-center mr-5 cursor-pointer'>
-                    <input type='checkbox' value='' className='sr-only peer' />
+                    <input type='checkbox' checked={data.estatus} onChange={(e) => handleChange(data.idActividad, data)} className='sr-only peer' />
                     <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600" />
                   </label>
                   <div className='flex justify-evenly'>
-                    <a href='#' className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Editar</a>
+                    <a href='#' onClick={() => router.push(`/admin/actividad/edit/${data.idActividad}`)} className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Editar</a>
                     <a href='#' className='font-medium text-red-600 dark:text-red-500 hover:underline'>Borrar</a>
                   </div>
                 </td>
