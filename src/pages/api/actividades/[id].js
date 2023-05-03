@@ -18,12 +18,22 @@ export default async function idActividad (req, res) {
       break
     case 'PUT':
       try {
-        const actividad = await TablaActividad.findByPk(req.body.idActividad)
+        const actividad = await TablaActividad.findByPk(query.id)
         await actividad.update(req.body)
         res.status(200).json(actividad)
       } catch (error) {
         console.error(error)
         res.status(500).json({ message: 'Error al actualizar la actividad.' })
+      }
+      break
+    case 'DELETE':
+      try {
+        const actividad = await TablaActividad.findByPk(query.id)
+        await actividad.destroy()
+        res.status(200).json({ message: 'Actividad eliminada exitosamente.' })
+      } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'Error al eliminar la actividad.' })
       }
       break
     default:

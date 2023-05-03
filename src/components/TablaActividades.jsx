@@ -5,6 +5,7 @@ import axios from 'axios'
 export default function TablaActividades ({ columnas, datos }) {
   const router = useRouter()
   const [filtroSeleccionado, setFiltroSeleccionado] = useState('TODAS')
+  const [filas, setFilas] = useState(datos)
   const [isOpen, setIsOpen] = useState(false)
   const [busqueda, setBusqueda] = useState('')
 
@@ -80,7 +81,7 @@ export default function TablaActividades ({ columnas, datos }) {
     })
   }
 
-  const datosFiltrados = filtrarDatos(datos, filtroSeleccionado, busqueda)
+  const datosFiltrados = filtrarDatos(filas, filtroSeleccionado, busqueda)
 
   const [estatus, setEstatus] = useState(true)
   const handleEdit = async (idActividad, data) => {
@@ -88,13 +89,27 @@ export default function TablaActividades ({ columnas, datos }) {
       const toggleEstatus = !estatus
       setEstatus(toggleEstatus)
       data.estatus = toggleEstatus
-      const response = await axios.put(`/api/actividades/${idActividad}`, data)
-      console.log(response)
+      await axios.put(`/api/actividades/${idActividad}`)
     } catch (error) {
     }
   }
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [idDelete, setIdDelete] = useState()
+  const showModal = (idActividad) => {
+    setIdDelete(idActividad)
+    setShowDeleteModal(true)
+  }
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/actividades/${idDelete}`)
+      setShowDeleteModal(false)
+      const update = filas.filter(actividad => actividad.idActividad !== idDelete)
+      setFilas(update)
+    } catch (error) {
+    }
+  }
 
   return (
     <>
@@ -154,7 +169,7 @@ export default function TablaActividades ({ columnas, datos }) {
                   </label>
                   <div className='flex justify-evenly'>
                     <a href='#' onClick={() => router.push(`/admin/actividad/edit/${data.idActividad}`)} className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Editar</a>
-                    <a href='#' onClick={() => setShowDeleteModal(true)} className='font-medium text-red-600 dark:text-red-500 hover:underline'>Borrar</a>
+                    <a href='#' onClick={() => showModal(data.idActividad)} className='font-medium text-red-600 dark:text-red-500 hover:underline'>Borrar</a>
                     <div id='popup-modal' tabIndex='-1' className={`fixed top-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center ${showDeleteModal ? '' : 'hidden'}`}>
                       <div className='relative w-full max-w-md max-h-full'>
                         <div className='relative bg-white rounded-lg shadow dark:bg-gray-700'>
@@ -165,10 +180,10 @@ export default function TablaActividades ({ columnas, datos }) {
                           <div className='p-6 text-center'>
                             <svg aria-hidden='true' className='mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' /></svg>
                             <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>Estas seguro que quieres eliminar la Actividad?</h3>
-                            <button data-modal-hide='popup-modal' type='button' className='text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2'>
+                            <button onClick={(e) => handleDelete(data)} data-modal-hide='popup-modal' type='button' className='text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2'>
                               Si, Eliminar
                             </button>
-                            <button data-modal-hide='popup-modal' type='button' className='text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600'>No, Cancelar</button>
+                            <button onClick={() => setShowDeleteModal(false)} data-modal-hide='popup-modal' type='button' className='text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600'>No, Cancelar</button>
                           </div>
                         </div>
                       </div>
