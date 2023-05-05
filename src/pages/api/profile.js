@@ -5,17 +5,27 @@ export default async function profileHandler (req, res) {
     return res.status(401).json({ error: 'No Token' })
   }
   try {
-    const estudiante = verify(token, process.env.JWT_SECRET)
-    return res.json({
-      idEstudiante: estudiante.idEstudiante,
-      numero_control: estudiante.numero_control,
-      nombres: estudiante.nombres,
-      apellidos: estudiante.apellidos,
-      carrera: estudiante.carrera,
-      genero: estudiante.genero,
-      correo_institucional: estudiante.correo_institucional,
-      rol: estudiante.rol
-    })
+    const user = verify(token, process.env.JWT_SECRET)
+
+    if (user.idRol === 1) {
+      return res.json({
+        idEstudiante: user.idEstudiante,
+        numero_control: user.numero_control,
+        nombres: user.nombres,
+        apellidos: user.apellidos,
+        carrera: user.carrera,
+        genero: user.genero,
+        correo_institucional: user.correo_institucional,
+        idRol: user.idRol
+      })
+    }
+
+    if (user.idRol === 2) {
+      return res.json({
+        numero_control: user.numero_control,
+        idRol: user.idRol
+      })
+    }
   } catch (error) {
     return res.status(401).json({ error: 'Invalid Token' })
   }

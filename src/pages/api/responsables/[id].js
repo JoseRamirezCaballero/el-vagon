@@ -6,6 +6,9 @@ export default async function idResponsable (req, res) {
     case 'GET':
       try {
         const records = await TablaResponsable.findByPk(query.id)
+        if (!records) {
+          res.status(404).json({ message: 'Activity not found' })
+        }
         res.status(200).json(records)
       } catch (error) {
         console.error(error)

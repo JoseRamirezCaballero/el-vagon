@@ -7,7 +7,7 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
   isAdmin
     ? routes = [
       { name: 'Inicio', url: '/admin' },
-      { name: 'Actividades', url: '/admin/actividad/dashboard' },
+      { name: 'Actividades', url: '/admin/actividad/' },
       { name: 'Crear Actividad', url: '/admin/actividad/create' },
       { name: 'Crear Responsable', url: '/admin/responsable/create' }
     ]

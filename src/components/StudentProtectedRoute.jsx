@@ -19,7 +19,7 @@ export default function StudentProtectedRoute ({ children }) {
     )
   }
 
-  if (userData.rol !== 0) {
+  if (userData.idRol !== 1) {
     router.push('/')
     return null
   }

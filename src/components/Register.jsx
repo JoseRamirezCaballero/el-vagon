@@ -10,14 +10,14 @@ import ButtonDarkMode from '@/components/ButtonDarkMode'
 export default function Register () {
   const router = useRouter()
   const [formulario, setFormulario] = useState({
+    idRol: 1,
     nombres: '',
     apellidos: '',
     numero_control: '',
     genero: 'MASCULINO',
     correo_institucional: '',
     carrera: 'INGENIERÍA CIVIL',
-    password: '',
-    rol: 0
+    password: ''
   })
 
   const onChange = (event) => {
@@ -86,6 +86,7 @@ export default function Register () {
     }
 
     try {
+      await axios.get('/api/conn')
       const formData = { ...formulario };
       ['nombres', 'apellidos', 'numero_control', 'genero', 'carrera', 'password'].forEach(campo => {
         formData[campo] = formData[campo].trim()

@@ -1,20 +1,23 @@
+import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Toaster, toast } from 'sonner'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
 
-export default function FormActividad () {
+export default function EditActividad ({ actividad }) {
+  const router = useRouter()
   const [formulario, setFormulario] = useState({
-    nombre: '',
-    idResponsable: '',
-    categoria: 'DEPORTIVA',
-    carrera: undefined,
-    periodo: '',
-    lugar: 'SIN ASIGNAR',
-    horario: '',
-    capacidad_maxima: '30',
-    creditos: '2',
+    idActividad: actividad.idActividad,
+    nombre: actividad.nombre,
+    idResponsable: actividad.idResponsable,
+    categoria: actividad.categoria,
+    carrera: actividad.carrera,
+    periodo: actividad.periodo,
+    lugar: actividad.lugar,
+    horario: actividad.horario,
+    capacidad_maxima: actividad.capacidad_maxima,
+    creditos: actividad.creditos,
     estatus: true
   })
 
@@ -36,9 +39,10 @@ export default function FormActividad () {
 
   useEffect(() => {
     if (formulario.categoria === 'CARRERA') {
+      formulario.carrera = ''
       setMostrarCarreras(true)
     } else {
-      formulario.carrera = undefined
+      formulario.carrera = null
       setMostrarCarreras(false)
     }
   }, [formulario])
@@ -54,10 +58,10 @@ export default function FormActividad () {
 
   const notification = ({ bool, descriptionToast = '' }) => {
     bool
-      ? toast.success('Actividad creada', {
+      ? toast.success('Actividad modificada', {
         description: descriptionToast
       })
-      : toast.error('Error al crear Actividad', {
+      : toast.error('Error al modificar Actividad', {
         description: descriptionToast
       })
   }
@@ -79,16 +83,12 @@ export default function FormActividad () {
     const errores = []
 
     camposRequeridos.forEach((campo) => {
-      if (formulario[campo].trim() === '') {
+      if (typeof formulario[campo] === 'string' && formulario[campo].trim() === '') {
         errores.push(`El campo ${campo.toUpperCase()} es requerido`)
       }
     })
 
-    if (formulario.idResponsable.trim() === '') {
-      errores.push('El campo REPONSABLE es requerido')
-    }
-
-    if (formulario.capacidad_maxima.trim() === '') {
+    if (formulario.capacidad_maxima === '') {
       errores.push('El campo CAPACIDAD MAXIMA es requerido')
     }
 
@@ -112,9 +112,10 @@ export default function FormActividad () {
         Object.entries(formulario).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value])
       )
 
-      const response = await axios.post('/api/actividades', formData)
+      const response = await axios.put('/api/actividades', formData)
       if (response) {
         notification({ bool: true, descriptionToast: response.data.nombre })
+        router.push('/admin/actividad')
       }
     } catch (error) {
       notification({ bool: false, descriptionToast: 'Intentelo de nuevo' })
@@ -141,14 +142,12 @@ export default function FormActividad () {
             value={formulario.idResponsable}
             onChange={onChange}
             options={[
-              { label: 'SIN ASIGNAR', value: '', key: 'sin_asignar' },
               ...responsables.map((responsable) => ({
                 label: `${responsable.abreviatura_cargo} ${responsable.nombres} ${responsable.apellidos}`,
                 value: responsable.idResponsable,
                 key: `${responsable.idResponsable}_${responsable.nombres}`
               }))
             ]}
-
           />
         )}
 
@@ -242,7 +241,7 @@ export default function FormActividad () {
 
         <div className='flex justify-center'>
           <button type='submit' disabled={isSubmitting} className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
-            Crear Actividad
+            Editar Actividad
           </button>
         </div>
         <Toaster position='bottom-right' expand richColors />
@@ -266,7 +265,6 @@ export default function FormActividad () {
             <div data-popper-arrow />
           </div>
         )}
-
       </form>
     </div>
   )
