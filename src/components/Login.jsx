@@ -55,8 +55,11 @@ export default function Login () {
     }
 
     try {
-      await axios.post('/api/auth/login', credentials)
-      router.push('/')
+      const auth = await axios.post('/api/auth/login', credentials)
+      if (auth) {
+        const user = await axios.get('/api/profile')
+        user.data.idRol === 2 ? router.push('/admin') : router.push('/estudiante')
+      }
       return
     } catch (error) {
       setArrayErrores([
