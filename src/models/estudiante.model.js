@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { DataTypes } from 'sequelize'
 import { sequelize } from '../utils/database'
+import { TablaRol } from './rol.model'
 
 export const TablaEstudiante = sequelize.define('Estudiante', {
   idEstudiante: {
@@ -8,6 +9,10 @@ export const TablaEstudiante = sequelize.define('Estudiante', {
     primaryKey: true,
     allowNull: false,
     autoIncrement: true
+  },
+  idRol: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
   nombres: {
     type: DataTypes.STRING(30),
@@ -37,10 +42,6 @@ export const TablaEstudiante = sequelize.define('Estudiante', {
   password: {
     type: DataTypes.STRING(50),
     allowNull: false
-  },
-  rol: {
-    type: DataTypes.INTEGER,
-    allowNull: false
   }
 }, {
   timestamps: true,
@@ -50,7 +51,15 @@ export const TablaEstudiante = sequelize.define('Estudiante', {
 TablaEstudiante.validateCredentials = async function (numero_control, password) {
   const estudiante = await TablaEstudiante.findOne({ where: { numero_control, password } })
   if (!estudiante) {
-    throw new Error('Credenciales inválidas')
+    return null
   }
   return estudiante
 }
+
+TablaRol.hasMany(TablaEstudiante, {
+  foreignKey: 'idRol'
+})
+
+TablaEstudiante.belongsTo(TablaRol, {
+  foreignKey: 'idRol'
+})
