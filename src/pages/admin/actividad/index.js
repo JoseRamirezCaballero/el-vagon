@@ -27,7 +27,7 @@ export default function Dashboard ({ actividades }) {
 export async function getServerSideProps () {
   try {
     const resActividades = await axios.get('http://localhost:3000/api/actividades')
-    const actividades = resActividades.data.sort((a, b) => a.nombre.localeCompare(b.nombre))
+    const actividades = resActividades.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     return { props: { actividades } }
   } catch (error) {
     return { props: { actividades: [] } }
