@@ -1,5 +1,5 @@
 import axios from 'axios'
-import AdminProtectedRoute from '@/components/ProtectedRoute'
+import ResponsableProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 
 export default function Home () {
@@ -8,11 +8,11 @@ export default function Home () {
   }
 
   return (
-    <AdminProtectedRoute rol={2}>
-      <PageLayout rol={2}>
-        <h1>Rol: Admin</h1>
+    <ResponsableProtectedRoute rol={3}>
+      <PageLayout rol={3}>
+        <h1>Rol: Responsable</h1>
         <button onClick={() => logout()}>logout</button>
       </PageLayout>
-    </AdminProtectedRoute>
+    </ResponsableProtectedRoute>
   )
 }

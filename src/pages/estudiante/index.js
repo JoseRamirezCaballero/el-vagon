@@ -1,5 +1,5 @@
 import axios from 'axios'
-import StudentProtectedRoute from '@/components/StudentProtectedRoute'
+import StudentProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 
 export default function Home () {
@@ -8,8 +8,8 @@ export default function Home () {
   }
 
   return (
-    <StudentProtectedRoute>
-      <PageLayout>
+    <StudentProtectedRoute rol={1}>
+      <PageLayout rol={1}>
         <h1>Rol: Estudiante</h1>
         <h1>Rol: Estudiante</h1>
         <button onClick={() => logout()}>logout</button>

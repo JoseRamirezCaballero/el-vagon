@@ -10,30 +10,39 @@ export default async function connection (req, res) {
   await connectToDatabase()
   if (req.method === 'GET') {
     try {
-      await TablaActividad.findByPk(1)
-      await TablaResponsable.findByPk(1)
-      await TablaInscripcion.findByPk(1)
-      await TablaEstudiante.findByPk(1)
-      await TablaAdministrador.findOrCreate({
-        where: { idAdministrador: 1 },
-        defaults: {
-          idRol: 2,
-          numero_control: 'ADMIN',
-          password: 'admin'
-        }
-      })
-      await TablaRol.findOrCreate({
-        where: { idRol: 1 },
-        defaults: {
-          rol: 'estudiante'
-        }
-      })
-      await TablaRol.findOrCreate({
-        where: { idRol: 2 },
-        defaults: {
-          rol: 'admin'
-        }
-      })
+      const crearTablas = await TablaRol.findByPk(1)
+      if (!crearTablas) {
+        await TablaActividad.findByPk(1)
+        await TablaResponsable.findByPk(1)
+        await TablaInscripcion.findByPk(1)
+        await TablaEstudiante.findByPk(1)
+        await TablaRol.findOrCreate({
+          where: { idRol: 1 },
+          defaults: {
+            rol: 'estudiante'
+          }
+        })
+        await TablaRol.findOrCreate({
+          where: { idRol: 2 },
+          defaults: {
+            rol: 'admin'
+          }
+        })
+        await TablaRol.findOrCreate({
+          where: { idRol: 3 },
+          defaults: {
+            rol: 'responsable'
+          }
+        })
+        await TablaAdministrador.findOrCreate({
+          where: { idAdministrador: 1 },
+          defaults: {
+            idRol: 2,
+            numero_control: 'ADMIN',
+            password: 'admin'
+          }
+        })
+      }
       res.status(200).json({ message: 'Sucess' })
     } catch (error) {
       console.error(error)

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Loader from '@/components/Loader'
 
-export default function AdminProtectedRoute ({ children }) {
+export default function ProtectedRoute ({ children, rol }) {
   const [userData, setUserData] = useState(null)
   const router = useRouter()
 
@@ -19,10 +19,10 @@ export default function AdminProtectedRoute ({ children }) {
     )
   }
 
-  if (userData.idRol !== 2) {
-    router.push('/')
-    return null
+  if (userData.idRol === rol) {
+    return <>{children}</>
   }
 
-  return <>{children}</>
+  router.push('/')
+  return null
 }

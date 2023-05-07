@@ -1,4 +1,4 @@
-import AdminProtectedRoute from '@/components/AdminProtectedRoute'
+import AdminProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 import TablaActividades from '@/components/TablaActividades'
 import axios from 'axios'
@@ -16,8 +16,8 @@ export default function Dashboard ({ actividades }) {
   ]
 
   return (
-    <AdminProtectedRoute>
-      <PageLayout isAdmin>
+    <AdminProtectedRoute rol={2}>
+      <PageLayout rol={2}>
         <TablaActividades datos={actividades} columnas={columnas} />
       </PageLayout>
     </AdminProtectedRoute>
@@ -27,7 +27,7 @@ export default function Dashboard ({ actividades }) {
 export async function getServerSideProps () {
   try {
     const resActividades = await axios.get('http://localhost:3000/api/actividades')
-    const actividades = resActividades.data.sort((a, b) => a.nombre.localeCompare(b.nombre))
+    const actividades = resActividades.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     return { props: { actividades } }
   } catch (error) {
     return { props: { actividades: [] } }

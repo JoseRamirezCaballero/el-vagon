@@ -1,9 +1,6 @@
-import { connectToDatabase } from '@/utils/database'
 import { TablaEstudiante } from '@/models/estudiante.model'
 
 export default async function estudiantes (req, res) {
-  await connectToDatabase()
-
   switch (req.method) {
     case 'GET':
       try {

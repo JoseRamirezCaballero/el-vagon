@@ -1,9 +1,6 @@
-import { connectToDatabase } from '@/utils/database'
 import { TablaAdministrador } from '@/models/administrador.model'
 
 export default async function administradores (req, res) {
-  await connectToDatabase()
-
   switch (req.method) {
     case 'GET':
       try {

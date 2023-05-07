@@ -2,19 +2,24 @@ import Head from 'next/head'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
-export default function PageLayout ({ children, title = 'Actividades Complementarias', descriptionContent = 'Sistema de Actividades Complementarias', isAdmin = false }) {
+export default function PageLayout ({ children, title = 'Actividades Complementarias', descriptionContent = 'Sistema de Actividades Complementarias', rol }) {
   let routes = []
-  isAdmin
-    ? routes = [
+  if (rol === 1) {
+    routes = [
+      { name: 'Inicio', url: '/estudiante' }
+    ]
+  } else if (rol === 2) {
+    routes = [
       { name: 'Inicio', url: '/admin' },
       { name: 'Actividades', url: '/admin/actividad/' },
       { name: 'Crear Actividad', url: '/admin/actividad/create' },
       { name: 'Crear Responsable', url: '/admin/responsable/create' }
     ]
-    : routes = [
-      { name: 'Inicio', url: '/estudiante' },
-      { name: 'Grupos', url: '/estudiante/grupos' }
+  } else if (rol === 3) {
+    routes = [
+      { name: 'Inicio', url: '/responsable' }
     ]
+  }
 
   return (
     <>

@@ -6,7 +6,6 @@ export default async function profileHandler (req, res) {
   }
   try {
     const user = verify(token, process.env.JWT_SECRET)
-
     if (user.idRol === 1) {
       return res.json({
         idEstudiante: user.idEstudiante,
@@ -22,6 +21,17 @@ export default async function profileHandler (req, res) {
 
     if (user.idRol === 2) {
       return res.json({
+        idAdministrador: user.idAdministrador,
+        numero_control: user.numero_control,
+        idRol: user.idRol
+      })
+    }
+
+    if (user.idRol === 3) {
+      return res.json({
+        idResponsable: user.idResponsable,
+        nombres: user.nombres,
+        apellidos: user.apellidos,
         numero_control: user.numero_control,
         idRol: user.idRol
       })
