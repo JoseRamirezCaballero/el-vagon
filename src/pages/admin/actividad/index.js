@@ -1,4 +1,4 @@
-import AdminProtectedRoute from '@/components/AdminProtectedRoute'
+import AdminProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 import TablaActividades from '@/components/TablaActividades'
 import axios from 'axios'
@@ -16,8 +16,8 @@ export default function Dashboard ({ actividades }) {
   ]
 
   return (
-    <AdminProtectedRoute>
-      <PageLayout isAdmin>
+    <AdminProtectedRoute rol={2}>
+      <PageLayout rol={2}>
         <TablaActividades datos={actividades} columnas={columnas} />
       </PageLayout>
     </AdminProtectedRoute>

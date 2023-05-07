@@ -1,5 +1,5 @@
 import axios from 'axios'
-import AdminProtectedRoute from '@/components/AdminProtectedRoute'
+import AdminProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 import EditActividad from '@/components/EditActividad'
 
@@ -8,8 +8,8 @@ export default function Edit ({ actividad }) {
     return <p>La actividad no existe</p>
   }
   return (
-    <AdminProtectedRoute>
-      <PageLayout isAdmin>
+    <AdminProtectedRoute rol={2}>
+      <PageLayout rol={2}>
         <EditActividad actividad={actividad} />
       </PageLayout>
     </AdminProtectedRoute>

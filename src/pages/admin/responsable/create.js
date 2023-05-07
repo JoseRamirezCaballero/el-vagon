@@ -1,11 +1,11 @@
-import AdminProtectedRoute from '@/components/AdminProtectedRoute'
+import AdminProtectedRoute from '@/components/ProtectedRoute'
 import FormResponsable from '@/components/FormResponsable'
 import PageLayout from '@/components/PageLayout'
 
 export default function Create () {
   return (
-    <AdminProtectedRoute>
-      <PageLayout isAdmin>
+    <AdminProtectedRoute rol={2}>
+      <PageLayout rol={2}>
         <FormResponsable />
       </PageLayout>
     </AdminProtectedRoute>

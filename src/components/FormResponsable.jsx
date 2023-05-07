@@ -6,10 +6,13 @@ import SelectField from '@/components/SelectField'
 
 export default function FormReponsable () {
   const [formulario, setFormulario] = useState({
+    idRol: 3,
     abreviatura_cargo: '',
     nombres: '',
     apellidos: '',
-    genero: 'MASCULINO'
+    genero: 'MASCULINO',
+    numero_control: '',
+    password: ''
   })
 
   const onChange = (event) => {
@@ -73,14 +76,19 @@ export default function FormReponsable () {
       const formData = Object.fromEntries(
         Object.entries(formulario)
           .filter(([key, value]) => value !== '')
-          .map(([key, value]) => [key, value.trim()])
+          .map(([key, value]) => {
+            if (typeof value === 'string') {
+              return [key, value.trim()]
+            }
+            return [key, value]
+          })
       )
-
       const response = await axios.post('/api/responsables', formData)
       if (response) {
         notification({ bool: true, descriptionToast: `${response.data.abreviatura_cargo} ${response.data.nombres} ${response.data.apellidos}` })
       }
     } catch (error) {
+      console.log(error)
       notification({ bool: false, descriptionToast: 'Intentelo de nuevo' })
     }
   }
@@ -116,6 +124,12 @@ export default function FormReponsable () {
           />
         </div>
         <div className='flex-grow ml-2'>
+          <InputField id='numero_control-input' label='Numero de control' name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+        </div>
+        <div className='flex-grow ml-2'>
+          <InputField id='password-input' type='password' label='Contraseña' name='password' placeholde='••••••••' value={formulario.password} onChange={onChange} />
+        </div>
+        <div className='flex-grow ml-2'>
           <SelectField
             id='gender-input'
             label='Género'
@@ -131,7 +145,7 @@ export default function FormReponsable () {
 
         <div className='flex justify-center w-full mt-2'>
           <button type='submit' disabled={isSubmitting} className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
-            Crear Actividad
+            Crear Responsable
           </button>
         </div>
         <Toaster position='bottom-right' expand richColors />

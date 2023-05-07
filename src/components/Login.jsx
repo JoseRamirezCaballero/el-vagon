@@ -58,7 +58,13 @@ export default function Login () {
       const auth = await axios.post('/api/auth/login', credentials)
       if (auth) {
         const user = await axios.get('/api/profile')
-        user.data.idRol === 2 ? router.push('/admin') : router.push('/estudiante')
+        if (user.data.idRol === 1) {
+          router.push('/estudiante')
+        } else if (user.data.idRol === 2) {
+          router.push('/admin')
+        } else if (user.data.idRol === 3) {
+          router.push('/responsable')
+        }
       }
       return
     } catch (error) {
