@@ -5,6 +5,8 @@ import axios from 'axios'
 import ButtonDarkMode from '@/components/ButtonDarkMode'
 import InfoPopOver from '@/components/InfoPopOver'
 import InputField from '@/components/InputField'
+import Image from 'next/image'
+
 
 export default function Login () {
   const router = useRouter()
@@ -73,16 +75,19 @@ export default function Login () {
     }
   }
   return (
-    <section className='bg-gray-200 dark:bg-gray-700'>
+    <section className='bg-gray-300 dark:bg-gray-700'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
-          <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
-            <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white'>
+          <div className='p-6 space-y-5 space-x-0 md:space-y-6 sm:p-9'>                     
+          <div className='flex flex-col items-center'>
+          <Image width={600} height={60} className='w-20 h-20 justify-center' src='https://upload.wikimedia.org/wikipedia/commons/8/85/Instituto_Tecnologico_de_Oaxaca_-_original.svg' alt='Logo ITO' priority />
+          </div>
+            <h1 className='text-xl font-bold leading-tight tracking-tight text-blue-900 md:text-2xl dark:text-white'>
               Iniciar sesión en su cuenta
             </h1>
             <form onSubmit={onSubmit} className='space-y-4 md:space-y-6'>
               <div>
-                <InputField id='numero_control-input' label='Numero de control' name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+                <InputField id='numero_control-input' label='Número de control' name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
               </div>
               <div>
                 <label htmlFor='password' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>Contraseña <InfoPopOver title='¿Olvidaste tu contraseña?' description='Comunicate con el Departamento de Formacion Integral' /></label>
@@ -98,7 +103,7 @@ export default function Login () {
                     Procesando...
                   </button>)
                 : (
-                  <button type='submit' className='w-full block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
+                  <button type='submit' className='w-full block text-white bg-blue-800 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
                     Iniciar sesión
                   </button>
                   )}
@@ -130,7 +135,10 @@ export default function Login () {
               <ButtonDarkMode width={24} height={24} />
             </div>
           </div>
+          
+         
         </div>
+        
       </div>
     </section>
   )

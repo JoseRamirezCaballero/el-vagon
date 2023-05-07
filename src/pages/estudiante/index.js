@@ -11,6 +11,7 @@ export default function Home () {
     <StudentProtectedRoute>
       <PageLayout>
         <h1>Rol: Estudiante</h1>
+        <h1>Rol: Estudiante</h1>
         <button onClick={() => logout()}>logout</button>
       </PageLayout>
     </StudentProtectedRoute>

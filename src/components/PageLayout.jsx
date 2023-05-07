@@ -12,7 +12,8 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
       { name: 'Crear Responsable', url: '/admin/responsable/create' }
     ]
     : routes = [
-      { name: 'Inicio', url: '/estudiante' }
+      { name: 'Inicio', url: '/estudiante' },
+      { name: 'Grupos', url: '/estudiante/grupos' }
     ]
 
   return (
