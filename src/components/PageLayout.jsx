@@ -6,7 +6,8 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
   let routes = []
   if (rol === 1) {
     routes = [
-      { name: 'Inicio', url: '/estudiante' }
+      { name: 'Inicio', url: '/estudiante' },
+      { name: 'Grupos', url: '/estudiante/grupos' }
     ]
   } else if (rol === 2) {
     routes = [

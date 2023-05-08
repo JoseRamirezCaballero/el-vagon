@@ -122,7 +122,7 @@ export default function FormActividad () {
   }
 
   return (
-    <div className='px-10 py-5 mx-auto ml-5 mr-5 rounded-3xl shadow-sm dark:bg-gray-800'>
+    <div className='px-10 py-5 mx-auto text-orange-800 ml-5 mr-5 rounded-3xl shadow-sm dark:bg-gray-800'>
       <form onSubmit={onSubmit}>
         <InputField
           id='name-input'
@@ -152,9 +152,9 @@ export default function FormActividad () {
           />
         )}
 
-        <div className='flex flex-wrap -mx-2 mb-6'>
-          <div className='w-full lg:w-1/2 px-2'>
-            <div className='flex justify-between'>
+        <div className='flex flex-wrap -mx-2 mb-6 text-orange-800'>
+          <div className='w-full lg:w-1/2 px-2 text-orange-800'>
+            <div className='flex justify-between text-orange-800'>
               <div className={mostrarCarreras ? 'w-1/3 pr-2' : 'w-full pr-2'}>
                 <SelectField
                   id='category-input'
@@ -212,7 +212,7 @@ export default function FormActividad () {
               onChange={onChange}
             />
           </div>
-          <div className='w-full lg:w-1/2 px-2'>
+          <div className='w-full lg:w-1/2 px-2 text-orange-800'>
             <InputField
               id='period-input'
               label='Periodo'
@@ -241,7 +241,7 @@ export default function FormActividad () {
         </div>
 
         <div className='flex justify-center'>
-          <button type='submit' disabled={isSubmitting} className='w-full sm:w-1/3 block text-white bg-blue-700 hover:bg-blue-600 rounded-md py-2 text-sm font-medium mt-2 text-center'>
+          <button type='submit' disabled={isSubmitting} className='w-full sm:w-1/3 block text-white bg-gradient-to-br from-red-500 to-orange-400 rounded-md py-2 text-sm font-medium mt-2 text-center'>
             Crear Actividad
           </button>
         </div>
