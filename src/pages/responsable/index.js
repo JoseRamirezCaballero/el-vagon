@@ -1,6 +1,7 @@
 import axios from 'axios'
 import ResponsableProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
+import { ROLES } from '@/utils/constants'
 
 export default function Home () {
   const logout = async () => {
@@ -8,8 +9,8 @@ export default function Home () {
   }
 
   return (
-    <ResponsableProtectedRoute rol={3}>
-      <PageLayout rol={3}>
+    <ResponsableProtectedRoute rol={ROLES.RESPONSABLE}>
+      <PageLayout rol={ROLES.RESPONSABLE}>
         <h1>Rol: Responsable</h1>
         <button onClick={() => logout()}>logout</button>
       </PageLayout>

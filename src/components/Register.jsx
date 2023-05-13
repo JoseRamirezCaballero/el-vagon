@@ -6,11 +6,12 @@ import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
 import StudentCard from '@/components/StudentCard'
 import ButtonDarkMode from '@/components/ButtonDarkMode'
+import { ROLES } from '@/utils/constants'
 
 export default function Register () {
   const router = useRouter()
   const [formulario, setFormulario] = useState({
-    idRol: 1,
+    idRol: ROLES.ESTUDIANTE,
     nombres: '',
     apellidos: '',
     numero_control: '',
