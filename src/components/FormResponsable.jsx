@@ -3,10 +3,11 @@ import axios from 'axios'
 import { Toaster, toast } from 'sonner'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
+import { ROLES } from '@/utils/constants'
 
 export default function FormReponsable () {
   const [formulario, setFormulario] = useState({
-    idRol: 3,
+    idRol: ROLES.RESPONSABLE,
     abreviatura_cargo: '',
     nombres: '',
     apellidos: '',
@@ -96,51 +97,55 @@ export default function FormReponsable () {
   return (
     <div className='px-10 py-5 mx-auto ml-5 mr-5 rounded-3xl shadow-sm dark:bg-gray-800'>
       <form onSubmit={onSubmit} className='flex flex-wrap justify-between'>
-        <div className='w-24'>
-          <InputField
-            id='abbreviation-input'
-            label='Abreviatura'
-            name='abreviatura_cargo'
-            value={formulario.abreviatura_cargo}
-            onChange={onChange}
-          />
+        <div className='flex flex-wrap w-full'>
+          <div className='w-24'>
+            <InputField
+              id='abbreviation-input'
+              label='Abreviatura'
+              name='abreviatura_cargo'
+              value={formulario.abreviatura_cargo}
+              onChange={onChange}
+            />
+          </div>
+          <div className='flex-grow ml-2'>
+            <InputField
+              id='name-input'
+              label='Nombre(s)'
+              name='nombres'
+              value={formulario.nombres}
+              onChange={onChange}
+            />
+          </div>
+          <div className='flex-grow ml-2'>
+            <InputField
+              id='lastname-input'
+              label='Apellidos'
+              name='apellidos'
+              value={formulario.apellidos}
+              onChange={onChange}
+            />
+          </div>
         </div>
-        <div className='flex-grow ml-2'>
-          <InputField
-            id='name-input'
-            label='Nombre(s)'
-            name='nombres'
-            value={formulario.nombres}
-            onChange={onChange}
-          />
-        </div>
-        <div className='flex-grow ml-2'>
-          <InputField
-            id='lastname-input'
-            label='Apellidos'
-            name='apellidos'
-            value={formulario.apellidos}
-            onChange={onChange}
-          />
-        </div>
-        <div className='flex-grow ml-2'>
-          <InputField id='numero_control-input' label='Numero de control' name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
-        </div>
-        <div className='flex-grow ml-2'>
-          <InputField id='password-input' type='password' label='Contraseña' name='password' placeholde='••••••••' value={formulario.password} onChange={onChange} />
-        </div>
-        <div className='flex-grow ml-2'>
-          <SelectField
-            id='gender-input'
-            label='Género'
-            name='genero'
-            value={formulario.genero}
-            onChange={onChange}
-            options={[
-              { label: 'MASCULINO', value: 'MASCULINO', key: 'male' },
-              { label: 'FEMENINO', value: 'FEMENINO', key: 'female' }
-            ]}
-          />
+        <div className='flex flex-wrap w-full'>
+          <div className='flex-grow ml-2'>
+            <InputField id='numero_control-input' label='Numero de control' name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+          </div>
+          <div className='flex-grow ml-2'>
+            <SelectField
+              id='gender-input'
+              label='Género'
+              name='genero'
+              value={formulario.genero}
+              onChange={onChange}
+              options={[
+                { label: 'MASCULINO', value: 'MASCULINO', key: 'male' },
+                { label: 'FEMENINO', value: 'FEMENINO', key: 'female' }
+              ]}
+            />
+          </div>
+          <div className='flex-grow ml-2'>
+            <InputField id='password-input' type='password' label='Contraseña' name='password' placeholde='••••••••' value={formulario.password} onChange={onChange} />
+          </div>
         </div>
 
         <div className='flex justify-center w-full mt-2'>

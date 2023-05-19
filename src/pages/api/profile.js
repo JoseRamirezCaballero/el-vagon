@@ -1,4 +1,5 @@
 import { verify } from 'jsonwebtoken'
+import { ROLES } from '@/utils/constants'
 export default async function profileHandler (req, res) {
   const { token } = req.cookies
   if (!token) {
@@ -6,7 +7,7 @@ export default async function profileHandler (req, res) {
   }
   try {
     const user = verify(token, process.env.JWT_SECRET)
-    if (user.idRol === 1) {
+    if (user.idRol === ROLES.ESTUDIANTE) {
       return res.json({
         idEstudiante: user.idEstudiante,
         numero_control: user.numero_control,
@@ -19,7 +20,7 @@ export default async function profileHandler (req, res) {
       })
     }
 
-    if (user.idRol === 2) {
+    if (user.idRol === ROLES.ADMINISTRADOR) {
       return res.json({
         idAdministrador: user.idAdministrador,
         numero_control: user.numero_control,
@@ -27,7 +28,7 @@ export default async function profileHandler (req, res) {
       })
     }
 
-    if (user.idRol === 3) {
+    if (user.idRol === ROLES.RESPONSABLE) {
       return res.json({
         idResponsable: user.idResponsable,
         nombres: user.nombres,

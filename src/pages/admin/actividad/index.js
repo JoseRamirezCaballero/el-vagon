@@ -2,6 +2,7 @@ import AdminProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 import TablaActividades from '@/components/TablaActividades'
 import axios from 'axios'
+import { ROLES } from '@/utils/constants'
 
 export default function Dashboard ({ actividades }) {
   const columnas = [
@@ -16,8 +17,8 @@ export default function Dashboard ({ actividades }) {
   ]
 
   return (
-    <AdminProtectedRoute rol={2}>
-      <PageLayout rol={2}>
+    <AdminProtectedRoute rol={ROLES.ADMINISTRADOR}>
+      <PageLayout rol={ROLES.ADMINISTRADOR}>
         <TablaActividades datos={actividades} columnas={columnas} />
       </PageLayout>
     </AdminProtectedRoute>

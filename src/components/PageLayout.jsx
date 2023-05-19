@@ -1,25 +1,16 @@
 import Head from 'next/head'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import { ROLES, ADMIN_ROUTES, STUDENT_ROUTES, RESPONSABLE_ROUTES } from '@/utils/constants'
 
 export default function PageLayout ({ children, title = 'Actividades Complementarias', descriptionContent = 'Sistema de Actividades Complementarias', rol }) {
   let routes = []
-  if (rol === 1) {
-    routes = [
-      { name: 'Inicio', url: '/estudiante' },
-      { name: 'Grupos', url: '/estudiante/grupos' }
-    ]
-  } else if (rol === 2) {
-    routes = [
-      { name: 'Inicio', url: '/admin' },
-      { name: 'Actividades', url: '/admin/actividad/' },
-      { name: 'Crear Actividad', url: '/admin/actividad/create' },
-      { name: 'Crear Responsable', url: '/admin/responsable/create' }
-    ]
-  } else if (rol === 3) {
-    routes = [
-      { name: 'Inicio', url: '/responsable' }
-    ]
+  if (rol === ROLES.ESTUDIANTE) {
+    routes = STUDENT_ROUTES
+  } else if (rol === ROLES.ADMINISTRADOR) {
+    routes = ADMIN_ROUTES
+  } else if (rol === ROLES.RESPONSABLE) {
+    routes = RESPONSABLE_ROUTES
   }
 
   return (

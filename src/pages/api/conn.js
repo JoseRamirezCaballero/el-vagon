@@ -1,4 +1,5 @@
 import { connectToDatabase } from '@/utils/database'
+import { ROLES } from '@/utils/constants'
 import { TablaActividad } from '@/models/actividad.model'
 import { TablaResponsable } from '@/models/responsable.model'
 import { TablaAdministrador } from '@/models/administrador.model'
@@ -17,19 +18,19 @@ export default async function connection (req, res) {
         await TablaInscripcion.findByPk(1)
         await TablaEstudiante.findByPk(1)
         await TablaRol.findOrCreate({
-          where: { idRol: 1 },
+          where: { idRol: ROLES.ESTUDIANTE },
           defaults: {
             rol: 'estudiante'
           }
         })
         await TablaRol.findOrCreate({
-          where: { idRol: 2 },
+          where: { idRol: ROLES.ADMINISTRADOR },
           defaults: {
             rol: 'admin'
           }
         })
         await TablaRol.findOrCreate({
-          where: { idRol: 3 },
+          where: { idRol: ROLES.RESPONSABLE },
           defaults: {
             rol: 'responsable'
           }
