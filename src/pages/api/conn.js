@@ -38,7 +38,7 @@ export default async function connection (req, res) {
         await TablaAdministrador.findOrCreate({
           where: { idAdministrador: 1 },
           defaults: {
-            idRol: 2,
+            idRol: ROLES.ADMINISTRADOR,
             numero_control: 'ADMIN',
             password: 'admin'
           }
