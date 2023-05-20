@@ -10,7 +10,7 @@ export default function Footer () {
               Instituto Tecnológico de Oaxaca
             </a>
             . Todos los derechos reservados.
-          </span>
+          </span>        
           <div className='flex mt-4 space-x-6 sm:justify-center sm:mt-0'>
             <a
               href='https://www.facebook.com/ActExtTecNMOaxaca'
