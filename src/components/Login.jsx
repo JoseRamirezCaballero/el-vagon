@@ -84,11 +84,11 @@ export default function Login () {
     <section className='bg-gray-300 dark:bg-gray-700'>
       <div className='flex flex-wrap items-center justify-evenly px-6 py-8 mx-auto md:h-screen lg:py-0 '>
 
-        <div class='flex-1 max-w-xl mx-auto'>
+        <div className='flex-1 max-w-xl mx-auto'>
 
-          <div class="bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700'">
-            <ul class='flex flex-row-reverse '>
-              <li class='p-6 flex-1 space-y-2'>
+          <div className="bg-white rounded-lg shadow dark:border dark:bg-gray-800 dark:border-gray-700'">
+            <ul className='flex flex-row-reverse '>
+              <li className='p-6 flex-1 space-y-2'>
                 <br />
                 <br />
                 <br />
@@ -127,7 +127,7 @@ export default function Login () {
                       </button>)
                     : (
 
-                      <button type='submit' class='w-full text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2 text-center mr-2 mb-2'>
+                      <button type='submit' className='w-full text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2 text-center mr-2 mb-2'>
                         Iniciar sesión
                       </button>
                       )}
