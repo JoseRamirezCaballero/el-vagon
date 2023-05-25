@@ -83,20 +83,9 @@ export default function TablaActividades ({ columnas, datos }) {
 
   const datosFiltrados = filtrarDatos(filas, filtroSeleccionado, busqueda)
 
-  const [estatus, setEstatus] = useState(true)
-  const handleEdit = async (idActividad, data) => {
-    try {
-      const toggleEstatus = !estatus
-      setEstatus(toggleEstatus)
-      data.estatus = toggleEstatus
-      await axios.put(`/api/actividades/${idActividad}`)
-    } catch (error) {
-    }
-  }
-
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [idDelete, setIdDelete] = useState()
-  const showModal = (idActividad) => {
+  const showModalDelete = (idActividad) => {
     setIdDelete(idActividad)
     setShowDeleteModal(true)
   }
@@ -108,6 +97,29 @@ export default function TablaActividades ({ columnas, datos }) {
       const update = filas.filter(actividad => actividad.idActividad !== idDelete)
       setFilas(update)
     } catch (error) {
+    }
+  }
+
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [estatus, setEstatus] = useState(true)
+  const [idEdit, setIdEdit] = useState()
+  const [dataToEdit, setDataToEdit] = useState({})
+
+  const showModalEdit = (idActividad, data) => {
+    setIdEdit(idActividad)
+    setDataToEdit(data)
+    setShowEditModal(true)
+  }
+
+  const handleEdit = async () => {
+    try {
+      const toggleEstatus = !estatus
+      setEstatus(toggleEstatus)
+      dataToEdit.estatus = toggleEstatus
+      await axios.put(`/api/actividades/${idEdit}`, dataToEdit)
+      setShowEditModal(false)
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -164,12 +176,39 @@ export default function TablaActividades ({ columnas, datos }) {
                 <td className='px-6 py-4 text-center'>{data.capacidad_maxima}</td>
                 <td className='px-6 py-4 text-center'>
                   <label className='relative inline-flex items-center mr-5 cursor-pointer'>
-                    <input type='checkbox' checked={data.estatus} onChange={(e) => handleEdit(data.idActividad, data)} className='sr-only peer' />
+                    <input type='checkbox' checked={data.estatus} onChange={(e) => showModalEdit(data.idActividad, data)} className='sr-only peer' />
                     <div className="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600" />
                   </label>
+                  <div id='popup-modal' tabIndex='-1' className={`fixed top-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center ${showEditModal ? '' : 'hidden'}`}>
+                    <div className='relative w-full max-w-md max-h-full'>
+                      <div className='relative bg-white rounded-lg shadow dark:bg-gray-700'>
+                        <button type='button' onClick={() => setShowEditModal(false)} className='absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white'>
+                          <svg aria-hidden='true' className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+                            <path fillRule='evenodd' d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z' clipRule='evenodd' />
+                          </svg>
+                          <span className='sr-only'>Close modal</span>
+                        </button>
+                        <div className='p-6 text-center'>
+                          <svg aria-hidden='true' className='mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200' fill='none' viewBox='0 0 24 24' stroke='currentColor' xmlns='http://www.w3.org/2000/svg'>
+                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M12 9c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5zm0 2a3 3 0 100 6 3 3 0 000-6z' />
+                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7zm10 3a2 2 0 100-4 2 2 0 000 4z' />
+                          </svg>
+
+                          <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>Estás seguro que quieres cambiar el estado de la Actividad?</h3>
+                          <button onClick={(e) => handleEdit()} type='button' className='text-white bg-teal-600 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2'>
+                            Si, Cambiar
+                          </button>
+                          <button onClick={() => setShowEditModal(false)} type='button' className='text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600'>
+                            No, Cancelar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className='flex justify-evenly'>
                     <a href='#' onClick={() => router.push(`/admin/actividad/edit/${data.idActividad}`)} className='font-medium text-blue-600 dark:text-blue-500 hover:underline'>Editar</a>
-                    <a href='#' onClick={() => showModal(data.idActividad)} className='font-medium text-red-600 dark:text-red-500 hover:underline'>Borrar</a>
+                    <a href='#' onClick={() => showModalDelete(data.idActividad)} className='font-medium text-red-600 dark:text-red-500 hover:underline'>Borrar</a>
                     <div id='popup-modal' tabIndex='-1' className={`fixed top-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full flex items-center justify-center ${showDeleteModal ? '' : 'hidden'}`}>
                       <div className='relative w-full max-w-md max-h-full'>
                         <div className='relative bg-white rounded-lg shadow dark:bg-gray-700'>
@@ -178,7 +217,14 @@ export default function TablaActividades ({ columnas, datos }) {
                             <span className='sr-only'>Close modal</span>
                           </button>
                           <div className='p-6 text-center'>
-                            <svg aria-hidden='true' className='mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' /></svg>
+                            <svg xmlns='http://www.w3.org/2000/svg' className='icon icon-tabler icon-tabler-trash mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200' width='24' height='24' viewBox='0 0 24 24' strokeWidth='2' stroke='currentColor' fill='none' strokeLinecap='round' strokeLinejoin='round'>
+                              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+                              <path d='M4 7l16 0' />
+                              <path d='M10 11l0 6' />
+                              <path d='M14 11l0 6' />
+                              <path d='M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12' />
+                              <path d='M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3' />
+                            </svg>
                             <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>Estas seguro que quieres eliminar la Actividad?</h3>
                             <button onClick={(e) => handleDelete(data)} data-modal-hide='popup-modal' type='button' className='text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2'>
                               Si, Eliminar

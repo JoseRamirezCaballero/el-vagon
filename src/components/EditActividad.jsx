@@ -18,7 +18,7 @@ export default function EditActividad ({ actividad }) {
     horario: actividad.horario,
     capacidad_maxima: actividad.capacidad_maxima,
     creditos: actividad.creditos,
-    estatus: true
+    estatus: actividad.estatus
   })
 
   const [mostrarCarreras, setMostrarCarreras] = useState(false)
@@ -39,7 +39,6 @@ export default function EditActividad ({ actividad }) {
 
   useEffect(() => {
     if (formulario.categoria === 'CARRERA') {
-      formulario.carrera = ''
       setMostrarCarreras(true)
     } else {
       formulario.carrera = null
@@ -125,34 +124,15 @@ export default function EditActividad ({ actividad }) {
   return (
     <div className='px-10 py-5 mx-auto ml-5 mr-5 rounded-3xl shadow-sm dark:bg-gray-800'>
       <form onSubmit={onSubmit}>
-        <InputField
-          id='name-input'
-          label='Nombre de la Actividad'
-          name='nombre'
-          value={formulario.nombre}
-          onChange={onChange}
-        />
-
-        {!responsables && <p>Cargando responsables...</p>}
-        {!!responsables && (
-          <SelectField
-            id='responsible-input'
-            label='Responsable'
-            name='idResponsable'
-            value={formulario.idResponsable}
-            onChange={onChange}
-            options={[
-              ...responsables.map((responsable) => ({
-                label: `${responsable.abreviatura_cargo} ${responsable.nombres} ${responsable.apellidos}`,
-                value: responsable.idResponsable,
-                key: `${responsable.idResponsable}_${responsable.nombres}`
-              }))
-            ]}
-          />
-        )}
-
         <div className='flex flex-wrap -mx-2 mb-6'>
           <div className='w-full lg:w-1/2 px-2'>
+            <InputField
+              id='name-input'
+              label='Nombre de la Actividad'
+              name='nombre'
+              value={formulario.nombre}
+              onChange={onChange}
+            />
             <div className='flex justify-between'>
               <div className={mostrarCarreras ? 'w-1/3 pr-2' : 'w-full pr-2'}>
                 <SelectField
@@ -212,6 +192,23 @@ export default function EditActividad ({ actividad }) {
             />
           </div>
           <div className='w-full lg:w-1/2 px-2'>
+            {!responsables && <p>Cargando responsables...</p>}
+            {!!responsables && (
+              <SelectField
+                id='responsible-input'
+                label='Responsable'
+                name='idResponsable'
+                value={formulario.idResponsable}
+                onChange={onChange}
+                options={[
+                  ...responsables.map((responsable) => ({
+                    label: `${responsable.abreviatura_cargo} ${responsable.nombres} ${responsable.apellidos}`,
+                    value: responsable.idResponsable,
+                    key: `${responsable.idResponsable}_${responsable.nombres}`
+                  }))
+                ]}
+              />
+            )}
             <InputField
               id='period-input'
               label='Periodo'
@@ -228,13 +225,16 @@ export default function EditActividad ({ actividad }) {
               value={formulario.horario}
               onChange={onChange}
             />
-            <InputField
+            <SelectField
               id='credits-input'
-              label='Numero de creditos'
+              label='Número de creditos'
               name='creditos'
-              type='number'
               value={formulario.creditos}
               onChange={onChange}
+              options={[
+                { key: 'un_credito', label: '1', value: 1 },
+                { key: 'dos_creditos', label: '2', value: 2 }
+              ]}
             />
           </div>
         </div>

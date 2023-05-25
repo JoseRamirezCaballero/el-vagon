@@ -45,7 +45,7 @@ export default async function generateToken (req, res) {
     }
 
     if (Object.keys(userToken).length > 0) {
-      const token = jwt.sign(userToken, process.env.JWT_SECRET, { expiresIn: '1d' })
+      const token = jwt.sign(userToken, process.env.JWT_SECRET, { expiresIn: '24h' })
       const cookieSerialized = cookie.serialize('token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

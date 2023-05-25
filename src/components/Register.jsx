@@ -28,6 +28,8 @@ export default function Register () {
         ...formulario,
         [name]: value
       }))
+    } else if (name === 'confirmPassword') {
+      setConfirmPassword(value)
     } else {
       setFormulario((formulario) => ({
         ...formulario,
@@ -43,6 +45,7 @@ export default function Register () {
   const [arrayErrores, setArrayErrores] = useState([])
   const [mostrarPopover, setMostrarPopover] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState('')
   const onSubmit = async (event) => {
     event.preventDefault()
     setArrayErrores([])
@@ -74,6 +77,10 @@ export default function Register () {
       errores.push('El campo CONTRASEÑA es requerido')
     }
 
+    if (formulario.password !== confirmPassword) {
+      errores.push('Las contraseñas no coinciden')
+    }
+
     if (errores.length > 0) {
       setArrayErrores(errores)
       setMostrarPopover(true)
@@ -93,7 +100,6 @@ export default function Register () {
         formData[campo] = formData[campo].trim()
       })
       formData.correo_institucional = `${formData.numero_control}@itoaxaca.edu.mx`
-      console.log('registrado: ', formData)
       await axios.post('/api/estudiantes', formData)
       router.push('/login')
     } catch (error) {
@@ -114,13 +120,13 @@ export default function Register () {
               <form onSubmit={onSubmit}>
                 <div className='grid grid-cols-2 gap-4'>
                   <div>
-                    <InputField id='name-input' type='nombres' label='Nombre(s)' name='nombres' placeholde='Jose Manuel' value={formulario.nombres} onChange={onChange} />
+                    <InputField id='name-input' label='Nombre(s)' name='nombres' maxLength={25} value={formulario.nombres} onChange={onChange} />
                   </div>
                   <div>
-                    <InputField id='lastname-input' type='apellidos' label='Apellidos' name='apellidos' placeholde='Ramirez Caballero' value={formulario.apellidos} onChange={onChange} />
+                    <InputField id='lastname-input' label='Apellidos' name='apellidos' maxLength={25} value={formulario.apellidos} onChange={onChange} />
                   </div>
                   <div>
-                    <InputField id='numero_control-input' label='Numero de control' name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+                    <InputField id='numero_control-input' label='Número de control' name='numero_control' maxLength={9} placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
                   </div>
                   <div>
                     <SelectField
@@ -156,9 +162,15 @@ export default function Register () {
                     ]}
                   />
                 </div>
-                <div>
-                  <InputField id='password-input' type='password' label='Contraseña' name='password' placeholde='••••••••' value={formulario.password} onChange={onChange} />
+                <div className='grid grid-cols-2 gap-4'>
+                  <div>
+                    <InputField id='password-input' type='password' maxLength={50} label='Contraseña' name='password' placeholder='••••••••' value={formulario.password} onChange={onChange} />
+                  </div>
+                  <div>
+                    <InputField id='confirm-password-input' type='password' maxLength={50} label='Confirmar contraseña' name='confirmPassword' placeholder='••••••••' value={confirmPassword} onChange={onChange} />
+                  </div>
                 </div>
+
                 {loading
                   ? (
                     <button disabled type='button' className='w-full text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center justify-center'>
@@ -169,8 +181,8 @@ export default function Register () {
                       Procesando...
                     </button>)
                   : (
-                    <button type='submit' class="w-full text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2 text-center mr-2 mb-2">
-                    Registrarse
+                    <button type='submit' className='w-full text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2 text-center mr-2 mb-2'>
+                      Registrarse
                     </button>
                     )}
                 {mostrarPopover && (

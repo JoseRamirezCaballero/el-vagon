@@ -10,10 +10,10 @@ export default function Dashboard ({ actividades }) {
     { titulo: 'Responsable' },
     { titulo: 'Horario' },
     { titulo: 'Lugar' },
-    { titulo: 'Periodo' },
-    { titulo: 'Creditos' },
+    { titulo: 'Período' },
+    { titulo: 'Créditos' },
     { titulo: 'Cupos' },
-    { titulo: 'Estatus' }
+    { titulo: 'Acciones' }
   ]
 
   return (

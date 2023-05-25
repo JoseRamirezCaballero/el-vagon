@@ -1,18 +1,60 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Toaster, toast } from 'sonner'
+import dayjs from 'dayjs'
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
 
 export default function FormActividad () {
+  const formatTime = (dateObj) => {
+    const hours = String(dateObj.$d.getHours()).padStart(2, '0')
+    const minutes = String(dateObj.$d.getMinutes()).padStart(2, '0')
+    return `${hours}:${minutes}`
+  }
+
+  const createHorario = (horaInicio, horaSalida) => {
+    const timeInicio = formatTime(horaInicio)
+    const timeSalida = formatTime(horaSalida)
+    return `${timeInicio}-${timeSalida}`
+  }
+
+  const fechaActual = dayjs()
+  const añoActual = fechaActual.format('YYYY')
+  const [horaInicio, setHoraInicio] = useState({
+    $d: new Date('2023-01-01T13:00:00.000Z')
+  })
+  const [horaSalida, setHoraSalida] = useState({
+    $d: new Date('2023-01-01T14:00:00.000Z')
+  })
+
+  const handleHoraChange = (newValue, setHora, isInicio) => {
+    setHora(newValue)
+    const horario = createHorario(isInicio ? newValue : horaInicio, isInicio ? horaSalida : newValue)
+    setFormulario(prevState => ({ ...prevState, horario }))
+  }
+
+  const handleHoraInicioChange = (newValue) => {
+    handleHoraChange(newValue, setHoraInicio, true)
+  }
+
+  const handleHoraSalidaChange = (newValue) => {
+    handleHoraChange(newValue, setHoraSalida, false)
+  }
+
   const [formulario, setFormulario] = useState({
     nombre: '',
     idResponsable: '',
     categoria: 'DEPORTIVA',
     carrera: undefined,
-    periodo: '',
+    periodo: fechaActual.isAfter(`${añoActual}-01-01`, `${añoActual}-06-30`)
+      ? `ENERO-JUNIO/${añoActual}`
+      : `AGOSTO-DICIEMBRE/${añoActual}`,
     lugar: 'SIN ASIGNAR',
-    horario: '',
+    horario: createHorario(horaInicio, horaSalida),
     capacidad_maxima: '30',
     creditos: '2',
     estatus: true
@@ -124,36 +166,16 @@ export default function FormActividad () {
   return (
     <div className='px-10 py-5 mx-auto text-orange-800 ml-5 mr-5 rounded-3xl shadow-sm dark:bg-gray-800'>
       <form onSubmit={onSubmit}>
-        <InputField
-          id='name-input'
-          label='Nombre de la Actividad'
-          name='nombre'
-          value={formulario.nombre}
-          onChange={onChange}
-        />
-
-        {!responsables && <p>Cargando responsables...</p>}
-        {!!responsables && (
-          <SelectField
-            id='responsible-input'
-            label='Responsable'
-            name='idResponsable'
-            value={formulario.idResponsable}
-            onChange={onChange}
-            options={[
-              { label: 'SIN ASIGNAR', value: '', key: 'sin_asignar' },
-              ...responsables.map((responsable) => ({
-                label: `${responsable.abreviatura_cargo} ${responsable.nombres} ${responsable.apellidos}`,
-                value: responsable.idResponsable,
-                key: `${responsable.idResponsable}_${responsable.nombres}`
-              }))
-            ]}
-
-          />
-        )}
-
-        <div className='flex flex-wrap -mx-2 mb-6 text-orange-800'>
+        <div className='flex flex-wrap justify-center -mx-2 mb-6 text-orange-800'>
           <div className='w-full lg:w-1/2 px-2 text-orange-800'>
+            <InputField
+              id='name-input'
+              label='Nombre de la Actividad'
+              name='nombre'
+              value={formulario.nombre}
+              onChange={onChange}
+              maxLength={25}
+            />
             <div className='flex justify-between text-orange-800'>
               <div className={mostrarCarreras ? 'w-1/3 pr-2' : 'w-full pr-2'}>
                 <SelectField
@@ -202,42 +224,88 @@ export default function FormActividad () {
               name='lugar'
               value={formulario.lugar}
               onChange={onChange}
+              maxLength={50}
             />
-            <InputField
-              id='capacity-input'
-              type='number'
-              label='Capacidad máxima'
-              name='capacidad_maxima'
-              value={formulario.capacidad_maxima}
-              onChange={onChange}
-            />
+
           </div>
           <div className='w-full lg:w-1/2 px-2 text-orange-800'>
+            {!responsables && <p>Cargando responsables...</p>}
+            {!!responsables && (
+              <SelectField
+                id='responsible-input'
+                label='Responsable'
+                name='idResponsable'
+                value={formulario.idResponsable}
+                onChange={onChange}
+                options={[
+                  { label: 'SIN ASIGNAR', value: '', key: 'sin_asignar' },
+                  ...responsables.map((responsable) => ({
+                    label: `${responsable.abreviatura_cargo} ${responsable.nombres} ${responsable.apellidos}`,
+                    value: responsable.idResponsable,
+                    key: `${responsable.idResponsable}_${responsable.nombres}`
+                  }))
+                ]}
+              />
+            )}
             <InputField
               id='period-input'
-              label='Periodo'
+              label='Período'
               name='periodo'
-              placeholder='Ej. NOVIEMBRE/2022-ENERO/2023'
               value={formulario.periodo}
               onChange={onChange}
+              disabled
             />
-            <InputField
-              id='hour-input'
-              label='Horario'
-              name='horario'
-              placeholder='Ej. 12:00-13:00'
-              value={formulario.horario}
-              onChange={onChange}
-            />
-            <InputField
-              id='credits-input'
-              label='Numero de creditos'
-              name='creditos'
-              type='number'
-              value={formulario.creditos}
-              onChange={onChange}
-            />
+
+            <div className='mb-6'>
+              <div className='flex justify-between text-orange-800'>
+                <div className='w-full pr-2'>
+                  <InputField
+                    id='capacity-input'
+                    type='number'
+                    label='Capacidad máxima'
+                    name='capacidad_maxima'
+                    value={formulario.capacidad_maxima}
+                    onChange={onChange}
+                  />
+                </div>
+                <div className='w-full pl-2'>
+                  <SelectField
+                    id='credits-input'
+                    label='Número de creditos'
+                    name='creditos'
+                    value={formulario.creditos}
+                    onChange={onChange}
+                    options={[
+                      { key: 'un_credito', label: '1', value: 1 },
+                      { key: 'dos_creditos', label: '2', value: 2 }
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
+          <div className='flex sm:flex-row flex-col sm:gap-4'>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer
+                components={[
+                  'MobileTimePicker'
+                ]}
+              >
+                <MobileTimePicker label='Hora de inicio' onChange={handleHoraInicioChange} value={dayjs(`${añoActual}-01-01T07:00`)} />
+              </DemoContainer>
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer
+                components={[
+                  'MobileTimePicker'
+                ]}
+              >
+                <MobileTimePicker label='Hora de salida' onChange={handleHoraSalidaChange} defaultValue={dayjs(`${añoActual}-01-01T08:00`)} />
+              </DemoContainer>
+            </LocalizationProvider>
+          </div>
+
         </div>
 
         <div className='flex justify-center'>

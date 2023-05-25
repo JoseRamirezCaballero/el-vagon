@@ -16,8 +16,14 @@ export default function FormReponsable () {
     password: ''
   })
 
+  const [confirmPassword, setConfirmPassword] = useState('')
   const onChange = (event) => {
     const { name, value } = event.target
+
+    if (name === 'confirmPassword') {
+      setConfirmPassword(value)
+    }
+
     setFormulario((formulario) => ({
       ...formulario,
       [name]: value.toUpperCase()
@@ -51,7 +57,8 @@ export default function FormReponsable () {
       abreviatura_cargo: 'ABREVIATURA',
       nombres: 'NOMBRE(S)',
       apellidos: 'APELLIDOS',
-      genero: 'GENERO'
+      genero: 'GENERO',
+      password: 'CONTRASEÑA'
     }
 
     const errores = []
@@ -61,6 +68,10 @@ export default function FormReponsable () {
         errores.push(`El campo ${nombre} es requerido`)
       }
     })
+
+    if (formulario.password !== confirmPassword) {
+      errores.push('Las contraseñas no coinciden')
+    }
 
     if (errores.length > 0) {
       setArrayErrores(errores)
@@ -105,6 +116,7 @@ export default function FormReponsable () {
               name='abreviatura_cargo'
               value={formulario.abreviatura_cargo}
               onChange={onChange}
+              maxLength={10}
             />
           </div>
           <div className='flex-grow ml-2'>
@@ -114,6 +126,7 @@ export default function FormReponsable () {
               name='nombres'
               value={formulario.nombres}
               onChange={onChange}
+              maxLength={25}
             />
           </div>
           <div className='flex-grow ml-2'>
@@ -123,12 +136,13 @@ export default function FormReponsable () {
               name='apellidos'
               value={formulario.apellidos}
               onChange={onChange}
+              maxLength={25}
             />
           </div>
         </div>
         <div className='flex flex-wrap w-full'>
           <div className='flex-grow ml-2'>
-            <InputField id='numero_control-input' label='Numero de control' name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+            <InputField id='numero_control-input' maxLength={10} label='Número de control' name='numero_control' placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
           </div>
           <div className='flex-grow ml-2'>
             <SelectField
@@ -144,7 +158,10 @@ export default function FormReponsable () {
             />
           </div>
           <div className='flex-grow ml-2'>
-            <InputField id='password-input' type='password' label='Contraseña' name='password' placeholde='••••••••' value={formulario.password} onChange={onChange} />
+            <InputField id='password-input' maxLength={50} type='password' label='Contraseña' name='password' placeholder='••••••••' value={formulario.password} onChange={onChange} />
+          </div>
+          <div className='flex-grow ml-2'>
+            <InputField id='confirm-password-input' type='password' maxLength={50} label='Confirmar contraseña' name='confirmPassword' placeholder='••••••••' value={confirmPassword} onChange={onChange} />
           </div>
         </div>
 
