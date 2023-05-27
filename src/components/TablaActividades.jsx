@@ -108,6 +108,7 @@ export default function TablaActividades ({ columnas, datos }) {
   const [dataToEdit, setDataToEdit] = useState({})
 
   const showModalEdit = (idActividad, data) => {
+    setEstatus(data.estatus)
     setIdEdit(idActividad)
     setDataToEdit(data)
     setShowEditModal(true)
