@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 
 export default function TablaActividades ({ columnas, datos }) {
@@ -30,11 +30,13 @@ export default function TablaActividades ({ columnas, datos }) {
     setIsOpen(!isOpen)
   }
 
+  const dropdownButtonRef = useRef(null)
+  const dropdownRef = useRef(null)
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const dropdownButton = document.getElementById('dropdown-button')
-      const dropdown = document.getElementById('dropdown')
-      if (!dropdownButton.contains(event.target) && dropdown && !dropdown.contains(event.target)) {
+      if (dropdownButtonRef.current && !dropdownButtonRef.current.contains(event.target) &&
+          dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         cerrarMenu()
       }
     }
@@ -127,8 +129,8 @@ export default function TablaActividades ({ columnas, datos }) {
     <>
       <div className='flex relative'>
         <label htmlFor='search-dropdown' className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'>Buscar</label>
-        <button id='dropdown-button' data-dropdown-toggle='dropdown' className='flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600' type='button' onClick={toggleMenu}>{filtroSeleccionado} <svg aria-hidden='true' className='w-4 h-4 ml-1' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clipRule='evenodd' /></svg></button>
-        <div id='dropdown' className={`absolute z-10 ${isOpen ? '' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 top-full left-0 mt-2`}>
+        <button ref={dropdownButtonRef} data-dropdown-toggle='dropdown' className='flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600' type='button' onClick={toggleMenu}>{filtroSeleccionado} <svg aria-hidden='true' className='w-4 h-4 ml-1' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path fillRule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clipRule='evenodd' /></svg></button>
+        <div ref={dropdownRef} className={`absolute z-10 ${isOpen ? '' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 top-full left-0 mt-2`}>
           <ul className='py-2 text-sm text-gray-700 dark:text-gray-200' aria-labelledby='dropdown-button'>
             {filtros.map((filtro) => (
               <li key={filtro.filtrar}>
