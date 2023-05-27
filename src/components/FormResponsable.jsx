@@ -142,7 +142,7 @@ export default function FormReponsable () {
         </div>
         <div className='flex flex-wrap w-full'>
           <div className='flex-grow ml-2'>
-            <InputField id='numero_control-input' maxLength={10} label='Número de control' name='numero_control' placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+            <InputField id='numero_control-input' maxLength={9} label='Número de control' name='numero_control' placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
           </div>
           <div className='flex-grow ml-2'>
             <SelectField

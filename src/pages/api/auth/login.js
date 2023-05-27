@@ -6,6 +6,22 @@ import { TablaEstudiante } from '@/models/estudiante.model'
 import { TablaAdministrador } from '@/models/administrador.model'
 import { TablaResponsable } from '@/models/responsable.model'
 
+async function generateUserToken (numero_control, password, models) {
+  const userToken = {}
+
+  for (const { model, properties } of models) {
+    const user = await model.validateCredentials(numero_control, password)
+    if (user) {
+      for (const prop of properties) {
+        userToken[prop] = user[prop]
+      }
+      return userToken
+    }
+  }
+
+  return null
+}
+
 export default async function generateToken (req, res) {
   await connectToDatabase()
 
@@ -17,7 +33,7 @@ export default async function generateToken (req, res) {
     const { numero_control, password } = req.body
     const models = [
       { model: TablaAdministrador, properties: ['idAdministrador', 'numero_control', 'idRol'] },
-      { model: TablaResponsable, properties: ['idResponsable', 'numero_control', 'idRol'] },
+      { model: TablaResponsable, properties: ['idResponsable', 'abreviatura_cargo', 'nombres', 'apellidos', 'genero', 'numero_control', 'idRol'] },
       {
         model: TablaEstudiante,
         properties: [
@@ -32,19 +48,9 @@ export default async function generateToken (req, res) {
         ]
       }
     ]
-    const userToken = {}
+    const userToken = await generateUserToken(numero_control, password, models)
 
-    for (const { model, properties } of models) {
-      const user = await model.validateCredentials(numero_control, password)
-      if (user) {
-        for (const prop of properties) {
-          userToken[prop] = user[prop]
-        }
-        break
-      }
-    }
-
-    if (Object.keys(userToken).length > 0) {
+    if (userToken) {
       const token = jwt.sign(userToken, process.env.JWT_SECRET, { expiresIn: '24h' })
       const cookieSerialized = cookie.serialize('token', token, {
         httpOnly: true,
@@ -59,6 +65,7 @@ export default async function generateToken (req, res) {
 
     res.status(401).json({ message: 'Credenciales inválidas' })
   } catch (error) {
-    res.status(401).json({ message: 'Credenciales inválidas' })
+    console.error(error)
+    res.status(500).json({ message: 'Hubo un error en el servidor' })
   }
 }
