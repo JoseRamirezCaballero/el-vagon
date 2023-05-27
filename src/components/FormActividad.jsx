@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Toaster, toast } from 'sonner'
 import dayjs from 'dayjs'
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker'
@@ -286,23 +285,8 @@ export default function FormActividad () {
           </div>
           <div className='flex sm:flex-row flex-col sm:gap-4'>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer
-                components={[
-                  'MobileTimePicker'
-                ]}
-              >
-                <MobileTimePicker label='Hora de inicio' onChange={handleHoraInicioChange} value={dayjs(`${añoActual}-01-01T07:00`)} />
-              </DemoContainer>
-            </LocalizationProvider>
-
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer
-                components={[
-                  'MobileTimePicker'
-                ]}
-              >
-                <MobileTimePicker label='Hora de salida' onChange={handleHoraSalidaChange} defaultValue={dayjs(`${añoActual}-01-01T08:00`)} />
-              </DemoContainer>
+              <MobileTimePicker label='Hora de inicio' onChange={handleHoraInicioChange} value={dayjs(`${añoActual}-01-01T07:00`)} />
+              <MobileTimePicker label='Hora de salida' onChange={handleHoraSalidaChange} defaultValue={dayjs(`${añoActual}-01-01T08:00`)} />
             </LocalizationProvider>
           </div>
 
