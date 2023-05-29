@@ -5,7 +5,8 @@ export const ROLES = {
 }
 
 export const STUDENT_ROUTES = [
-  { name: 'Inicio', url: '/estudiante' }
+  { name: 'Inicio', url: '/estudiante' },
+  { name: 'Categorías', url: '/estudiante/categoria' }
 ]
 
 export const ADMIN_ROUTES = [

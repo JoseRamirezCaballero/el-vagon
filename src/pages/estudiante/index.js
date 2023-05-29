@@ -6,7 +6,7 @@ export default function Home () {
   return (
     <StudentProtectedRoute rol={ROLES.ESTUDIANTE}>
       <PageLayout rol={ROLES.ESTUDIANTE}>
-        <h1>Inicio de Estudiante en proceso...</h1>
+        <h1>En proceso</h1>
       </PageLayout>
     </StudentProtectedRoute>
   )
