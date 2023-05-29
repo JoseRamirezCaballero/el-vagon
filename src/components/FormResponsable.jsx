@@ -24,10 +24,17 @@ export default function FormReponsable () {
       setConfirmPassword(value)
     }
 
-    setFormulario((formulario) => ({
-      ...formulario,
-      [name]: value.toUpperCase()
-    }))
+    if (name === 'password') {
+      setFormulario((formulario) => ({
+        ...formulario,
+        [name]: value
+      }))
+    } else {
+      setFormulario((formulario) => ({
+        ...formulario,
+        [name]: value.toUpperCase()
+      }))
+    }
   }
 
   const notification = ({ bool, descriptionToast = '' }) => {
