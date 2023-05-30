@@ -1,9 +1,11 @@
 export default function SelectField ({ id, label, name, options, value = '', onChange }) {
   return (
     <div className='mb-6'>
-      <label htmlFor={id} className='block mb-2 text-sm font-medium text-orange-800 dark:text-white'>
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={id} className='block mb-2 text-sm font-medium text-orange-800 dark:text-white'>
+          {label}
+        </label>
+      )}
       <select
         id={id}
         name={name}
