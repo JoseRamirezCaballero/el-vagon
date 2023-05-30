@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { axiosAPI } from '@/utils/constants'
 import AdminProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 import EditActividad from '@/components/EditActividad'
@@ -27,7 +27,7 @@ export async function getServerSideProps ({ query, res }) {
   }
 
   try {
-    const resActividad = await axios.get(`http://localhost:3000/api/actividades/${idActividad}`)
+    const resActividad = await axiosAPI.get(`/actividades/${idActividad}`)
     const actividad = resActividad.data
     return { props: { actividad } }
   } catch (error) {

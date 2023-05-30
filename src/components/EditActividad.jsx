@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { axiosAPI } from '@/utils/constants'
 import { Toaster, toast } from 'sonner'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
@@ -49,7 +49,7 @@ export default function EditActividad ({ actividad }) {
   const [responsables, setResponsables] = useState([])
   useEffect(() => {
     const fetchResponsables = async () => {
-      const response = await axios.get('/api/responsables')
+      const response = await axiosAPI.get('/responsables')
       setResponsables(response.data)
     }
     fetchResponsables()
@@ -111,7 +111,7 @@ export default function EditActividad ({ actividad }) {
         Object.entries(formulario).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value])
       )
 
-      const response = await axios.put('/api/actividades', formData)
+      const response = await axiosAPI.put('/actividades', formData)
       if (response) {
         notification({ bool: true, descriptionToast: response.data.nombre })
         router.push('/admin/actividad')
@@ -132,6 +132,7 @@ export default function EditActividad ({ actividad }) {
               name='nombre'
               value={formulario.nombre}
               onChange={onChange}
+              maxLength={50}
             />
             <div className='flex justify-between'>
               <div className={mostrarCarreras ? 'w-1/3 pr-2' : 'w-full pr-2'}>
@@ -181,6 +182,7 @@ export default function EditActividad ({ actividad }) {
               name='lugar'
               value={formulario.lugar}
               onChange={onChange}
+              maxLength={50}
             />
             <InputField
               id='capacity-input'
@@ -216,6 +218,7 @@ export default function EditActividad ({ actividad }) {
               placeholder='Ej. NOVIEMBRE/2022-ENERO/2023'
               value={formulario.periodo}
               onChange={onChange}
+              maxLength={30}
             />
             <InputField
               id='hour-input'
@@ -224,6 +227,7 @@ export default function EditActividad ({ actividad }) {
               placeholder='Ej. 12:00-13:00'
               value={formulario.horario}
               onChange={onChange}
+              maxLength={11}
             />
             <SelectField
               id='credits-input'

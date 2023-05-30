@@ -38,7 +38,7 @@ export default function InputField ({ id, type = 'text', label, name, placeholde
           if ((type === 'text' || type === 'password') && !isNaN(event.key) && !event.key === ' ') {
             event.preventDefault()
           }
-          if (type === 'number' && event.key === '-') {
+          if (type === 'number' && (event.key === '-' || isNaN(event.key)) && event.key !== 'Backspace') {
             event.preventDefault()
           }
         }}

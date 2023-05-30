@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import axios from 'axios'
 import { Toaster, toast } from 'sonner'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
-import { ROLES } from '@/utils/constants'
+import { ROLES, axiosAPI } from '@/utils/constants'
 
 export default function FormReponsable () {
   const [formulario, setFormulario] = useState({
@@ -102,7 +101,7 @@ export default function FormReponsable () {
             return [key, value]
           })
       )
-      const response = await axios.post('/api/responsables', formData)
+      const response = await axiosAPI.post('/responsables', formData)
       if (response) {
         notification({ bool: true, descriptionToast: `${response.data.abreviatura_cargo} ${response.data.nombres} ${response.data.apellidos}` })
       }
@@ -148,7 +147,7 @@ export default function FormReponsable () {
           </div>
         </div>
         <div className='flex flex-wrap w-full'>
-          <div className='flex-grow ml-2'>
+          <div className='flex-grow'>
             <InputField id='numero_control-input' maxLength={9} label='Número de control' name='numero_control' placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
           </div>
           <div className='flex-grow ml-2'>

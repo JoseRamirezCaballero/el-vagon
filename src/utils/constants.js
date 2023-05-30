@@ -1,3 +1,9 @@
+import axios from 'axios'
+
+export const axiosAPI = axios.create({
+  baseURL: 'http://localhost:3000/api'
+})
+
 export const ROLES = {
   ESTUDIANTE: 1,
   ADMINISTRADOR: 2,

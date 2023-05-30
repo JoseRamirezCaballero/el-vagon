@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import axios from 'axios'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
 import StudentCard from '@/components/StudentCard'
 import ButtonDarkMode from '@/components/ButtonDarkMode'
-import { ROLES } from '@/utils/constants'
+import { ROLES, axiosAPI } from '@/utils/constants'
 
 export default function Register () {
   const router = useRouter()
@@ -94,13 +93,13 @@ export default function Register () {
     }
 
     try {
-      await axios.get('/api/conn')
+      await axiosAPI.get('/conn')
       const formData = { ...formulario };
       ['nombres', 'apellidos', 'numero_control', 'genero', 'carrera', 'password'].forEach(campo => {
         formData[campo] = formData[campo].trim()
       })
       formData.correo_institucional = `${formData.numero_control}@itoaxaca.edu.mx`
-      await axios.post('/api/estudiantes', formData)
+      await axiosAPI.post('/estudiantes', formData)
       router.push('/login')
     } catch (error) {
       setLoading(false)

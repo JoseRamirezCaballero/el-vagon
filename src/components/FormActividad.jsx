@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Toaster, toast } from 'sonner'
 import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker'
+import { axiosAPI } from '@/utils/constants'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
 
@@ -87,7 +87,7 @@ export default function FormActividad () {
   const [responsables, setResponsables] = useState([])
   useEffect(() => {
     const fetchResponsables = async () => {
-      const response = await axios.get('/api/responsables')
+      const response = await axiosAPI.get('/responsables')
       setResponsables(response.data)
     }
     fetchResponsables()
@@ -153,7 +153,7 @@ export default function FormActividad () {
         Object.entries(formulario).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value])
       )
 
-      const response = await axios.post('/api/actividades', formData)
+      const response = await axiosAPI.post('/actividades', formData)
       if (response) {
         notification({ bool: true, descriptionToast: response.data.nombre })
       }

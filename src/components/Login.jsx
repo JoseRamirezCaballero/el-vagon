@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import axios from 'axios'
 import ButtonDarkMode from '@/components/ButtonDarkMode'
 import InfoPopOver from '@/components/InfoPopOver'
 import InputField from '@/components/InputField'
 import Image from 'next/image'
-import { ROLES } from '@/utils/constants'
+import { ROLES, axiosAPI } from '@/utils/constants'
 
 export default function Login () {
   const router = useRouter()
@@ -57,9 +56,9 @@ export default function Login () {
     }
 
     try {
-      const auth = await axios.post('/api/auth/login', credentials)
+      const auth = await axiosAPI.post('/auth/login', credentials)
       if (auth) {
-        const user = await axios.get('/api/profile')
+        const user = await axiosAPI.get('/profile')
         if (user.data.idRol === ROLES.ESTUDIANTE) {
           router.push('/estudiante')
         } else if (user.data.idRol === ROLES.ADMINISTRADOR) {

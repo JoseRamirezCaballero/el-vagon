@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import { axiosAPI } from '@/utils/constants'
 
 export default function TablaActividades ({ columnas, datos }) {
   const router = useRouter()
@@ -94,7 +94,7 @@ export default function TablaActividades ({ columnas, datos }) {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/api/actividades/${idDelete}`)
+      await axiosAPI.delete(`/actividades/${idDelete}`)
       setShowDeleteModal(false)
       const update = filas.filter(actividad => actividad.idActividad !== idDelete)
       setFilas(update)
@@ -119,7 +119,7 @@ export default function TablaActividades ({ columnas, datos }) {
       const toggleEstatus = !estatus
       setEstatus(toggleEstatus)
       dataToEdit.estatus = toggleEstatus
-      await axios.put(`/api/actividades/${idEdit}`, dataToEdit)
+      await axiosAPI.put(`/actividades/${idEdit}`, dataToEdit)
       setShowEditModal(false)
     } catch (error) {
       console.error(error)

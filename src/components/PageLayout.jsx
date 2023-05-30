@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { ROLES, ADMIN_ROUTES, STUDENT_ROUTES, RESPONSABLE_ROUTES } from '@/utils/constants'
+import { ROLES, ADMIN_ROUTES, STUDENT_ROUTES, RESPONSABLE_ROUTES, axiosAPI } from '@/utils/constants'
 
 export default function PageLayout ({ children, title = 'Actividades Complementarias', descriptionContent = 'Sistema de Actividades Complementarias', rol }) {
   const [profileData, setProfileData] = useState(null)
@@ -11,7 +10,7 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/profile')
+        const response = await axiosAPI.get('/profile')
         setProfileData(response.data)
       } catch (error) {
         console.error(error)

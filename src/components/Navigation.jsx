@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import axios from 'axios'
+import { axiosAPI } from '@/utils/constants'
 import ButtonDarkMode from '@/components/ButtonDarkMode'
 
 export default function Navigation ({ routes = [], logged = false, profile = {} }) {
@@ -17,7 +17,7 @@ export default function Navigation ({ routes = [], logged = false, profile = {} 
   }
 
   const logout = async () => {
-    await axios.get('/api/auth/logout')
+    await axiosAPI.get('/auth/logout')
   }
 
   return (

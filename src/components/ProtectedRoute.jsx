@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { axiosAPI } from '@/utils/constants'
 import Loader from '@/components/Loader'
 
 export default function ProtectedRoute ({ children, rol }) {
@@ -8,7 +8,7 @@ export default function ProtectedRoute ({ children, rol }) {
   const router = useRouter()
 
   useEffect(() => {
-    axios.get('/api/profile').then((response) => {
+    axiosAPI.get('/profile').then((response) => {
       setUserData(response.data)
     })
   }, [])

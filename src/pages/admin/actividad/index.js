@@ -1,8 +1,7 @@
 import AdminProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 import TablaActividades from '@/components/TablaActividades'
-import axios from 'axios'
-import { ROLES } from '@/utils/constants'
+import { ROLES, axiosAPI } from '@/utils/constants'
 
 export default function Dashboard ({ actividades }) {
   const columnas = [
@@ -27,7 +26,7 @@ export default function Dashboard ({ actividades }) {
 
 export async function getServerSideProps () {
   try {
-    const resActividades = await axios.get('http://localhost:3000/api/actividades')
+    const resActividades = await axiosAPI.get('/actividades')
     const actividades = resActividades.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     return { props: { actividades } }
   } catch (error) {
