@@ -27,7 +27,7 @@ export const TablaResponsable = sequelize.define('responsable', {
     allowNull: false
   },
   genero: {
-    type: DataTypes.STRING(9),
+    type: DataTypes.STRING(6),
     allowNull: false
   },
   numero_control: {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import InfoPopOver from '@/components/InfoPopOver'
 
-export default function InputField ({ id, type = 'text', label, name, placeholder = '', value = '', onChange, maxLength = 10, disabled = false }) {
+export default function InputField ({ id, type = 'text', label, name, placeholder = '', value = '', onChange, maxLength = 10, disabled = false, ncontrol = false, free = false, popOver = null }) {
   const [isInputEmpty, setInputEmpty] = useState(false)
 
   const handleInputChange = (event) => {
@@ -24,18 +25,32 @@ export default function InputField ({ id, type = 'text', label, name, placeholde
     <div className='mb-6'>
       <label htmlFor={id} className='block mb-2 text-sm font-medium text-orange-800 dark:text-white'>
         {label}
+        {popOver && (
+          <InfoPopOver title={popOver.title} description={popOver.description} />
+        )}
       </label>
       <input
         type={type}
         id={id}
         name={name}
-        placeholder={isInputEmpty ? 'CAMPO OBLIGATORIO' : placeholder}
+        placeholder={isInputEmpty ? 'Campo obligatorio' : placeholder}
         className={inputClass()}
         value={value}
         onChange={handleInputChange}
         onBlur={handleBlur}
         onKeyDown={(event) => {
-          if ((type === 'text' || type === 'password') && !isNaN(event.key) && !event.key === ' ') {
+          if (type === 'text') {
+            if (!free) {
+              if (!ncontrol && !isNaN(event.key) && event.key !== ' ') {
+                event.preventDefault()
+              }
+
+              if (ncontrol && (event.key.match(/[^a-zA-Z0-9]/))) {
+                event.preventDefault()
+              }
+            }
+          }
+          if (type === 'password' && event.key === ' ') {
             event.preventDefault()
           }
           if (type === 'number' && (event.key === '-' || isNaN(event.key)) && event.key !== 'Backspace') {

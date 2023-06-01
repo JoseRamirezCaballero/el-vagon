@@ -70,8 +70,35 @@ export default function FormReponsable () {
     const errores = []
 
     Object.entries(camposRequeridos).forEach(([campo, nombre]) => {
-      if (formulario[campo].trim() === '') {
-        errores.push(`El campo ${nombre} es requerido`)
+      if (campo === 'password') {
+        if (formulario[campo].trim() === '') {
+          errores.push(`El campo ${nombre} es requerido`)
+        } else {
+          const password = formulario.password
+          const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_?/:'";~`+]).{8,15}$/
+
+          if (!regex.test(password)) {
+            if (password.length < 8 || password.length > 15) {
+              errores.push(`La ${nombre} debe tener entre 8 y 15 caracteres.`)
+            }
+            if (!/(?=.*[a-z])/.test(password)) {
+              errores.push(`La ${nombre} debe contener al menos una minúscula.`)
+            }
+            if (!/(?=.*[A-Z])/.test(password)) {
+              errores.push(`La ${nombre} debe contener al menos una mayúscula.`)
+            }
+            if (!/(?=.*\d)/.test(password)) {
+              errores.push(`La ${nombre} debe contener al menos un número.`)
+            }
+            if (!/(?=.*[!@#$%^&*()\-_?/:'";~`+])/.test(password)) {
+              errores.push(`La ${nombre} debe contener al menos un carácter especial.`)
+            }
+          }
+        }
+      } else {
+        if (formulario[campo].trim() === '') {
+          errores.push(`El campo ${nombre} es requerido`)
+        }
       }
     })
 
@@ -106,8 +133,7 @@ export default function FormReponsable () {
         notification({ bool: true, descriptionToast: `${response.data.abreviatura_cargo} ${response.data.nombres} ${response.data.apellidos}` })
       }
     } catch (error) {
-      console.log(error)
-      notification({ bool: false, descriptionToast: 'Intentelo de nuevo' })
+      notification({ bool: false, descriptionToast: 'Número de tarjeta duplicado' })
     }
   }
 
@@ -122,7 +148,7 @@ export default function FormReponsable () {
               name='abreviatura_cargo'
               value={formulario.abreviatura_cargo}
               onChange={onChange}
-              maxLength={10}
+              maxLength={15}
             />
           </div>
           <div className='flex-grow ml-2'>
@@ -148,7 +174,7 @@ export default function FormReponsable () {
         </div>
         <div className='flex flex-wrap w-full'>
           <div className='flex-grow'>
-            <InputField id='numero_control-input' maxLength={9} label='Número de control' name='numero_control' placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+            <InputField id='numero_control-input' maxLength={4} label='Número de tarjeta' name='numero_control' placeholder='Ej. 0283' value={formulario.numero_control} onChange={onChange} type='number' popOver={{ title: 'Numero de tarjeta del trabajador', description: 'Este número es exclusivo para trabajadores y permitirá acceder a la cuenta' }} />
           </div>
           <div className='flex-grow ml-2'>
             <SelectField
@@ -158,13 +184,13 @@ export default function FormReponsable () {
               value={formulario.genero}
               onChange={onChange}
               options={[
-                { label: 'MASCULINO', value: 'MASCULINO', key: 'male' },
-                { label: 'FEMENINO', value: 'FEMENINO', key: 'female' }
+                { label: 'HOMBRE', value: 'HOMBRE', key: 'male' },
+                { label: 'MUJER', value: 'MUJER', key: 'female' }
               ]}
             />
           </div>
           <div className='flex-grow ml-2'>
-            <InputField id='password-input' maxLength={50} type='password' label='Contraseña' name='password' placeholder='••••••••' value={formulario.password} onChange={onChange} />
+            <InputField id='password-input' maxLength={50} type='password' label='Contraseña' name='password' placeholder='••••••••' value={formulario.password} onChange={onChange} popOver={{ title: 'Requisitos de contraseña', description: 'La contraseña debe tener entre 8 y 15 caracteres y contener al menos un carácter especial, un número, una mayúscula y una minúscula.' }} />
           </div>
           <div className='flex-grow ml-2'>
             <InputField id='confirm-password-input' type='password' maxLength={50} label='Confirmar contraseña' name='confirmPassword' placeholder='••••••••' value={confirmPassword} onChange={onChange} />

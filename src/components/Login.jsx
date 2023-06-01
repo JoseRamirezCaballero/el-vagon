@@ -109,7 +109,7 @@ export default function Login () {
                 </h1>
                 <form onSubmit={onSubmit} className='space-y-4 md:space-y-6'>
                   <div>
-                    <InputField id='numero_control-input' label='Número de control' maxLength={9} name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+                    <InputField id='numero_control-input' label='Número de usuario' maxLength={9} name='numero_control' placeholde='Ej. 19161388' value={formulario.numero_control} onChange={onChange} ncontrol />
                   </div>
                   <div>
                     <label htmlFor='password' className='block mb-2 text-sm font-medium text-orange-800 dark:text-white'>Contraseña <InfoPopOver title='¿Olvidaste tu contraseña?' description='Comunicate con el Departamento de Formacion Integral' /></label>

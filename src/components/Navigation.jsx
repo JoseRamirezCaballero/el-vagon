@@ -60,7 +60,7 @@ export default function Navigation ({ routes = [], logged = false, profile = {} 
             >
               <div className='px-4 py-3 text-sm text-gray-900 dark:text-white'>
                 <div>{profile.nombre_completo}</div>
-                <div className='font-medium truncate text-blue-900'>{profile.correo_institucional}</div>
+                <div className='font-medium truncate text-blue-900 dark:text-blue-400'>{profile.correo_institucional}</div>
               </div>
               <ul className='py-2 text-sm text-gray-700 dark:text-gray-200' aria-labelledby='avatarButton'>
                 <li>
@@ -68,7 +68,7 @@ export default function Navigation ({ routes = [], logged = false, profile = {} 
                 </li>
               </ul>
               <div className='py-1'>
-                <Link href='/login' onClick={logout} className='block px-4 py-2 text-sm text-red-700 hover:bg-red-100 dark:hover:bg-red-600 dark:text-gray-200 dark:hover:text-white'>
+                <Link href='/login' onClick={logout} className='block px-4 py-2 text-sm text-red-700 hover:bg-red-100 dark:hover:bg-red-600 dark:text-red-300 dark:hover:text-white'>
                   Cerrar sesión
                 </Link>
               </div>

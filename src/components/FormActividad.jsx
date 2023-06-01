@@ -152,13 +152,18 @@ export default function FormActividad () {
       const formData = Object.fromEntries(
         Object.entries(formulario).map(([key, value]) => [key, typeof value === 'string' ? value.trim() : value])
       )
+      const validate = await axiosAPI.post('/actividades/validate', formData)
 
-      const response = await axiosAPI.post('/actividades', formData)
-      if (response) {
-        notification({ bool: true, descriptionToast: response.data.nombre })
+      if (validate.status === 200) {
+        const response = await axiosAPI.post('/actividades', formData)
+        if (response) {
+          notification({ bool: true, descriptionToast: response.data.nombre })
+        }
+      } else {
+        notification({ bool: false, descriptionToast: 'Intentelo de nuevo' })
       }
     } catch (error) {
-      notification({ bool: false, descriptionToast: 'Intentelo de nuevo' })
+      notification({ bool: false, descriptionToast: 'El horario y lugar seleccionados coinciden con otra actividad existente' })
     }
   }
 
@@ -224,6 +229,7 @@ export default function FormActividad () {
               value={formulario.lugar}
               onChange={onChange}
               maxLength={50}
+              free
             />
 
           </div>

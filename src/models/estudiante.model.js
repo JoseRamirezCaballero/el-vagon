@@ -23,7 +23,7 @@ export const TablaEstudiante = sequelize.define('Estudiante', {
     allowNull: false
   },
   numero_control: {
-    type: DataTypes.STRING(10),
+    type: DataTypes.STRING(9),
     allowNull: false,
     unique: true
   },
@@ -32,7 +32,7 @@ export const TablaEstudiante = sequelize.define('Estudiante', {
     allowNull: false
   },
   genero: {
-    type: DataTypes.STRING(9),
+    type: DataTypes.STRING(6),
     allowNull: false
   },
   correo_institucional: {
@@ -40,7 +40,7 @@ export const TablaEstudiante = sequelize.define('Estudiante', {
     allowNull: true
   },
   password: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING(15),
     allowNull: false
   }
 }, {

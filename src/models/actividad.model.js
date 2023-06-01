@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, Op } from 'sequelize'
 import { sequelize } from '../utils/database'
 import { TablaResponsable } from './responsable.model'
 
@@ -53,6 +53,22 @@ export const TablaActividad = sequelize.define('actividad', {
   timestamps: true,
   tableName: 'Actividad'
 })
+
+TablaActividad.validateActividad = async function (lugar, horarioPrefix) {
+  const actividad = await TablaActividad.findOne({
+    where: {
+      lugar,
+      horario: {
+        [Op.like]: `${horarioPrefix}%`
+      }
+    }
+  })
+
+  if (!actividad) {
+    return null
+  }
+  return actividad
+}
 
 TablaResponsable.hasMany(TablaActividad, { foreignKey: 'idResponsable' })
 TablaActividad.belongsTo(TablaResponsable, { foreignKey: 'idResponsable' })

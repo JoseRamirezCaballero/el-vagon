@@ -74,6 +74,27 @@ export default function Register () {
 
     if (isInvalidField(formulario.password, '')) {
       errores.push('El campo CONTRASEÑA es requerido')
+    } else {
+      const password = formulario.password
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_?/:'";~`+]).{8,15}$/
+
+      if (!regex.test(password)) {
+        if (password.length < 8 || password.length > 15) {
+          errores.push('La contraseña debe tener entre 8 y 15 caracteres.')
+        }
+        if (!/(?=.*[a-z])/.test(password)) {
+          errores.push('La contraseña debe contener al menos una minúscula.')
+        }
+        if (!/(?=.*[A-Z])/.test(password)) {
+          errores.push('La contraseña debe contener al menos una mayúscula.')
+        }
+        if (!/(?=.*\d)/.test(password)) {
+          errores.push('La contraseña debe contener al menos un número.')
+        }
+        if (!/(?=.*[!@#$%^&*()\-_?/:'";~`+])/.test(password)) {
+          errores.push('La contraseña debe contener al menos un carácter especial.')
+        }
+      }
     }
 
     if (formulario.password !== confirmPassword) {
@@ -125,7 +146,7 @@ export default function Register () {
                     <InputField id='lastname-input' label='Apellidos' name='apellidos' maxLength={25} value={formulario.apellidos} onChange={onChange} />
                   </div>
                   <div>
-                    <InputField id='numero_control-input' label='Número de control' name='numero_control' maxLength={9} placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} />
+                    <InputField id='numero_control-input' label='Número de control' name='numero_control' maxLength={9} placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} ncontrol />
                   </div>
                   <div>
                     <SelectField
@@ -135,8 +156,8 @@ export default function Register () {
                       value={formulario.genero}
                       onChange={onChange}
                       options={[
-                        { label: 'MASCULINO', value: 'MASCULINO', key: 'male' },
-                        { label: 'FEMENINO', value: 'FEMENINO', key: 'female' }
+                        { label: 'HOMBRE', value: 'HOMBRE', key: 'male' },
+                        { label: 'MUJER', value: 'MUJER', key: 'female' }
                       ]}
                     />
                   </div>
@@ -163,7 +184,7 @@ export default function Register () {
                 </div>
                 <div className='grid grid-cols-2 gap-4'>
                   <div>
-                    <InputField id='password-input' type='password' maxLength={50} label='Contraseña' name='password' placeholder='••••••••' value={formulario.password} onChange={onChange} />
+                    <InputField id='password-input' type='password' maxLength={50} label='Contraseña' name='password' placeholder='••••••••' value={formulario.password} onChange={onChange} popOver={{ title: 'Requisitos de contraseña', description: 'La contraseña debe tener entre 8 y 15 caracteres y contener al menos un carácter especial, un número, una mayúscula y una minúscula.' }} />
                   </div>
                   <div>
                     <InputField id='confirm-password-input' type='password' maxLength={50} label='Confirmar contraseña' name='confirmPassword' placeholder='••••••••' value={confirmPassword} onChange={onChange} />
