@@ -23,6 +23,8 @@ export default function FormActividad () {
 
   const fechaActual = dayjs()
   const añoActual = fechaActual.format('YYYY')
+  const mesActual = fechaActual.format('MM')
+
   const [horaInicio, setHoraInicio] = useState({
     $d: new Date('2023-01-01T13:00:00.000Z')
   })
@@ -49,7 +51,7 @@ export default function FormActividad () {
     idResponsable: '',
     categoria: 'DEPORTIVA',
     carrera: undefined,
-    periodo: fechaActual.isAfter(`${añoActual}-01-01`, `${añoActual}-06-30`)
+    periodo: mesActual < '06'
       ? `ENERO-JUNIO/${añoActual}`
       : `AGOSTO-DICIEMBRE/${añoActual}`,
     lugar: 'SIN ASIGNAR',

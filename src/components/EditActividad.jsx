@@ -183,6 +183,7 @@ export default function EditActividad ({ actividad }) {
               value={formulario.lugar}
               onChange={onChange}
               maxLength={50}
+              free
             />
             <InputField
               id='capacity-input'
@@ -218,7 +219,8 @@ export default function EditActividad ({ actividad }) {
               placeholder='Ej. NOVIEMBRE/2022-ENERO/2023'
               value={formulario.periodo}
               onChange={onChange}
-              maxLength={30}
+              maxLength={21}
+              free
             />
             <InputField
               id='hour-input'
@@ -228,6 +230,7 @@ export default function EditActividad ({ actividad }) {
               value={formulario.horario}
               onChange={onChange}
               maxLength={11}
+              free
             />
             <SelectField
               id='credits-input'

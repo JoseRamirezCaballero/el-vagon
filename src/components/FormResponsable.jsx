@@ -10,7 +10,7 @@ export default function FormReponsable () {
     abreviatura_cargo: '',
     nombres: '',
     apellidos: '',
-    genero: 'MASCULINO',
+    genero: 'HOMBRE',
     numero_control: '',
     password: ''
   })

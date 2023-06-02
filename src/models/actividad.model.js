@@ -55,6 +55,10 @@ export const TablaActividad = sequelize.define('actividad', {
 })
 
 TablaActividad.validateActividad = async function (lugar, horarioPrefix) {
+  if (lugar === 'SIN ASIGNAR') {
+    return null
+  }
+
   const actividad = await TablaActividad.findOne({
     where: {
       lugar,
@@ -67,8 +71,9 @@ TablaActividad.validateActividad = async function (lugar, horarioPrefix) {
   if (!actividad) {
     return null
   }
+
   return actividad
 }
 
-TablaResponsable.hasMany(TablaActividad, { foreignKey: 'idResponsable' })
+TablaResponsable.hasMany(TablaActividad, { foreignKey: 'idResponsable', onDelete: 'CASCADE' })
 TablaActividad.belongsTo(TablaResponsable, { foreignKey: 'idResponsable' })

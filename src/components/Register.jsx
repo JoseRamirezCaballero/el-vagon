@@ -14,7 +14,7 @@ export default function Register () {
     nombres: '',
     apellidos: '',
     numero_control: '',
-    genero: 'MASCULINO',
+    genero: 'HOMBRE',
     correo_institucional: '',
     carrera: 'INGENIERÍA CIVIL',
     password: ''

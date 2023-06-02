@@ -23,12 +23,33 @@ export const TablaInscripcion = sequelize.define('inscripcion', {
   tableName: 'Inscripcion'
 })
 
+TablaInscripcion.validateInscripcion = async function (idEstudiante, periodoActual) {
+  const inscripciones = await TablaInscripcion.findAll({
+    where: { idEstudiante }
+  })
+
+  for (const inscripcion of inscripciones) {
+    const idActividad = inscripcion.dataValues.idActividad
+    const actividad = await TablaActividad.findOne({
+      where: {
+        idActividad
+      }
+    })
+
+    if (actividad.dataValues.periodo === periodoActual) {
+      return inscripcion.dataValues
+    }
+  }
+  return null
+}
+
 TablaInscripcion.belongsTo(TablaEstudiante, {
   foreignKey: 'idEstudiante'
 })
 
 TablaInscripcion.belongsTo(TablaActividad, {
-  foreignKey: 'idActividad'
+  foreignKey: 'idActividad',
+  onDelete: 'CASCADE'
 })
 
 TablaEstudiante.hasMany(TablaInscripcion, {

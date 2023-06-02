@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { ROLES, ADMIN_ROUTES, STUDENT_ROUTES, RESPONSABLE_ROUTES, axiosAPI } from '@/utils/constants'
+import ProfileContext from '@/contexts/dataProfile'
 
 export default function PageLayout ({ children, title = 'Actividades Complementarias', descriptionContent = 'Sistema de Actividades Complementarias', rol }) {
   const [profileData, setProfileData] = useState(null)
@@ -48,7 +49,7 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
   }
 
   return (
-    <>
+    <ProfileContext.Provider value={profileData}>
       <Head>
         <title>{title}</title>
         <meta name='description' content={descriptionContent} />
@@ -63,6 +64,6 @@ export default function PageLayout ({ children, title = 'Actividades Complementa
       </main>
 
       <Footer />
-    </>
+    </ProfileContext.Provider>
   )
 }

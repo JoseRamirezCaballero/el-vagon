@@ -1,9 +1,9 @@
+import { useState } from 'react'
 import StudentProtectedRoute from '@/components/ProtectedRoute'
 import PageLayout from '@/components/PageLayout'
 import CardActividad from '@/components/CardActividad'
-import { ROLES, axiosAPI } from '@/utils/constants'
 import SelectField from '@/components/SelectField'
-import { useState } from 'react'
+import { ROLES, axiosAPI } from '@/utils/constants'
 
 export default function Carrera ({ actividades }) {
   const [carreraSeleccionada, setCarreraSeleccionada] = useState('')
