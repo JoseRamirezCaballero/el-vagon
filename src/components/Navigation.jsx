@@ -32,7 +32,10 @@ export default function Navigation ({ routes = [], logged = false, profile = {} 
             alt='Logo ITO'
             priority
           />
-          <span className='ml-1 self-center text-xl font-semibold whitespace-nowrap dark:text-white'>ITOaxaca</span>
+
+          <span className='bg-blue-100 text-blue-800 text-xl font-semibold px-2 rounded dark:bg-blue-200 dark:text-blue-800 ml-2 inline'>
+            TecNM
+          </span>
         </Link>
         <div className='flex md:order-2'>
           {logged && (
@@ -45,7 +48,7 @@ export default function Navigation ({ routes = [], logged = false, profile = {} 
               onClick={toggleDropdown}
             >
               <Image
-                src={profile.genero === 'MASCULINO' ? '/img/profile-man.png' : '/img/profile-woman.png'}
+                src={profile.genero === 'HOMBRE' ? '/img/profile-man.png' : '/img/profile-woman.png'}
                 alt='User dropdown'
                 width={40}
                 height={40}
