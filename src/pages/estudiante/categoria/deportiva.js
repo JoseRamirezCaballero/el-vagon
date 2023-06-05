@@ -12,7 +12,7 @@ export default function Deportiva ({ actividades }) {
       try {
         const responses = await Promise.all(
           actividades.map((actividad) =>
-            axiosAPI.get(`/inscripciones/${actividad.idActividad}`)
+            axiosAPI.get(`/inscripciones/actividad/${actividad.idActividad}`)
           )
         )
         const cantidadEstudiantes = responses.map(

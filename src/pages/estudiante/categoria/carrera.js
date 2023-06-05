@@ -21,7 +21,7 @@ export default function Carrera ({ actividades }) {
   useEffect(() => {
     const obtenerCantidadEstudiantes = async () => {
       try {
-        const responses = await Promise.all(actividades.map(actividad => axiosAPI.get(`/inscripciones/${actividad.idActividad}`)))
+        const responses = await Promise.all(actividades.map(actividad => axiosAPI.get(`/inscripciones/actividad/${actividad.idActividad}`)))
         const estudiantesPorActividad = {}
         responses.forEach((response, index) => {
           estudiantesPorActividad[actividades[index].idActividad] = response.data.length

@@ -1,4 +1,3 @@
-// import dayjs from 'dayjs'
 import { TablaInscripcion } from '@/models/inscripcion.model'
 
 export default async function validateInscription (req, res) {
