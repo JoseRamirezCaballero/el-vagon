@@ -31,7 +31,7 @@ export default function Historial () {
 
         <h1 className='mb-4 text-center text-2xl font-semibold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white'>Historial de <span className='text-orange-600 dark:text-orange-500'>Actividades Extraescolares</span></h1>
         <p className='text-lg p-4 mb-2 text-center font-normal text-gray-500 lg:text-xl dark:text-gray-400'>¡Bienvenido/a! Aquí podrás encontrar todas las actividades en las que te has inscrito a lo largo de tus periodos escolares. Este registro te permitirá revivir tus experiencias y recordar tus logros. ¡Disfruta de cada momento!</p>
-        <div className={inscripciones.length === 1 ? 'grid grid-cols-1 justify-items-center' : inscripciones.length === 2 ? 'grid justify-items-center grid-cols-1 sm:grid-cols-2 gap-2' : 'grid lg:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-2 justify-items-center'}>
+        <div className={inscripciones.length === 1 ? 'grid grid-cols-1 justify-items-center' : inscripciones.length === 2 ? 'grid justify-items-center grid-cols-1 sm:grid-cols-2 gap-2' : inscripciones.length === 3 ? 'grid lg:grid-cols-3 grid-cols-1 sm:grid-cols-2 gap-2 justify-items-center' : ''}>
           {inscripciones.length > 0
             ? (
                 inscripciones.map((inscripcion) => (

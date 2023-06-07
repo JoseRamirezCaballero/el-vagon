@@ -24,5 +24,6 @@ export const ADMIN_ROUTES = [
 ]
 
 export const RESPONSABLE_ROUTES = [
-  { name: 'Inicio', url: '/responsable' }
+  { name: 'Inicio', url: '/responsable' },
+  { name: 'Asignaciones', url: '/responsable/asignaciones' }
 ]

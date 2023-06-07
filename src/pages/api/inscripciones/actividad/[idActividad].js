@@ -1,3 +1,5 @@
+import { TablaActividad } from '@/models/actividad.model'
+import { TablaEstudiante } from '@/models/estudiante.model'
 import { TablaInscripcion } from '@/models/inscripcion.model'
 
 export default async function idActividad (req, res) {
@@ -6,7 +8,8 @@ export default async function idActividad (req, res) {
     case 'GET':
       try {
         const records = await TablaInscripcion.findAll({
-          where: { idActividad: query.idActividad }
+          where: { idActividad: query.idActividad },
+          include: [TablaActividad, TablaEstudiante]
         })
         if (!records) {
           res.status(404).json({ message: 'No existen inscripciones con el id de la actividad.' })
