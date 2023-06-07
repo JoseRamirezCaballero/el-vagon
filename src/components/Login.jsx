@@ -94,7 +94,7 @@ export default function Login () {
                 <br />
                 <br />
                 <br />
-                <Image width={600} height={600} className='w-50 h-50 justify-center' src='/img/extrapp.png' alt='Logo ITO' priority />
+                <Image width={600} height={600} className='w-50 h-50 justify-center' src='/img/tec22.png' alt='Logo ITO' priority />
                 <br />
                 <br />
                 <ButtonDarkMode width={24} height={24} />
