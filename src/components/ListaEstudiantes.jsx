@@ -1,6 +1,6 @@
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer'
 
-export default function ListaEstudiantes ({ estudiantes }) {
+export default function ListaEstudiantes ({ estudiantes, actividad }) {
   const styles = StyleSheet.create({
     body: {
       padding: 10
@@ -51,7 +51,8 @@ export default function ListaEstudiantes ({ estudiantes }) {
   const ListaDoc = (
     <Document>
       <Page style={styles.body}>
-        <Text style={styles.title}>Lista de Asistencia</Text>
+        <Text style={styles.title}>Lista {actividad.nombre} / {actividad.horario}</Text>
+        <Text style={styles.title}>{actividad.periodo}</Text>
         <View style={styles.row} key='empty'>
           <Text style={styles.nameCell}> </Text>
           {Array.from({ length: 15 }).map((_, j) => (

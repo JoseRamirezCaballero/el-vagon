@@ -9,6 +9,7 @@ export default function InscripcionesID () {
   const router = useRouter()
   const { idActividad } = router.query
   const [actividades, setActividades] = useState([])
+  const [actividad, setActividad] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,6 +17,8 @@ export default function InscripcionesID () {
         const actividadesReponsable = await axiosAPI.get(
           `/inscripciones/actividad/${idActividad}`
         )
+        const name = await axiosAPI.get(`/actividades/${idActividad}`)
+        setActividad(name.data)
         const actividadesData = actividadesReponsable.data
         setActividades(actividadesData)
       } catch (error) {
@@ -29,7 +32,7 @@ export default function InscripcionesID () {
   return (
     <ResponsableProtectedRoute rol={ROLES.RESPONSABLE}>
       <PageLayout rol={ROLES.RESPONSABLE}>
-        <TablaEstudiantesInscritos actividades={actividades} />
+        <TablaEstudiantesInscritos actividades={actividades} actividad={actividad} />
       </PageLayout>
     </ResponsableProtectedRoute>
   )
