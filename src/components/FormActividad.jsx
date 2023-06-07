@@ -54,12 +54,27 @@ export default function FormActividad () {
     periodo: mesActual < '06'
       ? `ENERO-JUNIO/${añoActual}`
       : `AGOSTO-DICIEMBRE/${añoActual}`,
-    lugar: 'SIN ASIGNAR',
+    lugar: '',
     horario: createHorario(horaInicio, horaSalida),
     capacidad_maxima: '30',
     creditos: '2',
     estatus: true
   })
+
+  const formularioInicial = {
+    nombre: '',
+    idResponsable: '',
+    categoria: 'DEPORTIVA',
+    carrera: undefined,
+    periodo: mesActual < '06'
+      ? `ENERO-JUNIO/${añoActual}`
+      : `AGOSTO-DICIEMBRE/${añoActual}`,
+    lugar: '',
+    horario: createHorario(horaInicio, horaSalida),
+    capacidad_maxima: '30',
+    creditos: '2',
+    estatus: true
+  }
 
   const [mostrarCarreras, setMostrarCarreras] = useState(false)
   const onChange = (event) => {
@@ -158,6 +173,7 @@ export default function FormActividad () {
 
       if (validate.status === 200) {
         const response = await axiosAPI.post('/actividades', formData)
+        setFormulario(formularioInicial)
         if (response) {
           notification({ bool: true, descriptionToast: response.data.nombre })
         }

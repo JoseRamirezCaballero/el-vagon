@@ -15,6 +15,16 @@ export default function FormReponsable () {
     password: ''
   })
 
+  const formularioIncial = {
+    idRol: ROLES.RESPONSABLE,
+    abreviatura_cargo: '',
+    nombres: '',
+    apellidos: '',
+    genero: 'HOMBRE',
+    numero_control: '',
+    password: ''
+  }
+
   const [confirmPassword, setConfirmPassword] = useState('')
   const onChange = (event) => {
     const { name, value } = event.target
@@ -131,6 +141,8 @@ export default function FormReponsable () {
       const response = await axiosAPI.post('/responsables', formData)
       if (response) {
         notification({ bool: true, descriptionToast: `${response.data.abreviatura_cargo} ${response.data.nombres} ${response.data.apellidos}` })
+        setFormulario(formularioIncial)
+        setConfirmPassword('')
       }
     } catch (error) {
       notification({ bool: false, descriptionToast: 'Número de tarjeta duplicado' })
@@ -142,13 +154,25 @@ export default function FormReponsable () {
       <form onSubmit={onSubmit} className='flex flex-wrap justify-between'>
         <div className='flex flex-wrap w-full'>
           <div className='w-24'>
-            <InputField
+            <SelectField
               id='abbreviation-input'
               label='Abreviatura'
               name='abreviatura_cargo'
               value={formulario.abreviatura_cargo}
               onChange={onChange}
-              maxLength={15}
+              options={[
+                { key: 'campo_vacio', label: '', value: '' },
+                { key: 'c.', label: 'C.', value: 'C.' },
+                { key: 'lic.', label: 'LIC.', value: 'LIC.' },
+                { key: 'm.t.i.', label: 'M.T.I.', value: 'M.T.I.' },
+                { key: 'prof.ef.', label: 'PROF. E.F.', value: 'PROF. E.F.' },
+                { key: 'dr.', label: 'DR.', value: 'DR.' },
+                { key: 'ing.', label: 'ING.', value: 'ING.' },
+                { key: 'arq.', label: 'ARQ.', value: 'ARQ.' },
+                { key: 'prof.', label: 'PROF.', value: 'PROF.' },
+                { key: 'psic.', label: 'PSIC.', value: 'PSIC.' },
+                { key: 'adm.', label: 'ADM.', value: 'ADM.' }
+              ]}
             />
           </div>
           <div className='flex-grow ml-2'>

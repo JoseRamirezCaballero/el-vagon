@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { Toaster, toast } from 'sonner'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
 import StudentCard from '@/components/StudentCard'
@@ -19,6 +20,16 @@ export default function Register () {
     carrera: 'INGENIERÍA CIVIL',
     password: ''
   })
+
+  const notification = ({ bool, descriptionToast = '' }) => {
+    bool
+      ? toast.success('Usuario registrado', {
+        description: descriptionToast
+      })
+      : toast.error('Error al crear el usuario', {
+        description: descriptionToast
+      })
+  }
 
   const onChange = (event) => {
     const { name, value } = event.target
@@ -120,11 +131,14 @@ export default function Register () {
         formData[campo] = formData[campo].trim()
       })
       formData.correo_institucional = `${formData.numero_control}@itoaxaca.edu.mx`
-      await axiosAPI.post('/estudiantes', formData)
-      router.push('/login')
+      const estudiante = await axiosAPI.post('/estudiantes', formData)
+      notification({ bool: true, descriptionToast: `Bienvenido ${estudiante.data.nombres} ${estudiante.data.apellidos}` })
+      setTimeout(() => {
+        router.push('/login')
+      }, 1500)
     } catch (error) {
       setLoading(false)
-      alert('Internal Server Error (500). \nSi el problema persiste, comunícate con el Departamento de Formación Integral.')
+      notification({ bool: true, descriptionToast: 'Número de control duplicado' })
     }
   }
 
@@ -235,6 +249,7 @@ export default function Register () {
             </div>
           </div>
           <StudentCard nombres={formulario.nombres} apellidos={formulario.apellidos} numerocontrol={formulario.numero_control} carrera={formulario.carrera} />
+          <Toaster position='bottom-center' expand richColors />
         </div>
       </main>
     </>
