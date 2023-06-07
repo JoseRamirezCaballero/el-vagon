@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Toaster, toast } from 'sonner'
@@ -26,13 +26,35 @@ export default function Register () {
       ? toast.success('Usuario registrado', {
         description: descriptionToast
       })
-      : toast.error('Error al crear el usuario', {
+      : toast.error('Error de registro', {
         description: descriptionToast
       })
   }
 
+  const [numerosControl, setNumerosControl] = useState([])
+  const [borderRed, setBorderRed] = useState(false)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosAPI.get('/estudiantes/')
+        const arrayNumeros = response.data.map((elemento) => elemento.numero_control)
+        setNumerosControl(arrayNumeros)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   const onChange = (event) => {
     const { name, value } = event.target
+    if (name === 'numero_control') {
+      if (numerosControl.includes(value)) {
+        notification({ bool: false, descriptionToast: 'El número de control ingresado ya existe.' })
+        setBorderRed(true)
+      }
+    }
     if (name === 'correo_institucional' || name === 'password') {
       setFormulario((formulario) => ({
         ...formulario,
@@ -138,7 +160,7 @@ export default function Register () {
       }, 1500)
     } catch (error) {
       setLoading(false)
-      notification({ bool: true, descriptionToast: 'Número de control duplicado' })
+      notification({ bool: false, descriptionToast: 'Número de control duplicado' })
     }
   }
 
@@ -160,7 +182,18 @@ export default function Register () {
                     <InputField id='lastname-input' label='Apellidos' name='apellidos' maxLength={25} value={formulario.apellidos} onChange={onChange} />
                   </div>
                   <div>
-                    <InputField id='numero_control-input' label='Número de control' name='numero_control' maxLength={9} placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} ncontrol />
+                    <InputField
+                      id='numero_control-input'
+                      label='Número de control'
+                      name='numero_control'
+                      maxLength={9}
+                      placeholder='Ej. 19161388'
+                      value={formulario.numero_control}
+                      onChange={onChange}
+                      ncontrol
+                      error={borderRed}
+                    />
+
                   </div>
                   <div>
                     <SelectField

@@ -181,7 +181,7 @@ export default function FormActividad () {
         notification({ bool: false, descriptionToast: 'Intentelo de nuevo' })
       }
     } catch (error) {
-      notification({ bool: false, descriptionToast: 'El horario y lugar seleccionados coinciden con otra actividad existente' })
+      notification({ bool: false, descriptionToast: 'Horario y lugar seleccionados coinciden con otra actividad existente. También podría haber un responsable asignado a esa hora.' })
     }
   }
 
