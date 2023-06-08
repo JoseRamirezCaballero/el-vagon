@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ListaEstudiantes from '@/components/ListaEstudiantes'
 import ConstanciasPDF from '@/components/ConstanciasPDF'
 
-export default function TablaInscritos ({ actividades }) {
+export default function TablaInscritos ({ actividades, actividad }) {
   const estudiantes = actividades.map((actividad) => actividad.Estudiante)
   const [searchTerm, setSearchTerm] = useState('')
   const filteredEstudiantes = estudiantes.filter((estudiante) => {
@@ -19,7 +19,7 @@ export default function TablaInscritos ({ actividades }) {
     <div className='relative overflow-x-auto shadow-md sm:rounded-lg p-2'>
       <div className='flex items-center justify-between p-4 rounded-tl-lg rounded-tr-lg bg-white dark:bg-gray-900 w-auto'>
         <div>
-          <ListaEstudiantes estudiantes={estudiantes} />
+          <ListaEstudiantes estudiantes={estudiantes} actividad={actividad} />
         </div>
         <label htmlFor='table-search' className='sr-only'>
           Search

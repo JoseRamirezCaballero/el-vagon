@@ -54,17 +54,23 @@ export const TablaActividad = sequelize.define('actividad', {
   tableName: 'Actividad'
 })
 
-TablaActividad.validateActividad = async function (lugar, horarioPrefix) {
-  if (lugar === 'SIN ASIGNAR') {
-    return null
-  }
-
+TablaActividad.validateActividad = async function (lugar, horarioPrefix, idResponsable) {
   const actividad = await TablaActividad.findOne({
     where: {
-      lugar,
-      horario: {
-        [Op.like]: `${horarioPrefix}%`
-      }
+      [Op.or]: [
+        {
+          lugar,
+          horario: {
+            [Op.like]: `${horarioPrefix}%`
+          }
+        },
+        {
+          idResponsable,
+          horario: {
+            [Op.like]: `${horarioPrefix}%`
+          }
+        }
+      ]
     }
   })
 

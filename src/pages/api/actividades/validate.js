@@ -1,11 +1,10 @@
 import { TablaActividad } from '@/models/actividad.model'
 
 export default async function validateActivity (req, res) {
-  const { lugar, horario } = req.body
-
+  const { lugar, horario, idResponsable } = req.body
   try {
     const horarioPrefix = horario.substring(0, 2)
-    const existsActivity = await TablaActividad.validateActividad(lugar, horarioPrefix)
+    const existsActivity = await TablaActividad.validateActividad(lugar, horarioPrefix, idResponsable)
 
     if (existsActivity) {
       res.status(400).json({ error: 'La actividad ya existe.' })

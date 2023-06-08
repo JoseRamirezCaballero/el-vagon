@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { Toaster, toast } from 'sonner'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
 import StudentCard from '@/components/StudentCard'
@@ -20,8 +21,40 @@ export default function Register () {
     password: ''
   })
 
+  const notification = ({ bool, descriptionToast = '' }) => {
+    bool
+      ? toast.success('Usuario registrado', {
+        description: descriptionToast
+      })
+      : toast.error('Error de registro', {
+        description: descriptionToast
+      })
+  }
+
+  const [numerosControl, setNumerosControl] = useState([])
+  const [borderRed, setBorderRed] = useState(false)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosAPI.get('/estudiantes/')
+        const arrayNumeros = response.data.map((elemento) => elemento.numero_control)
+        setNumerosControl(arrayNumeros)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   const onChange = (event) => {
     const { name, value } = event.target
+    if (name === 'numero_control') {
+      if (numerosControl.includes(value)) {
+        notification({ bool: false, descriptionToast: 'El número de control ingresado ya existe.' })
+        setBorderRed(true)
+      }
+    }
     if (name === 'correo_institucional' || name === 'password') {
       setFormulario((formulario) => ({
         ...formulario,
@@ -120,11 +153,14 @@ export default function Register () {
         formData[campo] = formData[campo].trim()
       })
       formData.correo_institucional = `${formData.numero_control}@itoaxaca.edu.mx`
-      await axiosAPI.post('/estudiantes', formData)
-      router.push('/login')
+      const estudiante = await axiosAPI.post('/estudiantes', formData)
+      notification({ bool: true, descriptionToast: `Bienvenido ${estudiante.data.nombres} ${estudiante.data.apellidos}` })
+      setTimeout(() => {
+        router.push('/login')
+      }, 1500)
     } catch (error) {
       setLoading(false)
-      alert('Internal Server Error (500). \nSi el problema persiste, comunícate con el Departamento de Formación Integral.')
+      notification({ bool: false, descriptionToast: 'Número de control duplicado' })
     }
   }
 
@@ -146,7 +182,18 @@ export default function Register () {
                     <InputField id='lastname-input' label='Apellidos' name='apellidos' maxLength={25} value={formulario.apellidos} onChange={onChange} />
                   </div>
                   <div>
-                    <InputField id='numero_control-input' label='Número de control' name='numero_control' maxLength={9} placeholder='Ej. 19161388' value={formulario.numero_control} onChange={onChange} ncontrol />
+                    <InputField
+                      id='numero_control-input'
+                      label='Número de control'
+                      name='numero_control'
+                      maxLength={9}
+                      placeholder='Ej. 19161388'
+                      value={formulario.numero_control}
+                      onChange={onChange}
+                      ncontrol
+                      error={borderRed}
+                    />
+
                   </div>
                   <div>
                     <SelectField
@@ -235,6 +282,7 @@ export default function Register () {
             </div>
           </div>
           <StudentCard nombres={formulario.nombres} apellidos={formulario.apellidos} numerocontrol={formulario.numero_control} carrera={formulario.carrera} />
+          <Toaster position='bottom-center' expand richColors />
         </div>
       </main>
     </>

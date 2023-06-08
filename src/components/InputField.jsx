@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import InfoPopOver from '@/components/InfoPopOver'
 
-export default function InputField ({ id, type = 'text', label, name, placeholder = '', value = '', onChange, maxLength = 10, disabled = false, ncontrol = false, free = false, popOver = null }) {
+export default function InputField ({ id, type = 'text', label, name, placeholder = '', value = '', onChange, maxLength = 10, disabled = false, ncontrol = false, free = false, popOver = null, error = false }) {
   const [isInputEmpty, setInputEmpty] = useState(false)
 
   const handleInputChange = (event) => {
@@ -18,7 +18,7 @@ export default function InputField ({ id, type = 'text', label, name, placeholde
 
   const inputClass = () => {
     const baseClass = 'bg-gray-50 border text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-    return `${baseClass} ${isInputEmpty ? 'border-red-500' : ''}`
+    return `${baseClass} ${isInputEmpty ? 'border-red-500' : ''} ${error ? 'border-red-500 bg-red-100' : ''}`
   }
 
   return (

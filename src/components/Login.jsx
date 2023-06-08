@@ -60,11 +60,11 @@ export default function Login () {
       if (auth) {
         const user = await axiosAPI.get('/profile')
         if (user.data.idRol === ROLES.ESTUDIANTE) {
-          router.push('/estudiante')
+          router.push('/estudiante/categoria')
         } else if (user.data.idRol === ROLES.ADMINISTRADOR) {
-          router.push('/admin')
+          router.push('/admin/actividad')
         } else if (user.data.idRol === ROLES.RESPONSABLE) {
-          router.push('/responsable')
+          router.push('/responsable/asignaciones')
         }
       }
       return

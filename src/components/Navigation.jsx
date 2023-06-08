@@ -65,11 +65,11 @@ export default function Navigation ({ routes = [], logged = false, profile = {} 
                 <div>{profile.nombre_completo}</div>
                 <div className='font-medium truncate text-blue-900 dark:text-blue-400'>{profile.correo_institucional}</div>
               </div>
-              <ul className='py-2 text-sm text-gray-700 dark:text-gray-200' aria-labelledby='avatarButton'>
+              {/* <ul className='py-2 text-sm text-gray-700 dark:text-gray-200' aria-labelledby='avatarButton'>
                 <li>
                   <Link href='#' className='block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'>Editar Perfil</Link>
                 </li>
-              </ul>
+              </ul> */}
               <div className='py-1'>
                 <Link href='/login' onClick={logout} className='block px-4 py-2 text-sm text-red-700 hover:bg-red-100 dark:hover:bg-red-600 dark:text-red-300 dark:hover:text-white'>
                   Cerrar sesión

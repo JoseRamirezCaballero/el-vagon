@@ -60,6 +60,7 @@ export default function TablaInscripciones () {
 
     filtered = filtered.filter((actividad) =>
       actividad.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      actividad.categoria.toLowerCase().includes(searchTerm.toLowerCase()) ||
       actividad.periodo.toLowerCase().includes(searchTerm.toLowerCase()) ||
       actividad.lugar.toLowerCase().includes(searchTerm.toLowerCase()) ||
       actividad.horario.toLowerCase().includes(searchTerm.toLowerCase())

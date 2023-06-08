@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Toaster, toast } from 'sonner'
 import InputField from '@/components/InputField'
 import SelectField from '@/components/SelectField'
@@ -15,9 +15,42 @@ export default function FormReponsable () {
     password: ''
   })
 
+  const formularioIncial = {
+    idRol: ROLES.RESPONSABLE,
+    abreviatura_cargo: '',
+    nombres: '',
+    apellidos: '',
+    genero: 'HOMBRE',
+    numero_control: '',
+    password: ''
+  }
+
+  const [numerosTarjeta, setNumerosTarjeta] = useState([])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosAPI.get('/responsables/')
+        const arrayNumeros = response.data.map((elemento) => elemento.numero_control)
+        setNumerosTarjeta(arrayNumeros)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchData()
+  }, [])
+
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [borderRed, setBorderRed] = useState(false)
   const onChange = (event) => {
     const { name, value } = event.target
+
+    if (name === 'numero_control') {
+      if (numerosTarjeta.includes(value)) {
+        notification({ bool: false, descriptionToast: 'El número de tarjeta ingresado ya existe.' })
+        setBorderRed(true)
+      }
+    }
 
     if (name === 'confirmPassword') {
       setConfirmPassword(value)
@@ -41,7 +74,7 @@ export default function FormReponsable () {
       ? toast.success('Responsable registrado', {
         description: descriptionToast
       })
-      : toast.error('Error al registrar', {
+      : toast.error('Error de registro', {
         description: descriptionToast
       })
   }
@@ -131,6 +164,8 @@ export default function FormReponsable () {
       const response = await axiosAPI.post('/responsables', formData)
       if (response) {
         notification({ bool: true, descriptionToast: `${response.data.abreviatura_cargo} ${response.data.nombres} ${response.data.apellidos}` })
+        setFormulario(formularioIncial)
+        setConfirmPassword('')
       }
     } catch (error) {
       notification({ bool: false, descriptionToast: 'Número de tarjeta duplicado' })
@@ -142,13 +177,25 @@ export default function FormReponsable () {
       <form onSubmit={onSubmit} className='flex flex-wrap justify-between'>
         <div className='flex flex-wrap w-full'>
           <div className='w-24'>
-            <InputField
+            <SelectField
               id='abbreviation-input'
               label='Abreviatura'
               name='abreviatura_cargo'
               value={formulario.abreviatura_cargo}
               onChange={onChange}
-              maxLength={15}
+              options={[
+                { key: 'campo_vacio', label: '', value: '' },
+                { key: 'c.', label: 'C.', value: 'C.' },
+                { key: 'lic.', label: 'LIC.', value: 'LIC.' },
+                { key: 'm.t.i.', label: 'M.T.I.', value: 'M.T.I.' },
+                { key: 'prof.ef.', label: 'PROF. E.F.', value: 'PROF. E.F.' },
+                { key: 'dr.', label: 'DR.', value: 'DR.' },
+                { key: 'ing.', label: 'ING.', value: 'ING.' },
+                { key: 'arq.', label: 'ARQ.', value: 'ARQ.' },
+                { key: 'prof.', label: 'PROF.', value: 'PROF.' },
+                { key: 'psic.', label: 'PSIC.', value: 'PSIC.' },
+                { key: 'adm.', label: 'ADM.', value: 'ADM.' }
+              ]}
             />
           </div>
           <div className='flex-grow ml-2'>
@@ -174,7 +221,19 @@ export default function FormReponsable () {
         </div>
         <div className='flex flex-wrap w-full'>
           <div className='flex-grow'>
-            <InputField id='numero_control-input' maxLength={4} label='Número de tarjeta' name='numero_control' placeholder='Ej. 0283' value={formulario.numero_control} onChange={onChange} type='number' popOver={{ title: 'Numero de tarjeta del trabajador', description: 'Este número es exclusivo para trabajadores y permitirá acceder a la cuenta' }} />
+            <InputField
+              id='numero_control-input'
+              maxLength={4}
+              label='Número de tarjeta'
+              name='numero_control'
+              placeholder='Ej. 0283'
+              value={formulario.numero_control}
+              onChange={onChange}
+              type='number'
+              popOver={{ title: 'Numero de tarjeta del trabajador', description: 'Este número es exclusivo para trabajadores y permitirá acceder a la cuenta' }}
+              error={borderRed}
+            />
+
           </div>
           <div className='flex-grow ml-2'>
             <SelectField
