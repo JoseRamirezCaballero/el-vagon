@@ -32,19 +32,34 @@ export default function FormActividad () {
     $d: new Date('2023-01-01T14:00:00.000Z')
   })
 
-  const handleHoraChange = (newValue, setHora, isInicio) => {
-    setHora(newValue)
-    const horario = createHorario(isInicio ? newValue : horaInicio, isInicio ? horaSalida : newValue)
-    setFormulario(prevState => ({ ...prevState, horario }))
-  }
+  const HORA_INICIO_PERMITIDA = 7;
+  const HORA_FIN_PERMITIDA = 19;
+  
 
+
+  const handleHoraChange = (newValue, setHora, isInicio) => {
+    // Extraemos la hora de la fecha seleccionada
+    const selectedHour = newValue.$d.getHours();
+  
+    // Comprobamos si la hora seleccionada está dentro del rango permitido
+    if (selectedHour >= HORA_INICIO_PERMITIDA && selectedHour <= HORA_FIN_PERMITIDA) {
+      setHora(newValue);
+      const horario = createHorario(isInicio ? newValue : horaInicio, isInicio ? horaSalida : newValue);
+      setFormulario(prevState => ({ ...prevState, horario }));
+    } else {
+      // Notificamos al usuario que la hora seleccionada no está dentro del rango permitido
+      toast.error('La hora seleccionada no está dentro del rango permitido (7:00 AM - 7:00 PM)');
+    }
+  };
+  
   const handleHoraInicioChange = (newValue) => {
     handleHoraChange(newValue, setHoraInicio, true)
   }
-
+  
   const handleHoraSalidaChange = (newValue) => {
     handleHoraChange(newValue, setHoraSalida, false)
   }
+  
 
   const [formulario, setFormulario] = useState({
     nombre: '',
@@ -145,10 +160,17 @@ export default function FormActividad () {
     if (formulario.idResponsable.trim() === '') {
       errores.push('El campo REPONSABLE es requerido')
     }
+    const horaInicioSeleccionada = horaInicio.$d.getHours();
+    const horaSalidaSeleccionada = horaSalida.$d.getHours();
+    
+    if (horaInicioSeleccionada < HORA_INICIO_PERMITIDA || horaSalidaSeleccionada > HORA_FIN_PERMITIDA) {
+      errores.push(`El rango de horas seleccionado no está dentro del rango permitido (${HORA_INICIO_PERMITIDA}:00 - ${HORA_FIN_PERMITIDA}:00)`);
+    }
 
     if (formulario.capacidad_maxima.trim() === '') {
       errores.push('El campo CAPACIDAD MAXIMA es requerido')
     }
+    
 
     if (formulario.categoria === 'CARRERA' && (!formulario.carrera || formulario.carrera.trim() === '')) {
       errores.push('El campo CARRERA es requerido')
@@ -308,10 +330,22 @@ export default function FormActividad () {
             </div>
           </div>
           <div className='flex sm:flex-row flex-col sm:gap-4'>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <MobileTimePicker label='Hora de inicio' onChange={handleHoraInicioChange} value={dayjs(`${añoActual}-01-01T07:00`)} />
-              <MobileTimePicker label='Hora de salida' onChange={handleHoraSalidaChange} defaultValue={dayjs(`${añoActual}-01-01T08:00`)} />
-            </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <MobileTimePicker 
+        label='Hora de inicio' 
+        onChange={handleHoraInicioChange} 
+        value={dayjs(`${añoActual}-01-01T07:00`)} 
+        minTime={dayjs(`${añoActual}-01-01T07:00`)} 
+        maxTime={dayjs(`${añoActual}-01-01T19:00`)}
+      />
+      <MobileTimePicker 
+        label='Hora de salida' 
+        onChange={handleHoraSalidaChange} 
+        defaultValue={dayjs(`${añoActual}-01-01T08:00`)} 
+        minTime={dayjs(`${añoActual}-01-01T07:00`)} 
+        maxTime={dayjs(`${añoActual}-01-01T19:00`)}
+      />
+    </LocalizationProvider>
           </div>
 
         </div>

@@ -1,13 +1,14 @@
-import { Page, Text, Document, StyleSheet, PDFDownloadLink, Font } from '@react-pdf/renderer'
+import { Page,View, Text, Document,Image as PDFImage, StyleSheet, PDFDownloadLink, Font } from '@react-pdf/renderer'
 
 export default function ConstanciasPDF ({ estudiante }) {
   Font.register({ family: 'Roboto', src: 'https://fonts.gstatic.com/s/roboto/v19/KFOmCnqEu92Fr1Mu4mxPKTU1Kg.ttf' })
   Font.register({ family: 'Roboto-Bold', src: 'http://fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOKCWcynf_cDxXwCLxiixG1c.ttf' })
 
+
   const styles = StyleSheet.create({
     body: {
-      paddingTop: 35,
-      paddingBottom: 65,
+      paddingTop: 15,
+      paddingBottom: 20,
       paddingHorizontal: 35,
       fontFamily: 'Roboto'
     },
@@ -23,15 +24,31 @@ export default function ConstanciasPDF ({ estudiante }) {
       fontFamily: 'Roboto'
     }
   })
+  const imageUrl = '/img/footerpdf.png';
+  const imageUrl2 = '/img/headerpdf.png';
 
   const ListaDoc = (
     <Document>
       <Page style={styles.body}>
+      <View style={{ width: '100%' }}>
+          <PDFImage
+            src={imageUrl2}
+            style={{ width: '100%', height: 'auto' }}
+          />
+        </View>
         <Text style={styles.title}>CONSTANCIA DE CUMPLIMIENTO DE ACTIVIDAD COMPLEMENTARIA</Text>
         <Text style={styles.text}>HUITZILI DÍAZ JAIMES</Text>
         <Text style={styles.text}>JEFA DEL DEPARTAMENTO DE SERVICIOS ESCOLARES</Text>
         <Text style={styles.text}>PRESENTE</Text>
         <Text style={styles.text}>El que suscribe PROF. E.F. LUIS REY LUNA DÍAZ, por este medio se permite hacer de su conocimiento que el estudiante {estudiante.apellidos} {estudiante.nombres} con número de control {estudiante.numero_control} de la carrera de {estudiante.carrera} ha cumplido su actividad complementaria con el nivel de desempeño BUENO y un valor numérico de 2.0.</Text>
+     
+      <View style={{ marginTop: 'auto', width: '100%' }}>
+          <PDFImage
+            src={imageUrl}
+            style={{ width: '100%', height: 'auto' }}
+          />
+        </View>
+     
       </Page>
     </Document>
   )
