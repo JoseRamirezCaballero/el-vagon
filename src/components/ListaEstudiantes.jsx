@@ -1,4 +1,4 @@
-import { Page, Text, View, Document, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer'
+import { Page, Text, View, Document, StyleSheet, Image as PDFImage,PDFDownloadLink } from '@react-pdf/renderer'
 
 export default function ListaEstudiantes ({ estudiantes, actividad }) {
   const styles = StyleSheet.create({
@@ -7,8 +7,8 @@ export default function ListaEstudiantes ({ estudiantes, actividad }) {
     },
     title: {
       textAlign: 'center',
-      fontSize: 20,
-      marginBottom: 20
+      fontSize: 12,
+      marginBottom: 12
     },
     row: {
       flexDirection: 'row',
@@ -25,6 +25,14 @@ export default function ListaEstudiantes ({ estudiantes, actividad }) {
     },
     nameCell: {
       width: '40%',
+      padding: 5,
+      fontSize: 10,
+      borderRightWidth: 1,
+      borderRightColor: '#000',
+      borderRightStyle: 'solid'
+    },
+    nameCell2: {
+      width: '15%',
       padding: 5,
       fontSize: 10,
       borderRightWidth: 1,
@@ -48,28 +56,48 @@ export default function ListaEstudiantes ({ estudiantes, actividad }) {
     }
   })
 
+
+  const estudiantesOrdenados = [...estudiantes].sort((a, b) => a.apellidos.localeCompare(b.apellidos));
+  const imageUrl = '/img/footerpdf.png';
+  const imageUrl2 = '/img/headerpdf.png';
+
   const ListaDoc = (
     <Document>
       <Page style={styles.body}>
-        <Text style={styles.title}>Lista {actividad.nombre} / {actividad.horario}</Text>
-        <Text style={styles.title}>{actividad.periodo}</Text>
-        <View style={styles.row} key='empty'>
-          <Text style={styles.nameCell}> </Text>
-          {Array.from({ length: 15 }).map((_, j) => (
-            <Text style={styles.cell} key={j}> </Text>
-          ))}
+      <View style={{ width: '100%' }}>
+          <PDFImage
+            src={imageUrl2}
+            style={{ width: '100%', height: 'auto' }}
+          />
         </View>
-        {estudiantes.map((estudiante, i) => (
+        <Text style={styles.title}></Text>
+        <Text style={styles.title}>LISTA DE ASISTENCIA</Text>
+        <Text style={styles.title}>{actividad.nombre} / {actividad.horario}</Text>
+        <Text style={styles.title}>{actividad.periodo}</Text>
+
+        <View style={styles.row} key='empty'>
+        </View>
+        {estudiantesOrdenados.map((estudiante, i) => (
           <View style={styles.row} key={i}>
-            <Text style={styles.nameCell}>{estudiante.nombres} {estudiante.apellidos}</Text>
-            {Array.from({ length: 15 }).map((_, j) => (
+          <Text style={styles.cell}>{i + 1}</Text>
+          <Text style={styles.nameCell2}>{estudiante.numero_control}</Text>
+          <Text style={styles.nameCell}>{estudiante.apellidos} {estudiante.nombres}</Text>
+            {Array.from({ length: 12 }).map((_, j) => (
               <Text style={styles.cell} key={j}> </Text>
             ))}
           </View>
         ))}
+           <View style={{ marginTop: 'auto', width: '100%' }}>
+          <PDFImage
+            src={imageUrl}
+            style={{ width: '100%', height: 'auto' }}
+          />
+        </View>
       </Page>
     </Document>
-  )
+  );
+  
+
 
   return (
     <PDFDownloadLink document={ListaDoc} fileName='listaAsistencia.pdf'>
